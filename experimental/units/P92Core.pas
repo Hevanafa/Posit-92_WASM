@@ -192,7 +192,7 @@ end;
 procedure RequestBootFont;
 begin
   SetBootFontHandle(
-    RequestImage('assets/CGA8x8.png'))
+    RequestImage('assets/fonts/p92_boot.png'))
 end;
 
 function GetBootFontHandle: TTextureHandle;
