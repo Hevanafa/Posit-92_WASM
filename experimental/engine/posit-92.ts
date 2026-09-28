@@ -259,14 +259,6 @@ class Posit92 {
   constructor() {
   }
 
-  #SetBufferWidth(value: number) {
-    this.#bufferWidth = value
-  }
-
-  #SetBufferHeight(value: number) {
-    this.#bufferHeight = value
-  }
-
   #SetTitle() {
     const newTitle = this.ReadInteropBuffer();
     document.title = newTitle
