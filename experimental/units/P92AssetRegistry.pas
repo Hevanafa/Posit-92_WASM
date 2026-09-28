@@ -78,7 +78,7 @@ procedure JsRequestImage(texHandle: longint); external 'env' name 'JsRequestImag
 function RequestImage(const path: string): TTextureHandle;
 {$endif}
 
-{ function GetTextureEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry; }
+function BorrowTexEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 function BorrowBMFontPtr(const bmfontHandle: TBMFontHandle): PBMFont;
@@ -262,13 +262,13 @@ begin
 end;
 {$endif}
 
-{ function GetTextureEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
+function BorrowTexEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
 begin
   if (texHandle < low(textures)) or (texHandle > high(textures)) then
-    PanicHalt('GetTextureEntryPtr: Invalid texHandle: ' + I32Str(texHandle));
+    PanicHalt('BorrowTexEntryPtr: Invalid texHandle: ' + I32Str(texHandle));
 
-  GetTextureEntryPtr := @textures[texHandle]
-end; }
+  BorrowTexEntryPtr := @textures[texHandle]
+end;
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 begin

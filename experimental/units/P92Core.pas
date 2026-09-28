@@ -86,6 +86,7 @@ type
 {$ENDIF}
 
 {$IFDEF P92_WASM}
+function IsBootFontLoaded: boolean; public name 'IsBootFontLoaded';
 function GetBootFontHandle: TTextureHandle;
 procedure SetBootFontHandle(const value: TTextureHandle);
 
@@ -136,7 +137,7 @@ uses
 {$endif}
   P92Timing,
   P92Keyboard, P92Mouse,
-  P92TexDraw, P92VGA, P92WasmHost, P92WasmMemMgr, P92InteropBuf, P92Loading
+  P92Tex, P92TexDraw, P92VGA, P92WasmHost, P92WasmMemMgr, P92InteropBuf, P92Loading
 {$endif}
 {$ifdef P92_IMGUI}
   , P92IMGUI
@@ -203,6 +204,12 @@ end;
 procedure SetBootFontHandle(const value: TTextureHandle);
 begin
   BootFontHandle := value
+end;
+
+function IsBootFontLoaded: boolean;
+begin
+  IsBootFontLoaded := (
+    BorrowTexEntryPtr(BootFontHandle)^.status = AssetStatusReady);
 end;
 
 function IsEngineReady: boolean;
