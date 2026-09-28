@@ -114,7 +114,7 @@ procedure drawSpriteAnimToDest(
   const frameIdx: smallint;
   const x, y: smallint);
 begin
-  if not isImageSet(destHandle) then exit;
+  if not IsTexSet(destHandle) then exit;
   if frameIdx >= sprite.frameCount then exit;
 
   sprRegionToDest(

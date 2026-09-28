@@ -4,7 +4,7 @@ library Game;
 {$H+}{$J-}
 
 uses
-  P92Core, P92Fonts,
+  P92Core, P92Fonts, P92WasmHost,
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw,
   SprAnim, P92Timing, P92VGA,
@@ -31,17 +31,15 @@ var
 procedure DrawMouse;
 begin
   { spr(imgCursor, mouseX, mouseY) }
-  drawSpriteAnim(sprAppStartingCursor, cursorFrameIdx, mouseX, mouseY)
+  drawSpriteAnim(sprAppStartingCursor, cursorFrameIdx, GetMouseX, GetMouseY)
 end;
 
 
 procedure beginPlayingState;
 begin
   hideCursor;
-  fitCanvas;
 
   { Initialise game state here }
-  actualGameState := GameStatePlaying;
   gameTime := 0.0;
 
   initSpriteAnim(sprHourglass, imgHourglass, 15, 32, 32, 0.2);
@@ -55,27 +53,11 @@ begin
 end;
 
 
-procedure init;
+procedure Update;
 begin
-  initHeapMgr;
-  initDeltaTime;
-end;
-
-procedure afterInit;
-begin
-  beginPlayingState
-end;
-
-procedure update;
-begin
-  updateDeltaTime;
-
-  updateMouse;
-
-  { Your update logic here }
-  if lastEsc <> isKeyDown(SC_ESC) then begin
-    lastEsc := isKeyDown(SC_ESC);
-    if lastEsc then signalDone;
+  if lastEsc <> isKeyDown(SC_ESCAPE) then begin
+    lastEsc := isKeyDown(SC_ESCAPE);
+    if lastEsc then SignalDone;
   end;
 
   updateSpriteAnim(sprHourglass, getTimer, hourglassStartTick, hourglassFrameIdx);
@@ -83,19 +65,14 @@ begin
 
   updateSpriteAnim(sprCheetah, getTimer, cheetahStartTick, cheetahFrameIdx);
 
-  gameTime := gameTime + dt
+  gameTime := gameTime + DeltaTime;
 end;
 
-procedure draw;
+procedure Draw;
 var
   w: integer;
   s: string;
 begin
-  if actualGameState = GameStateLoading then begin
-    renderLoadingScreen;
-    exit
-  end;
-
   cls($FF6495ED);
 
   if (trunc(gameTime * 4) and 1) > 0 then
@@ -114,14 +91,15 @@ begin
   w := measureDefault(s);
   printDefault(s, (vgaWidth - w) div 2, 120);
 
-  DrawMouse;
-  vgaFlush
+  DrawMouse
 end;
 
 exports
-  { Main game procedures }
-  beginLoadingState,
-  init, afterInit, update, draw;
+  Init,
+  OnPreload,
+  OnReady,
+  Update,
+  Draw;
 
 begin
 { Starting point is intentionally left empty }
