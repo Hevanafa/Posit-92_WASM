@@ -102,7 +102,7 @@ begin
 
   if isChainStarted and not isChainComplete then begin
     { Handle state transition }
-    if now >= chainEasingTick + EaseDuration then begin
+    if IsEasingComplete(chainEasingTick, EaseDuration, now) then begin
       case chainIdx of
       0: begin
         perc := GetPerc(chainEasingTick, EaseDuration, now);
