@@ -15,8 +15,7 @@ uses
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw, P92TexEffects,
   P92Easings, P92IMGUI,
-  P92Timing,
-  P92PostProc, P92VGA,
+  P92Timing, P92VGA,
   Assets;
 
 const
@@ -36,7 +35,8 @@ var
   
   startX, endX: integer;
   startAngle, endAngle: double;
-  chainEasingTimer: TEasingTimer;
+  { uses real time }
+  chainEasingTick: double;
 
   blinkyX, blinkyY: double;
 
@@ -70,22 +70,25 @@ begin
 
   startX := 100;
   endX := 150;
-  InitEasing(chainEasingTimer, getTimer, 1.0)
+  chainEasingTick := GetTimer;
 end;
 
 
 procedure Update;
+const
+  { in seconds }
+  EaseDuration = 1.0;
 var
+  now: double;
   perc: double;
   x: double;
 begin
-  if lastEsc <> isKeyDown(SC_ESCAPE) then begin
-    lastEsc := isKeyDown(SC_ESCAPE);
+  now := GetTimer;
 
-    if lastEsc then begin
-      writeLog('ESC is pressed!');
-      signalDone
-    end;
+  if lastEsc <> IsKeyDown(SC_ESCAPE) then begin
+    lastEsc := IsKeyDown(SC_ESCAPE);
+
+    if lastEsc then SignalDone;
   end;
 
   if not isChainStarted then begin
@@ -97,38 +100,38 @@ begin
   end;
 
   { Handle game state updates }
-  gameTime := gameTime + DeltaTime;
 
   if isChainStarted and not isChainComplete then begin
     { Handle state transition }
-    if IsEasingComplete(chainEasingTimer, getTimer) then begin
+    if chainEasingTick + EaseDuration >= now then begin
       case chainIdx of
       0: begin
-        perc := GetEasingPerc(chainEasingTimer, getTimer);
-        x := lerpEaseOutSine(startX, endX, perc);  { current X }
+        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
 
         startX := trunc(x);
         endX := endX - 50;
-        InitEasing(chainEasingTimer, getTimer, 1.0);
+        chainEasingTick := now;
 
         inc(chainIdx)
       end;
       1: begin
-        perc := GetEasingPerc(chainEasingTimer, getTimer);
-        x := lerpEaseOutSine(startX, endX, perc);  { current X }
+        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
         
         startX := trunc(x);
         endX := endX + 100;
         startAngle := 0.0;
         endAngle := 2 * PI;
-        InitEasing(chainEasingTimer, getTimer, 2.0);
+
+        chainEasingTick := now;
 
         inc(chainIdx)
       end;
       2: inc(chainIdx);
       3: begin
-        perc := GetEasingPerc(chainEasingTimer, getTimer);
-        x := lerpEaseOutSine(startX, endX, perc);  { current X }
+        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
         blinkyX := x;
 
         isChainStarted := false;
@@ -137,22 +140,30 @@ begin
       end;
     end;
   end;
+
+  gameTime := gameTime + DeltaTime;
 end;
 
+
 procedure Draw;
+const
+  EaseDuration = 1.0;
 var
+  now: double;
   perc: double;
   x, angle: double;
 begin
-  cls(CornflowerBlue);
+  now := GetTimer;
+
+  Cls(CornflowerBlue);
 
   if Button('Start Lerp', 50, 50) then
     BeginEasingChain;
 
   if (trunc(gameTime * 4) and 1) > 0 then
-    spr(texDosuEXE[1], 148, 88)
+    Spr(texDosuEXE[1], 148, 88)
   else
-    spr(texDosuEXE[0], 148, 88);
+    Spr(texDosuEXE[0], 148, 88);
  
   if not isChainStarted then
     CentredLabel('WASD to move', vgaWidth div 2, 120)
@@ -163,21 +174,21 @@ begin
     case chainIdx of
       2: begin
         { Current state --> apply easing --> handle rendering }
-        perc := GetEasingPerc(chainEasingTimer, getTimer);
+        perc := GetPerc(chainEasingTick, EaseDuration, now);
 
-        x := lerpEaseOutSine(startX, endX, perc);
-        angle := lerpEaseOutSine(startAngle, endAngle, perc);
+        x := LerpEased(startX, endX, perc, @EaseOutSine);
+        angle := LerpEased(startAngle, endAngle, perc, @EaseOutSine);
 
-        sprRotate(texBlinky, trunc(x) + 8, trunc(blinkyY) + 8, angle);
+        SprRotate(texBlinky, trunc(x) + 8, trunc(blinkyY) + 8, angle);
       end;
       else begin
-        perc := GetEasingPerc(chainEasingTimer, getTimer);
-        x := lerpEaseOutSine(startX, endX, perc);
-        spr(texBlinky, trunc(x), trunc(blinkyY));
+        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        x := LerpEased(startX, endX, perc, @EaseOutSine);
+        Spr(texBlinky, trunc(x), trunc(blinkyY));
       end
     end;
   end else
-    spr(texBlinky, trunc(blinkyX), trunc(blinkyY));
+    Spr(texBlinky, trunc(blinkyX), trunc(blinkyY));
 
   CentredLabel('chainIdx ' + i32str(chainIdx), vgaWidth div 2, 180);
 end;
