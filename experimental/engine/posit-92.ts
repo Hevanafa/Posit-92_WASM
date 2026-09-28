@@ -16,6 +16,7 @@ type WasmExports = {
 
   // Core
   IsEngineReady: () => boolean;
+  IsBootFontLoaded: () => boolean;
   Init: () => void;
   P92Boot: () => void;
   P92Update: () => void;
@@ -926,8 +927,18 @@ class Posit92 {
    * Public for mixins
    */
   PanicHaltDisplay(msg: string): void {
-    this.WriteInteropBuffer(msg);
-    this.WasmInstance.exports.PascalPanicHaltDisplay();
+    if (this.#wasm.exports.IsBootFontLoaded()) {
+      this.WriteInteropBuffer(msg);
+      this.WasmInstance.exports.PascalPanicHaltDisplay();
+    } else {
+      const div = document.createElement("div");
+      div.style.color = "white";
+
+      div.innerHTML = "Posit-92 fatal error: (Missing boot font)<br>"
+       + "Message: " + msg;
+
+      document.appendChild(div);
+    }
   }
 
 
