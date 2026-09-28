@@ -31,7 +31,7 @@ var
 procedure DrawMouse;
 begin
   { spr(texCursor, mouseX, mouseY) }
-  DrawSprAnim(sprAppStartingCursor, cursorFrameIdx, GetMouseX, GetMouseY)
+  DrawSprAnim(sprAppStartingCursor, GetMouseX, GetMouseY, cursorFrameIdx)
 end;
 
 
@@ -69,16 +69,19 @@ begin
 end;
 
 procedure Update;
+var
+  now: double;
 begin
+  now := GetTimer;
+
   if lastEsc <> isKeyDown(SC_ESCAPE) then begin
     lastEsc := isKeyDown(SC_ESCAPE);
     if lastEsc then SignalDone;
   end;
 
-  updateSpriteAnim(sprHourglass, getTimer, hourglassStartTick, hourglassFrameIdx);
-  updateSpriteAnim(sprAppStartingCursor, getTimer, cursorStartTick, cursorFrameIdx);
-
-  updateSpriteAnim(sprCheetah, getTimer, cheetahStartTick, cheetahFrameIdx);
+  UpdateSprAnim(sprHourglass, now, hourglassStartTick, hourglassFrameIdx);
+  UpdateSprAnim(sprAppStartingCursor, now, cursorStartTick, cursorFrameIdx);
+  UpdateSprAnim(sprCheetah, now, cheetahStartTick, cheetahFrameIdx);
 
   gameTime := gameTime + DeltaTime;
 end;
@@ -95,16 +98,12 @@ begin
   else
     spr(texDosuEXE[0], 148, 88);
 
-  { spr(texAppStartingCursor, 10, 10); }
-  { spr(texHourglass, 10, 60); }
-
-  drawSpriteAnim(sprCheetah, cheetahFrameIdx, 20, 20);
-
-  drawSpriteAnim(sprHourglass, hourglassFrameIdx, 188, 80);
+  DrawSprAnim(sprCheetah, 20, 20, cheetahFrameIdx);
+  DrawSprAnim(sprHourglass, 188, 80, hourglassFrameIdx);
 
   s := 'Hello world!';
-  w := measureDefault(s);
-  printDefault(s, (vgaWidth - w) div 2, 120);
+  w := MeasureDefault(s);
+  PrintDefault(s, (vgaWidth - w) div 2, 120);
 
   DrawMouse
 end;

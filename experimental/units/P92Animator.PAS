@@ -7,7 +7,8 @@
 
 unit P92Animator;
 
-{$IFDEF FPC}{$MODE TP}{$ENDIF}
+{$Mode ObjFPC}
+{$J-}
 
 interface
 
@@ -49,7 +50,7 @@ procedure UpdateSprAnim(
   const anim: TSprAnim;
   const t: double;
   var startTick: double;
-  var frameIdx: integer);
+  var frameIdx: smallint);
 
 {
   Rewinds only the external animation state
@@ -57,12 +58,12 @@ procedure UpdateSprAnim(
 procedure RewindSprAnim(
   const newStartTick: double;
   var startTick: double;
-  var frameIdx: integer);
+  var frameIdx: smallint);
 
 procedure DrawSprAnim(
   const anim: TSprAnim;
-  const x, y: integer;
-  const frameIdx: integer);
+  const x, y: smallint;
+  const frameIdx: smallint);
 
 {
   t: current time in seconds
@@ -71,7 +72,7 @@ procedure DrawSprAnim(
 function IsSprAnimCompleted(
   const anim: TSprAnim;
   const t: double;
-  const frameIdx: integer
+  const frameIdx: smallint
 ): boolean;
 
 
@@ -99,7 +100,8 @@ procedure UpdateSprAnim(
   const anim: TSprAnim;
   const t: double;
   var startTick: double;
-  var frameIdx: integer);
+  var frameIdx: smallint
+);
 begin
   if t >= startTick + anim.interval then begin
     if frameIdx < anim.frameCount - 1 then begin
@@ -115,7 +117,8 @@ end;
 procedure RewindSprAnim(
   const newStartTick: double;
   var startTick: double;
-  var frameIdx: integer);
+  var frameIdx: smallint
+);
 begin
   startTick := newStartTick;
   frameIdx := 0
@@ -123,10 +126,11 @@ end;
 
 procedure DrawSprAnim(
   const anim: TSprAnim;
-  const x, y: integer;
-  const frameIdx: integer);
+  const x, y: smallint;
+  const frameIdx: smallint
+);
 var
-  localFrameIdx: integer;
+  localFrameIdx: smallint;
 begin
   localFrameIdx := frameIdx;
 
@@ -145,7 +149,7 @@ end;
 function IsSprAnimCompleted(
   const anim: TSprAnim;
   const t: double;
-  const frameIdx: integer
+  const frameIdx: smallint
 ): boolean;
 begin
   IsSprAnimCompleted := not anim.looping
