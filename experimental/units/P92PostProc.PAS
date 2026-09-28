@@ -14,8 +14,6 @@ unit P92PostProc;
 
 interface
 
-uses P92Tex;
-
 type FalloffTypes = (
   FalloffTypeSmoothstep,  { default }
   FalloffTypeLinear,
@@ -39,7 +37,7 @@ procedure ApplyFullPhosphor(const radius: smallint);
 implementation
 
 uses
-  P92Conversions, P92TexDraw, P92Easings, P92Logger, P92VGA;
+  P92Conversions, P92Tex, P92TexDraw, P92Easings, P92Logger, P92VGA;
 
 var
   texBlur: longint;
@@ -328,12 +326,12 @@ begin
 
     case falloffType of
       FalloffTypeLinear:
-        factor := lerpLinear(0.0, 1.0, t);
+        factor := Lerp(0.0, 1.0, t);
 
       FalloffTypeEaseInQuad:
-        factor := lerpEaseInQuad(0.0, 1.0, t);
+        factor := LerpEased(0.0, 1.0, t, @EaseInQuad);
       FalloffTypeEaseOutQuad:
-        factor := lerpEaseOutQuad(0.0, 1.0, t);
+        factor := LerpEased(0.0, 1.0, t, @EaseOutQuad);
 
       else { Default: FalloffTypeSmoothstep }
         factor := t * t * (3.0 - 2.0 * t);
