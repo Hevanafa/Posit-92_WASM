@@ -7,7 +7,7 @@ uses
   P92Core, P92Fonts, P92WasmHost, P92AssetRegistry,
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw,
-  SprAnim, P92Timing, P92VGA,
+  P92Animator, P92Timing, P92VGA,
   Assets;
 
 var
@@ -18,20 +18,20 @@ var
 
   hourglassFrameIdx: smallint;
   hourglassStartTick: double;
-  sprHourglass: TSpriteAnim;
+  sprHourglass: TSprAnim;
 
   cursorFrameIdx: smallint;
   cursorStartTick: double;
-  sprAppStartingCursor: TSpriteAnim;
+  sprAppStartingCursor: TSprAnim;
 
   cheetahFrameIdx: smallint;
   cheetahStartTick: double;
-  sprCheetah: TSpriteAnim;
+  sprCheetah: TSprAnim;
 
 procedure DrawMouse;
 begin
   { spr(texCursor, mouseX, mouseY) }
-  drawSpriteAnim(sprAppStartingCursor, cursorFrameIdx, GetMouseX, GetMouseY)
+  DrawSprAnim(sprAppStartingCursor, cursorFrameIdx, GetMouseX, GetMouseY)
 end;
 
 
@@ -48,20 +48,24 @@ begin
 end;
 
 procedure OnReady;
+var
+  now: double;
 begin
-  hideCursor;
+  HideCursor;
 
   { Initialise game state here }
   gameTime := 0.0;
 
-  initSpriteAnim(sprHourglass, texHourglass, 15, 32, 32, 0.2);
-  rewindSpriteAnim(hourglassStartTick, getTimer, hourglassFrameIdx);
+  now := GetTimer;
 
-  initSpriteAnim(sprAppStartingCursor, texAppStartingCursor, 10, 32, 32, 0.2);
-  rewindSpriteAnim(cursorStartTick, getTimer, cursorFrameIdx);
+  InitSprAnim(sprHourglass, texHourglass, 15, 32, 32, 0.2);
+  RewindSprAnim(now, hourglassStartTick, hourglassFrameIdx);
 
-  initSpriteAnim(sprCheetah, texCheetah, 8, 133, 63, 0.05);
-  rewindSpriteAnim(cheetahStartTick, getTimer, cheetahFrameIdx);
+  InitSprAnim(sprAppStartingCursor, texAppStartingCursor, 10, 32, 32, 0.2);
+  RewindSprAnim(now, cursorStartTick, cursorFrameIdx);
+
+  InitSprAnim(sprCheetah, texCheetah, 8, 133, 63, 0.05);
+  RewindSprAnim(now, cheetahStartTick, cheetahFrameIdx);
 end;
 
 procedure Update;

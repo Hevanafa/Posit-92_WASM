@@ -1,10 +1,17 @@
-unit P92ANIMS;
+{
+  Animator unit
+  Part of Posit-92 game engine
+
+  Adapted from the DOS version of the engine
+}
+
+unit P92Animator;
 
 {$IFDEF FPC}{$MODE TP}{$ENDIF}
 
 interface
 
-uses P92TEX;
+uses P92AssetHandles;
 
 type
 { Stateless sprite animator
@@ -12,7 +19,7 @@ type
   Playback state is stored externally: the start tick and the frame index,
   usually this pair: `startTick: double` and `frameIdx: integer` }
   TSprAnim = record
-    texture: PTexture;
+    texHandle: TTextureHandle;
 
     frameCount: word;
     frameWidth: word;
@@ -30,7 +37,7 @@ type
 }
 procedure InitSprAnim(
   var anim: TSprAnim;
-  const tex: TTexture;
+  const texHandle: TTextureHandle;
   const frameCount, frameWidth, frameHeight: word;
   const interval: double);
 
@@ -70,13 +77,15 @@ function IsSprAnimCompleted(
 
 implementation
 
+uses P92TexDraw;
+
 procedure InitSprAnim(
   var anim: TSprAnim;
-  const tex: TTexture;
+  const texHandle: TTextureHandle;
   const frameCount, frameWidth, frameHeight: word;
   const interval: double);
 begin
-  anim.texture := @tex;
+  anim.texHandle := texHandle;
   anim.frameCount := frameCount;
   anim.frameWidth := frameWidth;
   anim.frameHeight := frameHeight;
@@ -125,7 +134,7 @@ begin
     localFrameIdx := anim.frameCount - 1;
 
   SprRegion(
-    anim.texture^,
+    anim.texHandle,
     anim.frameWidth * localFrameIdx,
     0,
     anim.frameWidth,
