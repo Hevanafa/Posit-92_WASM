@@ -8,7 +8,7 @@ uses
   P92IMGUI, P92Geometry, P92Fonts,
   P92Tex, P92TexDraw, P92TexComp,
   P92Keyboard, P92Mouse, P92Easings,
-  P92Logger, P92PostProc, P92Timing, P92VGA,
+  P92Logger, P92Timing, P92VGA,
   Assets;
 
 const
@@ -27,6 +27,10 @@ type
     DemoStateRotation
   );
 
+const
+  { in seconds }
+  EaseDuration = 0.4;
+
 var
   lastEsc: boolean;
   lastSpacebar: boolean;
@@ -39,7 +43,9 @@ var
 
   dosuZone: TZone;
   demoListStartX, demoListEndX: double;
-  demoListLerpTimer: TEasingTimer;
+  { uses real time }
+  demoListTick: double;
+
   demoListItems: array[0..ord(high(TDemoState))] of string;
   demoListState: TListViewState;
   lastDemoIndex: TDemoState;
@@ -165,8 +171,11 @@ end;
 
 procedure Update;
 var
+  now: double;
   perc, x: double;
 begin
+  now := GetTimer;
+
   if lastEsc <> IsKeyDown(SC_ESCAPE) then begin
     lastEsc := IsKeyDown(SC_ESCAPE);
 
@@ -260,8 +269,8 @@ begin
   if lastShowDemoList <> showDemoList then begin
     lastShowDemoList := showDemoList;
 
-    perc := GetEasingPerc(demoListLerpTimer, getTimer);
-    x := lerpEaseOutQuad(demoListStartX, demoListEndX, perc);
+    perc := GetPerc(demoListTick, 2.0, getTimer);
+    x := LerpEased(demoListStartX, demoListEndX, perc, @EaseOutQuad);
     
     if lastShowDemoList then begin
       demoListStartX := x;
@@ -271,7 +280,7 @@ begin
       demoListEndX := -120;
     end;
 
-    InitEasing(demoListLerpTimer, getTimer, 0.4);
+    demoListTick := now
   end;
 
   if lastDemoIndex <> TDemoState(demoListState.selectedIndex) then begin
@@ -285,19 +294,20 @@ end;
 
 procedure Draw;
 var
+  now: double;
   perc, x: double;
 begin
-  cls($FF6495ED);
+  now := GetTimer;
 
-  { writeLogF32(gameTime * 4); }
+  cls($FF6495ED);
 
   { if showDemoList then drawDemoList; }
 
-  if IsEasingComplete(demoListLerpTimer, getTimer) then
+  if now >= demoListTick + EaseDuration then
     x := demoListEndX
   else begin
-    perc := GetEasingPerc(demoListLerpTimer, getTimer);
-    x := lerpEaseOutQuad(demoListStartX, demoListEndX, perc);
+    perc := GetPerc(demoListTick, EaseDuration, now);
+    x := LerpEased(demoListStartX, demoListEndX, perc, @EaseOutQuad);
   end;
   
   { ListView(trunc(x), 10, demoListItems, actualDemoState - 1); }
