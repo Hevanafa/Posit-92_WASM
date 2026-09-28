@@ -1,31 +1,19 @@
 library Game;
 
 {$Mode ObjFPC}
-{$J-}
+{$H+}{$J-}
 
 uses
-  Fullscreen, Loading,
-  Keyboard, Mouse,
-  ImgRef, ImgRefFast,
-  SprAnim, Timing, WasmMemMgr, VGA,
+  P92Core, P92Fonts,
+  P92Keyboard, P92Mouse,
+  P92Tex, P92TexDraw,
+  SprAnim, P92Timing, P92VGA,
   Assets;
-
-type
-  TGameStates = (
-    GameStateIntro = 1,
-    GameStateLoading = 2,
-    GameStatePlaying = 3
-  );
-
-const
-  SC_ESC = $01;
-  SC_SPACE = $39;
 
 var
   lastEsc: boolean;
 
   { Init your game state here }
-  actualGameState: TGameStates;
   gameTime: double;
 
   hourglassFrameIdx: smallint;
@@ -40,22 +28,12 @@ var
   cheetahStartTick: double;
   sprCheetah: TSpriteAnim;
 
-{ Use this to set `done` to true }
-procedure signalDone; external 'env' name 'signalDone';
-procedure loadAssets; external 'env' name 'loadAssets';
-
-procedure drawMouse;
+procedure DrawMouse;
 begin
   { spr(imgCursor, mouseX, mouseY) }
   drawSpriteAnim(sprAppStartingCursor, cursorFrameIdx, mouseX, mouseY)
 end;
 
-procedure beginLoadingState;
-begin
-  actualGameState := GameStateLoading;
-  fitCanvas;
-  loadAssets
-end;
 
 procedure beginPlayingState;
 begin
@@ -136,7 +114,7 @@ begin
   w := measureDefault(s);
   printDefault(s, (vgaWidth - w) div 2, 120);
 
-  drawMouse;
+  DrawMouse;
   vgaFlush
 end;
 

@@ -1,6 +1,7 @@
 {
-  Sprite Animation - Part of Posit-92 game engine
-  Hevanafa
+  Sprite Animation
+  Part of Posit-92 game engine
+  (Deprecated)
 }
 
 unit SprAnim;
@@ -52,7 +53,7 @@ procedure drawSpriteAnimToDest(
 
 implementation
 
-uses ImgRef, ImgRefFast;
+uses P92Tex, P92TexDraw;
 
 procedure initSpriteAnim(
   var sprite: TSpriteAnim;
