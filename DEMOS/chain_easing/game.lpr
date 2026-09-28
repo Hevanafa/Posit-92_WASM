@@ -6,8 +6,7 @@
 library Game;
 
 {$Mode ObjFPC}
-{$H+}
-{$J-}
+{$H+}{$J-}
 
 uses
   P92Core, P92Fonts, P92AssetRegistry, P92WasmHost,
@@ -31,12 +30,12 @@ var
 
   { Easing chain state variables }
   isChainStarted, isChainComplete: boolean;
-  chainIdx: integer;
-  
-  startX, endX: integer;
-  startAngle, endAngle: double;
   { uses real time }
   chainEasingTick: double;
+
+  chainIdx: integer;
+  startX, endX: integer;
+  startAngle, endAngle: double;
 
   blinkyX, blinkyY: double;
 
@@ -66,8 +65,8 @@ procedure BeginEasingChain;
 begin
   isChainStarted := true;
   isChainComplete := false;
-  chainIdx := 0;
 
+  chainIdx := 0;
   startX := 100;
   endX := 150;
   chainEasingTick := GetTimer;
@@ -103,7 +102,7 @@ begin
 
   if isChainStarted and not isChainComplete then begin
     { Handle state transition }
-    if chainEasingTick + EaseDuration >= now then begin
+    if now >= chainEasingTick + EaseDuration then begin
       case chainIdx of
       0: begin
         perc := GetPerc(chainEasingTick, EaseDuration, now);
@@ -111,8 +110,8 @@ begin
 
         startX := trunc(x);
         endX := endX - 50;
-        chainEasingTick := now;
 
+        chainEasingTick := now;
         inc(chainIdx)
       end;
       1: begin
@@ -125,10 +124,10 @@ begin
         endAngle := 2 * PI;
 
         chainEasingTick := now;
-
         inc(chainIdx)
       end;
-      2: inc(chainIdx);
+      2:
+        inc(chainIdx);
       3: begin
         perc := GetPerc(chainEasingTick, EaseDuration, now);
         x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
@@ -191,6 +190,8 @@ begin
     Spr(texBlinky, trunc(blinkyX), trunc(blinkyY));
 
   CentredLabel('chainIdx ' + i32str(chainIdx), vgaWidth div 2, 180);
+
+  PrintDefault('start tick: ' + F32Str(chainEasingTick), 10, 10);
 end;
 
 procedure Init;
