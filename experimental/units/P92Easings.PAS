@@ -15,151 +15,105 @@ unit P92Easings;
 interface
 
 type
-  { Stateless easing timer
-    Requires a pair of start & end values }
-  TEasingTimer = record
-    startTick, endTick: double;
-  end;
-
-procedure InitEasing(var lt: TEasingTimer; const startTick, duration: double);
-
-function NewEasingTimer(const startTick, duration: double): TEasingTimer;
-function GetEasingPerc(const lt: TEasingTimer; const t: double): double;
-function IsEasingComplete(const lt: TEasingTimer; const t: double): boolean;
+  TEaseFunc = function(perc: double): double;
 
 {
-  Base easing functions
-  perc: 0.0 .. 1.0 (must be clamped manually)
+  startTick: in seconds
+  duration: in seconds
+  t: current time, in seconds
 }
-
-function EaseInQuad(const perc: double): double;
-function EaseOutQuad(const perc: double): double;
-function EaseInOutQuad(const perc: double): double;
-
-function EaseInSine(const perc: double): double;
-function EaseOutSine(const perc: double): double;
-function EaseInOutSine(const perc: double): double;
+function GetPerc(startTick, duration, t: double): double;
 
 {
-  Helper functions
-  These call both:
-  - Percentage normalisation
-  - Performs interpolation using easing with the provided start & end values (a and z)
+  a: start value
+  z: end value (inclusive)
+  perc: lerp percentage, can be obtained from GetPerc
 }
+function Lerp(a, z, perc: double): double;
 
-function LerpLinear(const a, z: double; perc: double): double;
+{
+  a: start value
+  z: end value (inclusive)
+  perc: lerp percentage, can be obtained from GetPerc
+}
+function LerpEased(a, z, perc: double; ease: TEaseFunc): double;
 
-function LerpEaseInQuad(const a, z, perc: double): double;
-function LerpEaseOutQuad(const a, z, perc: double): double;
-function LerpEaseInOutQuad(const a, z, perc: double): double;
+{ Easing functions }
 
-function LerpEaseInSine(const a, z, perc: double): double;
-function LerpEaseOutSine(const a, z, perc: double): double;
-function LerpEaseInOutSine(const a, z, perc: double): double;
+function EaseInSine(perc: double): double;
+function EaseOutSine(perc: double): double;
+function EaseInOutSine(perc: double): double;
+
+function EaseInQuad(perc: double): double;
+function EaseOutQuad(perc: double): double;
+function EaseInOutQuad(perc: double): double;
 
 
 implementation
 
-uses P92Maths, P92Timing;
+uses P92Maths, P92Timing, P92Panic;
 
-procedure InitEasing(var lt: TEasingTimer; const startTick, duration: double);
+function GetPerc(startTick, duration, t: double): double;
 begin
-  lt.startTick := startTick;
-  lt.endTick := startTick + duration;
+  if duration <= 0.0 then begin
+    GetPerc := 1.0;
+    exit
+  end;
+
+  GetPerc := Clamp((t - startTick) / duration, 0.0, 1.0)
 end;
 
-function NewEasingTimer(const startTick, duration: double): TEasingTimer;
+function Lerp(a, z, perc: double): double;
 begin
-  NewEasingTimer.startTick := startTick;
-  NewEasingTimer.endTick := startTick + duration;
+  perc := clamp(perc, 0.0, 1.0);
+  Lerp := a + perc * (z - a)
 end;
 
-function GetEasingPerc(const lt: TEasingTimer; const t: double): double;
+function LerpEased(a, z, perc: double; ease: TEaseFunc): double;
 begin
-  GetEasingPerc := clamp((t - lt.startTick) / (lt.endTick - lt.startTick), 0.0, 1.0)
+  if not assigned(ease) then
+    PanicHalt('LerpEased: ease function is not supplied!');
+
+  perc := Clamp(perc, 0.0, 1.0);
+  LerpEased := a + ease(perc) * (z - a)
 end;
 
-function IsEasingComplete(const lt: TEasingTimer; const t: double): boolean;
+
+function EaseInSine(perc: double): double;
 begin
-  IsEasingComplete := t >= lt.endTick
+  EaseInSine := 1 - cos(perc * pi / 2)
+end;
+
+function EaseOutSine(perc: double): double;
+begin
+  EaseOutSine := sin(perc * pi / 2)
+end;
+
+function EaseInOutSine(perc: double): double;
+begin
+  EaseInOutSine := -(cos(pi * perc) - 1) /2
 end;
 
 
-{ Begin easing functions }
-
-function EaseInQuad(const perc: double): double;
+function EaseInQuad(perc: double):double;
 begin
   EaseInQuad := perc * perc
 end;
 
-function EaseOutQuad(const perc: double): double;
+function EaseOutQuad(perc: double): double;
 begin
   EaseOutQuad := 1 - (1 - perc) * (1 - perc)
 end;
 
-function EaseInOutQuad(const perc: double): double;
-var
-  n: double;
+function EaseInOutQuad(perc: double): double;
 begin
   if perc < 0.5 then
     EaseInOutQuad := 2 * perc * perc
   else begin
-    n := -2 * perc + 2;
-    EaseInOutQuad := 1 - n * n / 2;
+    perc := -2 * perc + 2;
+    EaseInOutQuad := 1 - (perc * perc) / 2;
   end;
 end;
 
-function EaseInSine(const perc: double): double;
-begin
-  EaseInSine := 1 - cos(perc * pi / 2.0)
-end;
-
-function EaseOutSine(const perc: double): double;
-begin
-  EaseOutSine := sin(perc * pi / 2.0)
-end;
-
-function EaseInOutSine(const perc: double): double;
-begin
-  EaseInOutSine := -(cos(pi * perc) - 1.0) / 2.0
-end;
-
-
-function LerpLinear(const a, z: double; perc: double): double;
-begin
-  perc := clamp(perc, 0.0, 1.0);
-  LerpLinear := a + perc * (z - a)
-end;
-
-function LerpEaseInQuad(const a, z, perc: double): double;
-begin
-  LerpEaseInQuad := a + EaseInQuad(perc) * (z - a)
-end;
-
-function LerpEaseOutQuad(const a, z, perc: double): double;
-begin
-  LerpEaseOutQuad := a + EaseOutQuad(perc) * (z - a)
-end;
-
-function LerpEaseInOutQuad(const a, z, perc: double): double;
-begin
-  LerpEaseInOutQuad := a + EaseInOutQuad(perc) * (z - a)
-end;
-
-
-function LerpEaseInSine(const a, z, perc: double): double;
-begin
-  LerpEaseInSine := a + EaseInSine(perc) * (z - a)
-end;
-
-function LerpEaseOutSine(const a, z, perc: double): double;
-begin
-  LerpEaseOutSine := a + EaseOutSine(perc) * (z - a)
-end;
-
-function LerpEaseInOutSine(const a, z, perc: double): double;
-begin
-  LerpEaseInOutSine := a + EaseInOutSine(perc) * (z - a)
-end;
 
 end.
