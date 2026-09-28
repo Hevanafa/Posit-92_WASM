@@ -303,7 +303,7 @@ begin
 
   { if showDemoList then drawDemoList; }
 
-  if now >= demoListTick + EaseDuration then
+  if IsEasingComplete(demoListTick, EaseDuration, now) then
     x := demoListEndX
   else begin
     perc := GetPerc(demoListTick, EaseDuration, now);

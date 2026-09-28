@@ -25,6 +25,13 @@ type
 function GetPerc(startTick, duration, t: double): double;
 
 {
+  startTick: in seconds
+  duration: in seconds
+  t: current time, in seconds
+}
+function IsEasingComplete(const startTick, duration, t: double): boolean;
+
+{
   a: start value
   z: end value (inclusive)
   perc: lerp percentage, can be obtained from GetPerc
@@ -61,6 +68,11 @@ begin
   end;
 
   GetPerc := Clamp((t - startTick) / duration, 0.0, 1.0)
+end;
+
+function IsEasingComplete(const startTick,duration,t:double):boolean;
+begin
+  IsEasingComplete := GetPerc(startTick, duration, t) >= 1.0
 end;
 
 function Lerp(a, z, perc: double): double;
