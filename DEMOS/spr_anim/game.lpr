@@ -4,7 +4,7 @@ library Game;
 {$H+}{$J-}
 
 uses
-  P92Core, P92Fonts, P92WasmHost,
+  P92Core, P92Fonts, P92WasmHost, P92AssetRegistry,
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw,
   SprAnim, P92Timing, P92VGA,
@@ -30,14 +30,21 @@ var
 
 procedure DrawMouse;
 begin
-  { spr(imgCursor, mouseX, mouseY) }
+  { spr(texCursor, mouseX, mouseY) }
   drawSpriteAnim(sprAppStartingCursor, cursorFrameIdx, GetMouseX, GetMouseY)
 end;
 
 
 procedure OnPreload;
 begin
+  texCursor := RequestImage('assets/images/cursor.png');
 
+  texDosuEXE[0] := RequestImage('assets/images/dosu_1.png');
+  texDosuEXE[1] := RequestImage('assets/images/dosu_2.png');
+
+  texAppStartingCursor := RequestImage('assets/images/appstarting_sheet.png');
+  texCheetah := RequestImage('assets/images/fpc_running_logo.png');
+  texHourglass := RequestImage('assets/images/hourglass_sheet.png');
 end;
 
 procedure OnReady;
@@ -47,13 +54,13 @@ begin
   { Initialise game state here }
   gameTime := 0.0;
 
-  initSpriteAnim(sprHourglass, imgHourglass, 15, 32, 32, 0.2);
+  initSpriteAnim(sprHourglass, texHourglass, 15, 32, 32, 0.2);
   rewindSpriteAnim(hourglassStartTick, getTimer, hourglassFrameIdx);
 
-  initSpriteAnim(sprAppStartingCursor, imgAppStartingCursor, 10, 32, 32, 0.2);
+  initSpriteAnim(sprAppStartingCursor, texAppStartingCursor, 10, 32, 32, 0.2);
   rewindSpriteAnim(cursorStartTick, getTimer, cursorFrameIdx);
 
-  initSpriteAnim(sprCheetah, imgCheetah, 8, 133, 63, 0.05);
+  initSpriteAnim(sprCheetah, texCheetah, 8, 133, 63, 0.05);
   rewindSpriteAnim(cheetahStartTick, getTimer, cheetahFrameIdx);
 end;
 
@@ -80,12 +87,12 @@ begin
   cls($FF6495ED);
 
   if (trunc(gameTime * 4) and 1) > 0 then
-    spr(imgDosuEXE[1], 148, 88)
+    spr(texDosuEXE[1], 148, 88)
   else
-    spr(imgDosuEXE[0], 148, 88);
+    spr(texDosuEXE[0], 148, 88);
 
-  { spr(imgAppStartingCursor, 10, 10); }
-  { spr(imgHourglass, 10, 60); }
+  { spr(texAppStartingCursor, 10, 10); }
+  { spr(texHourglass, 10, 60); }
 
   drawSpriteAnim(sprCheetah, cheetahFrameIdx, 20, 20);
 
@@ -103,6 +110,8 @@ var
   appConfig: TP92AppConfig;
 begin
   appConfig := DefaultP92AppConfig;
+
+  appConfig.LoadDefaultCursor := false;
 
   P92Start(appConfig);
 end;

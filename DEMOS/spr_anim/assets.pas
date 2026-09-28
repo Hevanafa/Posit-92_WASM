@@ -7,11 +7,11 @@ interface
 uses P92AssetHandles;
 
 var
-  imgCursor: TTextureHandle;
-  imgDosuEXE: array[0..1] of TTextureHandle;
-  imgAppStartingCursor: TTextureHandle;
-  imgHourglass: TTextureHandle;
-  imgCheetah: TTextureHandle;
+  texCursor: TTextureHandle;
+  texDosuEXE: array[0..1] of TTextureHandle;
+  texAppStartingCursor,
+  texHourglass,
+  texCheetah: TTextureHandle;
 
 
 implementation

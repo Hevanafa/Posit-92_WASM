@@ -11,6 +11,5 @@ async function Main() {
 function Play() {
   const overlay = document.getElementById("play-overlay");
   overlay.parentNode.removeChild(overlay);
-
   Main()
 }
