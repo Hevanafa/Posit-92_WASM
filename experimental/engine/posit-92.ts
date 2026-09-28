@@ -934,10 +934,11 @@ class Posit92 {
       const div = document.createElement("div");
       div.style.color = "white";
 
-      div.innerHTML = "Posit-92 fatal error: (Missing boot font)<br>"
-       + "Message: " + msg;
+      div.innerHTML = "<pre>Posit-92 Fatal Error: (Missing boot font)\n\n"
+        + msg
+        + "\n\nCheck Console for details</pre>";
 
-      document.appendChild(div);
+      document.body.appendChild(div);
     }
   }
 
