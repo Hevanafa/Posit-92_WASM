@@ -35,7 +35,12 @@ begin
 end;
 
 
-procedure beginPlayingState;
+procedure OnPreload;
+begin
+
+end;
+
+procedure OnReady;
 begin
   hideCursor;
 
@@ -51,7 +56,6 @@ begin
   initSpriteAnim(sprCheetah, imgCheetah, 8, 133, 63, 0.05);
   rewindSpriteAnim(cheetahStartTick, getTimer, cheetahFrameIdx);
 end;
-
 
 procedure Update;
 begin
@@ -92,6 +96,15 @@ begin
   printDefault(s, (vgaWidth - w) div 2, 120);
 
   DrawMouse
+end;
+
+procedure Init;
+var
+  appConfig: TP92AppConfig;
+begin
+  appConfig := DefaultP92AppConfig;
+
+  P92Start(appConfig);
 end;
 
 exports
