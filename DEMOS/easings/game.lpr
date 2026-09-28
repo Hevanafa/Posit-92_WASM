@@ -48,7 +48,7 @@ var
   subDemoNames: array[0..DemoStateInOutSine - 1] of string;
 
   startX, endX: integer;
-  xEasingTimer: TEasingTimer;
+  startTick: double;
 
 procedure OnPreload;
 begin
@@ -83,7 +83,8 @@ begin
 
   startX := 120;
   endX := vgaWidth - 25;
-  InitEasing(xEasingTimer, gameTime, 2.0);
+
+  startTick := gameTime;
 end;
 
 procedure OnReady;
@@ -94,6 +95,7 @@ begin
 
   { Initialise game state here }
   gameTime := 0.0;
+  startTick := 0.0;
 
   ChangeState(DemoStateInOutQuad);
 
@@ -148,7 +150,7 @@ begin
     lastSpacebar := isKeyDown(SC_SPACE);
 
     if lastSpacebar then
-      InitEasing(xEasingTimer, gameTime, 2.0);
+      startTick := gameTime;
   end;
 
   if lastPageUp <> isKeyDown(SC_PAGEUP) then begin
@@ -179,6 +181,8 @@ begin
 end;
 
 procedure Draw;
+const
+  EasingDuration = 2.0;
 var
   perc: double;
   x: integer;
@@ -187,28 +191,25 @@ begin
 
   Line(startX, 100, endX, 100, Cyan);
 
-  perc := GetEasingPerc(xEasingTimer, gameTime);
+  perc := GetPerc(startTick, 2.0, gameTime);
 
   case actualDemoState of
-    DemoStateLinear:
-      x := trunc(LerpLinear(startX, endX, perc));
-
     DemoStateInQuad:
-      x := trunc(LerpEaseInQuad(startX, endX, perc));
+      x := trunc(LerpEased(startX, endX, perc, @EaseInQuad));
     DemoStateOutQuad:
-      x := trunc(LerpEaseOutQuad(startX, endX, perc));
+      x := trunc(LerpEased(startX, endX, perc, @EaseOutQuad));
     DemoStateInOutQuad:
-      x := trunc(LerpEaseInOutQuad(startX, endX, perc));
+      x := trunc(LerpEased(startX, endX, perc, @EaseInOutQuad));
 
     DemoStateInSine:
-      x := trunc(LerpEaseInSine(startX, endX, perc));
+      x := trunc(LerpEased(startX, endX, perc, @EaseInSine));
     DemoStateOutSine:
-      x := trunc(LerpEaseOutSine(startX, endX, perc));
+      x := trunc(LerpEased(startX, endX, perc, @EaseOutSine));
     DemoStateInOutSine:
-      x := trunc(LerpEaseInOutSine(startX, endX, perc));
+      x := trunc(LerpEased(startX, endX, perc, @EaseInOutSine));
 
-    else { Not implemented defaults to Linear }
-      x := trunc(LerpLinear(startX, endX, perc));
+    else { defaults to Linear }
+      x := trunc(Lerp(startX, endX, perc));
   end;
 
   SprAlpha(texDosuEXE[0], startX, 88, 0.5);
