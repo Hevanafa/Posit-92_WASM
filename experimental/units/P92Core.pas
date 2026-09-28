@@ -189,6 +189,12 @@ begin
   GetBootConfig := bootConfig
 end;
 
+procedure RequestBootFont;
+begin
+  SetBootFontHandle(
+    RequestImage('assets/CGA8x8.png'))
+end;
+
 function GetBootFontHandle: TTextureHandle;
 begin
   GetBootFontHandle := BootFontHandle
@@ -269,8 +275,7 @@ begin
   InitLogger;
 {$endif}
 
-  { Request boot font }
-  SetBootFontHandle(RequestImage('assets/CGA8x8.png'));
+  RequestBootFont;
 end;
 
 procedure InitPreloadState;
