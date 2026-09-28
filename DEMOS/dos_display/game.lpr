@@ -467,7 +467,7 @@ end;
 
 procedure OnPreload;
 begin
-  texCGAFont := RequestImage('assets/images/CGA8x8.png');
+  texCGAFont := RequestImage('assets/fonts/p92_boot.png');
 
   bgmJingle := RequestSound('assets/ogg/Jingle Bells (Chiptune Version) - Chiptune Arcade.ogg');
 end;
