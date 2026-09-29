@@ -46,6 +46,19 @@ This is because Posit-92 extensively uses private class fields and methods using
 
 After that, you can copy the engine's JS runtime and the necessary mixins either manually or with `setup_demo.pl`
 
+#### Alternative: Bun
+
+Requires: **[Bun](https://bun.com/)** (at least v1.3.5) either to transpile the engine code or to start the local HTTP server
+
+I decided to move this as optional because of the obscure error message when I tried to get this started on my old laptop from 2017
+
+```text
+(Posit-92 engine folder)> bun build .\posit-92.ts
+error: Cannot read file "C:\": EPERM
+```
+
+To start a local server with Bun, see [local_server.md](./docs/local_server.md)
+
 ## Boilerplate Overview
 
 `hello_demoscene`
