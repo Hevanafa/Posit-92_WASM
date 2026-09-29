@@ -1,17 +1,21 @@
 # Troubleshooting
 
-## Fatal: Internal error
+## About the "internal error" message
 
-When there is a compiler error especially in the demo projects, something like this:
+When there is a compiler error especially in the demo projects, something like this may appear once in a while:
 
 ```text
-SHAPES.PAS(110,3) Fatal: Internal error 2010120506
+P92Geom.PAS(110,3) Fatal: Internal error 2010120506
 ```
 
-Simply call the clean script and rebuild, or in Lazarus: **Run > Clean up and build**
+If you use Lazarus IDE, either one of these will work:
 
-## Lazarus - Invalid symbol type: 6
-25-06-2026
+- Run menu > Clean up and build
+- Run menu > Build
+
+But if you prefer not to use Lazarus (I don't see why you wouldn't), clean up the `experimental\units` directory, specifically the `.o` and `.ppu` files
+
+## Lazarus IDE - Invalid symbol type: 6
 
 An example case is this error message that appears when trying to build with Lazarus
 
