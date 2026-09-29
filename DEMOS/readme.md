@@ -2,14 +2,16 @@
 
 The projects in this direectory demonstrate Posit-92 features, usually one feature at a time
 
-For implementation details, see the source files inside each demo. You can start from `game.lpr`
+For implementation details, see the source files inside each demo
+
+Each project has its own `project.lpi`, which uses `game.lpr` as the entry point
+
 
 ## Boilerplates
 
-- **hello_intro** -- The full boilerplate including the intro sequence and 2 other game states: loading & playing
-- **hello_quick** -- Similar to `hello_intro` but without the intro sequence
-- **hello_simple** -- Minimal boilerplate without the opinionated game states
-- **hello_minimal** -- The bare minimum example without the asset loader and the rest of the boilerplate features
+- **hello_intro** -- Full project structure with 3 states: intro, loading, and playing
+- **hello_demoscene** -- Full structure without the intro sequence
+- **hello_minimal** -- The bare minimum Posit-92 application
 
 
 ## Basics
