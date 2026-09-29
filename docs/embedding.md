@@ -52,4 +52,8 @@ But it ultimately depends on your setup if you ever decide to customise it
 
 ## Complete example
 
-(TBA)
+You can open `project.lpi` in `DEMOS\hello_demoscene` to see a proper project setup. Make sure the engine glue code and the mixin files are already included -- `setup_demo.pl` can guide you setting up the boilerplate
+
+Or, if you prefer seeing it in action, you can visit the page on my website:
+
+[https://hevanafaslime.com/posit-92-hello-demoscene/](https://hevanafaslime.com/posit-92-hello-demoscene/)
