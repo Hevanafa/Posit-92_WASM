@@ -77,23 +77,11 @@ After that, you can copy the engine's JS runtime and the necessary mixins either
 
 It took me a few retries until the compiler finally completed compiling
 
-## Alternative: Bun
+## Running locally
 
-Requires: **[Bun](https://bun.com/)** (at least v1.3.5) either to transpile the engine code or to start the local HTTP server
+Posit-92 (WASM) projects need to be served through a local HTTP server rather than from the filesystem or directly run by Lazarus
 
-I decided to move this as optional because of the obscure error message when I tried to get this started on my old laptop from 2017
-
-```text
-(Posit-92 engine folder)> bun build .\posit-92.ts
-error: Cannot read file "C:\": EPERM
-```
-
-### Starting the localhost server
-
-I made a dedicated server script that can be used specifically with Bun
-
-1. Run `bun .\server.ts`
-2. Open `http://localhost:8008` in your browser to see if the "Hello world!" actually appears
+See [local_server.md](./docs/local_server.md) for the available options
 
 ## Credits
 
