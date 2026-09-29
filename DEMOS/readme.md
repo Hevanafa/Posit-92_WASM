@@ -1,10 +1,10 @@
 # Demo Projects
 
-The projects in this direectory demonstrate Posit-92 features, usually one feature at a time
+The projects in this directory demonstrate Posit-92 features, usually one feature at a time
 
 For implementation details, see the source files inside each demo
 
-Each project has its own `project.lpi`, which uses `game.lpr` as the entry point
+Each project has its own `project.lpi`, with `game.lpr` as the entry point
 
 
 ## Boilerplates
