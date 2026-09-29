@@ -33,9 +33,6 @@ if (!$demo_or_option) {
   exit 1
 }
 
-# say "Broken for now!";
-# exit 1;
-
 # Ensure engine JS
 eval {
   system "perl", catfile($engine_dir, "ensure_engine_js.pl");
@@ -90,24 +87,6 @@ sub setup_demo {
         catfile($demo_dir, $mixin_filename))
           or warn "Couldn't copy mixin: $mixin_filename"
     }
-  }
-
-  # Copy build scripts
-
-  say "Copying build scripts...";
-
-  my @scripts = (
-    "clean_demo.pl",
-    "make_demo.pl",
-    "dist.pl",
-    "server.ts"
-  );
-
-  for (@scripts) {
-    copy(
-      catfile($scripts_dir, $_),
-      $demo_dir)
-        or warn "Couldn't copy $_: $!";
   }
 }
 
