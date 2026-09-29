@@ -1,14 +1,10 @@
 # Demo Projects
 
-Here, you can find how to make use of most of the features in this game engine
+The projects in this direectory demonstrate Posit-92 features, usually one feature at a time
 
-Mostly the changes are in `game.pas`
+For implementation details, see the source files inside each demo. You can start from `game.lpr`
 
-If there are assets involved, you can take a look into both `assets.pas` and `loadAssets` method in the glue code
-
-##
-
-### Boilerplates
+## Boilerplates
 
 - **hello_intro** -- The full boilerplate including the intro sequence and 2 other game states: loading & playing
 - **hello_quick** -- Similar to `hello_intro` but without the intro sequence
@@ -16,7 +12,9 @@ If there are assets involved, you can take a look into both `assets.pas` and `lo
 - **hello_minimal** -- The bare minimum example without the asset loader and the rest of the boilerplate features
 
 
-### Basics
+## Basics
+
+(TODO: Replace this )
 
 - **bigint_demo** -- Shows how big integers are handled via browser API
   - **BigIntMixin** mixin is used here
