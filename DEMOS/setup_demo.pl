@@ -32,6 +32,11 @@ if (!$demo_or_option) {
   exit 1
 }
 
+unless (-f $engine_js_path) {
+  say "Run `tsc` first in experimental";
+  exit
+}
+
 sub setup_demo {
   my $demo_name = shift;
 
