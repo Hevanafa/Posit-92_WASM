@@ -29,6 +29,8 @@ After that, insert a **Custom HTML block** containing the same `<iframe>` tag me
 
 You should change the `src` attribute with wherever you have the game files, as long as it points to the entry point `index.html`
 
+Consider using binaryen's **wasm-opt** to reduce the size of the game's WASM binary.  The build script `optimise_wasm.pl` has the working command line
+
 ## Complete example
 
 (TBA)
