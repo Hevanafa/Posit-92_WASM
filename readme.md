@@ -9,7 +9,7 @@ This project is a port of the original [POSIT-92](https://github.com/Hevanafa/PO
 1. **Lazarus IDE**
 2. **Free Pascal Compiler** which has been configured with `wasm32-embedded` as the target (read **Compiler Setup** section below to see how)
 3. **Perl** to handle most of the build & text processing tasks
-4. Node.js, npm or yarn, TypeScript compiler (`tsc`)
+4. Node.js, npm or yarn, and TypeScript compiler (`tsc`)
 
 Optional: Bun for users who already use it, see the section below
 
@@ -94,7 +94,7 @@ It took me a few retries until the compiler finally completed compiling
 
 Posit-92 (WASM) projects need to be served through a local HTTP server rather than from the filesystem or directly run by Lazarus
 
-See [local_server.md](./docs/local_server.md) for the available options
+See [local_server.md](./docs/local_server.md) for the available options, including Bun
 
 ## Credits
 

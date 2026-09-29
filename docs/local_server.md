@@ -13,9 +13,9 @@ I made a dedicated server script that can be used specifically with Bun
    bun .\server.ts
    ```
 2. Open `http://localhost:8008` in your browser
-3. See that the "Hello world!" page appears
+3. Check that the "Hello world!" page appears
 
-The Bun server is only one option, you can use another static HTTP server if you want
+The Bun server is only one option; you can use another static HTTP server if you want
 
 ## Other HTTP servers
 
@@ -25,4 +25,6 @@ NPM http-server:
 npx http-server -c-1 .
 ```
 
-`-c-1` makes it invalidates all cached files
+`-c-1` invalidates all the cached files
+
+You can use any language that can serve a static HTTP server, be it Python, Perl, Ruby, PHP, or even Pascal, as long as the `index.html`, `game.wasm`, and the app assets are accessible
