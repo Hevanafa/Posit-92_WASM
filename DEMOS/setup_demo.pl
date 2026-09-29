@@ -33,7 +33,7 @@ if (!$demo_or_option) {
 }
 
 unless (-f $engine_js_path) {
-  say "Run `tsc` first in experimental";
+  say "posit-92.js not found.  Run `tsc` first in experimental";
   exit
 }
 
