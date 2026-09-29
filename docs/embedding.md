@@ -1,5 +1,9 @@
 # Embedding on webpages
 
+This document acts as a guideline, so feel free to improvise based on what works for your project
+
+Think of it more like "A Posit-92 embed generally looks like this"
+
 ## Basic iframe setup
 
 You can use this snippet anywhere, as long as it points to your preferred localhost server
