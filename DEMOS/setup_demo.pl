@@ -22,7 +22,6 @@ my $engine_dir = catdir($project_root, "experimental", "engine");
 my $engine_js_path = catfile($engine_dir, "posit-92.js");
 
 my $mixins_dir = catdir($project_root, "experimental", "mixins");
-my $scripts_dir = catdir($project_root, "scripts");
 
 my $demo_or_option = $ARGV[0];
 
@@ -32,12 +31,6 @@ if (!$demo_or_option) {
 
   exit 1
 }
-
-# Ensure engine JS
-eval {
-  system "perl", catfile($engine_dir, "ensure_engine_js.pl");
-  1
-};
 
 sub setup_demo {
   my $demo_name = shift;
@@ -63,24 +56,11 @@ sub setup_demo {
 
   my @mixins = read_mixins $demo_name;
 
-  # print join " -- ", @mixins;
-
   if (@mixins) {
     say "Copying mixin files...";
 
     for my $mixin_name (@mixins) {
       my $mixin_filename = "p92-$mixin_name.mixin.js";
-
-      my @args = (
-        catdir($mixins_dir, "ensure_mixin.pl"),
-        $mixin_name
-      );
-
-      system "perl", @args;
-
-      # say "Mixin paths:";
-      # say catfile($mixins_dir, $mixin_filename);
-      # say catfile($demo_dir, $mixin_filename);
 
       copy(
         catfile($mixins_dir, $mixin_filename),
