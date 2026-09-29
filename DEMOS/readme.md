@@ -13,29 +13,45 @@ Each project has its own `project.lpi`, with `game.lpr` as the entry point
 - **hello_demoscene** -- Full structure without the intro sequence
 - **hello_minimal** -- The bare minimum Posit-92 application
 
-
-## Project List
+## Interop & Platform
 
 - **bigint** -- Big integer interop with JS
-- **chain_easing** -- Extended easing demo with a state machine
-- **collision** -- Basic rectangle & circle intersection
-- **dos_display** -- A recreation of watered-down DOS with a scrolling background
-- **easings** -- A collection of easing functions
-- **gamepad** -- Basic gamepad / controller display of buttons & joystick pair
-- **graphics** -- Basic drawing operations
-- **music** -- Music loading, playback & looping
-- **p92_imgui_demo** -- Immediate mode GUI demo, complete with prompt box & 9-slice button
-- **particles** -- Click to spawn colourful marble particles
-- **perlin** -- Basic 1D and 2D Perlin noise
 - **pwa** -- Minimal Progressive Web App project structure
-- **rich_text** -- Basic rich text rendering, including bold, italic, and bold + italic
-- **scanlines_plus** -- "Now with more scanlines!" with a scrolling rainbow label and Specimen P-92 bouncing
-- **sound** -- Basic sound loading & playback
-- **spr_anim** -- Animated sprite loading, rendering & looping
-- **sprites** -- Sprite loading & rendering, including alpha blended, SprRegion and rotation
-- **vga_crt_effect** -- Pip Boy from Fallout on a fluorescent green CRT, fully CPU-bound rendering
 - **webgl_demo_extended** -- Basic WebGL implementation
 
+## Math & Logic
+
+- **chain_easing** -- Extended easing demo with a state machine
+- **collision** -- Basic rectangle & circle intersection
+- **easings** -- A collection of easing functions
+- **perlin** -- Basic 1D and 2D Perlin noise
+
+## Input
+
+- **gamepad** -- Basic gamepad / controller display of buttons & joystick pair
+
+## Audio
+
+- **music** -- Music loading, playback & looping
+- **sound** -- Basic sound loading & playback
+
+## Graphics & Sprites
+
+- **graphics** -- Basic drawing operations
+- **spr_anim** -- Animated sprite loading, rendering & looping
+- **sprites** -- Sprite loading & rendering, including alpha blended, SprRegion and rotation
+
+## Text & GUI
+
+- **p92_imgui_demo** -- Immediate mode GUI demo, complete with prompt box & 9-slice button
+- **rich_text** -- Basic rich text rendering, including bold, italic, and bold + italic
+
+## Effects & Showcases
+
+- **dos_display** -- A recreation of watered-down DOS with a scrolling scanline background
+- **particles** -- Click to spawn colourful marble particles
+- **scanlines_plus** -- "Now with more scanlines!" with a scrolling rainbow label and Specimen P-92 bouncing
+- **vga_crt_effect** -- Pip Boy from Fallout on a fluorescent green CRT, fully CPU-bound rendering
 
 ## Others
 
