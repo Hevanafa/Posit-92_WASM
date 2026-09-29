@@ -269,7 +269,7 @@ begin
   if lastShowDemoList <> showDemoList then begin
     lastShowDemoList := showDemoList;
 
-    perc := GetPerc(demoListTick, 2.0, getTimer);
+    perc := GetEasingPerc(demoListTick, 2.0, getTimer);
     x := LerpEased(demoListStartX, demoListEndX, perc, @EaseOutQuad);
     
     if lastShowDemoList then begin
@@ -306,7 +306,7 @@ begin
   if IsEasingComplete(demoListTick, EaseDuration, now) then
     x := demoListEndX
   else begin
-    perc := GetPerc(demoListTick, EaseDuration, now);
+    perc := GetEasingPerc(demoListTick, EaseDuration, now);
     x := LerpEased(demoListStartX, demoListEndX, perc, @EaseOutQuad);
   end;
   

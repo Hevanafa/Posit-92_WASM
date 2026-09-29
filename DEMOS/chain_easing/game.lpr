@@ -105,7 +105,7 @@ begin
     if IsEasingComplete(chainEasingTick, EaseDuration, now) then begin
       case chainIdx of
       0: begin
-        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        perc := GetEasingPerc(chainEasingTick, EaseDuration, now);
         x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
 
         startX := trunc(x);
@@ -115,7 +115,7 @@ begin
         inc(chainIdx)
       end;
       1: begin
-        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        perc := GetEasingPerc(chainEasingTick, EaseDuration, now);
         x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
         
         startX := trunc(x);
@@ -129,7 +129,7 @@ begin
       2:
         inc(chainIdx);
       3: begin
-        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        perc := GetEasingPerc(chainEasingTick, EaseDuration, now);
         x := LerpEased(startX, endX, perc, @EaseOutSine);  { current X }
         blinkyX := x;
 
@@ -173,7 +173,7 @@ begin
     case chainIdx of
       2: begin
         { Current state --> apply easing --> handle rendering }
-        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        perc := GetEasingPerc(chainEasingTick, EaseDuration, now);
 
         x := LerpEased(startX, endX, perc, @EaseOutSine);
         angle := LerpEased(startAngle, endAngle, perc, @EaseOutSine);
@@ -181,7 +181,7 @@ begin
         SprRotate(texBlinky, trunc(x) + 8, trunc(blinkyY) + 8, angle);
       end;
       else begin
-        perc := GetPerc(chainEasingTick, EaseDuration, now);
+        perc := GetEasingPerc(chainEasingTick, EaseDuration, now);
         x := LerpEased(startX, endX, perc, @EaseOutSine);
         Spr(texBlinky, trunc(x), trunc(blinkyY));
       end

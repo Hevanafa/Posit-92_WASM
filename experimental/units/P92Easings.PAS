@@ -22,7 +22,7 @@ type
   duration: in seconds
   t: current time, in seconds
 }
-function GetPerc(startTick, duration, t: double): double;
+function GetEasingPerc(startTick, duration, t: double): double;
 
 {
   startTick: in seconds
@@ -60,19 +60,19 @@ implementation
 
 uses P92Maths, P92Timing, P92Panic;
 
-function GetPerc(startTick, duration, t: double): double;
+function GetEasingPerc(startTick, duration, t: double): double;
 begin
   if duration <= 0.0 then begin
-    GetPerc := 1.0;
+    GetEasingPerc := 1.0;
     exit
   end;
 
-  GetPerc := Clamp((t - startTick) / duration, 0.0, 1.0)
+  GetEasingPerc := Clamp((t - startTick) / duration, 0.0, 1.0)
 end;
 
 function IsEasingComplete(const startTick,duration,t:double):boolean;
 begin
-  IsEasingComplete := GetPerc(startTick, duration, t) >= 1.0
+  IsEasingComplete := GetEasingPerc(startTick, duration, t) >= 1.0
 end;
 
 function Lerp(a, z, perc: double): double;
