@@ -35,6 +35,21 @@ You should change the `src` attribute with wherever you have the game files, as 
 
 Consider using binaryen's **wasm-opt** to reduce the size of the game's WASM binary.  The build script `optimise_wasm.pl` has the working command line
 
+### Which files to upload?
+
+Typically a Posit-92 game only requires these:
+
+- `assets` dir
+- `index.html`
+- `posit-92.css`
+- `game.wasm`
+- `game.js`
+- `posit-92.js`
+- mixin files: `.mixin.js`
+- `favicon.ico`
+
+But it ultimately depends on your setup if you ever decide to customise it
+
 ## Complete example
 
 (TBA)
