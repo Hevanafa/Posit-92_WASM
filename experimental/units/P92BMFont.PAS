@@ -261,7 +261,7 @@ begin
   PrintBMFontCharToDest := 0;
   fontPtr := BorrowBMFontPtr(fontHandle);
 
-  if not IsTexSet(destHandle) then exit;
+  if not IsTexReady(destHandle) then exit;
 
   charcode := ord(ch);
 

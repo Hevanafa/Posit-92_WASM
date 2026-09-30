@@ -144,7 +144,8 @@ var
   texture: PSoftwareTex;
 begin
   GetTexWidth := 0;
-  if not IsTexSet(texHandle) then exit;
+
+  if not IsTexReady(texHandle) then exit;
 
   texture := @textures[texHandle].texture;
   GetTexWidth := texture^.width
@@ -154,7 +155,7 @@ procedure SetTexWidth(const texHandle: TTextureHandle; const value: smallint);
 var
   texture: PSoftwareTex;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   if value <= 0 then
     PanicHalt('SetTextureWidth: Invalid width: ' + I32Str(value));
@@ -173,7 +174,8 @@ var
   texture: PSoftwareTex;
 begin
   GetTexHeight := 0;
-  if not IsTexSet(texHandle) then exit;
+
+  if not IsTexReady(texHandle) then exit;
 
   texture := @textures[texHandle].texture;
   GetTexHeight := texture^.height
@@ -183,7 +185,7 @@ procedure SetTexHeight(const texHandle: TTextureHandle; const value: smallint);
 var
   texture: PSoftwareTex;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   if value <= 0 then
     PanicHalt('SetTextureHeight: Invalid height: ' + I32Str(value));

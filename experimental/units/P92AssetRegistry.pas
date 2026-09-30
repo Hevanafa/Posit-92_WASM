@@ -85,7 +85,7 @@ function RequestImage(const path: string): TTextureHandle;
 
 function BorrowTexEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
 function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
-function IsTexSet(const texHandle: TTextureHandle): boolean;
+function IsTexReady(const texHandle: TTextureHandle): boolean;
 procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
@@ -283,9 +283,9 @@ begin
   BorrowTexPtr := @textures[texHandle].texture
 end;
 
-function IsTexSet(const texHandle: TTextureHandle): boolean;
+function IsTexReady(const texHandle: TTextureHandle): boolean;
 begin
-  IsTexSet := false;
+  IsTexReady := false;
 
 {$ifdef PanicOnInvalidHandle}
   if imgHandle <= 0 then
@@ -294,12 +294,12 @@ begin
   if texHandle <= 0 then exit;
 {$endif}
 
-  IsTexSet := textures[texHandle].status = AssetStatusReady
+  IsTexReady := textures[texHandle].status = AssetStatusReady
 end;
 
 procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 begin
-  if not IsTexSet(texHandle) then
+  if not IsTexReady(texHandle) then
     PanicHalt(varName + ' is unset!');
 end;
 
