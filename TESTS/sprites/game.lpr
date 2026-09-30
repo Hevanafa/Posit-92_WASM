@@ -74,7 +74,17 @@ begin
   PrintDefault(s, 10, VgaHeight - 20);
 end;
 
+procedure Init;
+var
+  appConfig: TP92AppConfig;
+begin
+  appConfig := DefaultP92AppConfig;
+
+  P92Start(appConfig);
+end;
+
 exports
+  Init,
   OnPreload,
   OnReady,
   DrawOnce;
