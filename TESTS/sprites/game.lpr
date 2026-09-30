@@ -52,7 +52,8 @@ begin
     Spr(imgSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
 
   { 10000 ops:
-    Original: 0.4650s }
+    Original: 0.4650s
+    With clipping: 0.2080s }
   for a:=1 to opCount do
     SprStretch(
       imgSpecimenP92[0],

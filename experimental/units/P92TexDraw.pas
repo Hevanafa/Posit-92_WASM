@@ -351,23 +351,29 @@ begin
 
   texture := BorrowTexPtr(texHandle);
 
-  { Handle edge cases }
+  { Handle clipping & edge cases }
 
   if (destX > ClipX2) or (destY > ClipY2)
     or (longint(destX) + destWidth - 1 < ClipX1)
     or (longint(destY) + destHeight - 1 < ClipY1) then exit;
 
+  startDy := 0;
+  endDy := destHeight - 1;
+
+  if destY < clipy1 then
+    startDy := clipy1 - destY;
+
+  if longint(destY) + endDy > ClipY2 then
+    endDy := ClipY2 - destY;
+
   startDx := 0;
   endDx := destWidth - 1;
 
-  if destX < clip1 then
+  if destX < ClipX1 then
     startDx := ClipX1 - destX;
 
   if longint(destX) + endDx > ClipX2 then
     endDx := ClipX2 - destX;
-
-  { TODO: Implement DY clipping }
-
 
   { Render logic }
 
