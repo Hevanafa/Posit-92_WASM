@@ -374,24 +374,19 @@ begin
   scaleX := texture^.width / destWidth;
   scaleY := texture^.height / destHeight;
 
-  { TODO: Replace starts and ends for DY and DX }
+  for dy := startDy to endDy do
+    for dx := startDx to endDx do begin
+      sx := trunc(dx * scaleX);
+      sy := trunc(dy * scaleY);
 
-  for dy := 0 to destHeight - 1 do
-  for dx := 0 to destWidth - 1 do begin
-    if (destX + dx > ClipX2) or (destX + dx < ClipX1)
-      or (destY + dy > ClipY2) or (destY + dy < ClipY1) then continue;
+      srcOffset := (sx + sy * texture^.width) * 4;
+      alpha := texture^.pixelData[srcOffset + 3];
 
-    sx := trunc(dx * scaleX);
-    sy := trunc(dy * scaleY);
+      if alpha < 255 then continue;
 
-    srcOffset := (sx + sy * texture^.width) * 4;
-    alpha := texture^.pixelData[srcOffset + 3];
-
-    if alpha < 255 then continue;
-
-    colour := UnsafeTexPGet(texture, sx, sy);
-    UnsafePSet(dx + destX, dy + destY, colour);
-  end;
+      colour := UnsafeTexPGet(texture, sx, sy);
+      UnsafePSet(dx + destX, dy + destY, colour);
+    end;
 end;
 
 procedure SprRegionStretch(
