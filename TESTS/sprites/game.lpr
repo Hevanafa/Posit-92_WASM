@@ -33,6 +33,7 @@ function TestSpr(const opCount: word): double;
 var
   startTick, endTick: double;
   a: word;
+  flips: TSprFlips;
 begin
   startTick := GetTimer;
 
@@ -50,17 +51,34 @@ begin
   { for a:=1 to OpCount do
     Spr(texSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
 
-  { 10000 ops:
+  { 10000 ops
     Original: 0.4650s
     With clipping: 0.2080s
     Direct address assignment: 0.1280s
   }
+  {
   for a:=1 to opCount do
     SprStretch(
       texSpecimenP92[0],
       random(VgaWidth) - 10,
       random(VgaHeight) - 10,
       10 + random(30), 10 + random(30));
+  }
+
+  { 10000 ops
+    Original: 0.3810s
+  }
+  for a:=1 to opCount do begin
+    flips := [];
+
+    if (a and 1) <> 0 then include(flips, SprFlipHorizontal);
+    if (a and 2) <> 0 then include(flips, SprFlipVertical);
+
+    SprFlipped(
+      texSpecimenP92[0],
+      random(VgaWidth) - 12,
+      random(VgaHeight) - 12, flips)
+  end;
 
   endTick := GetTimer;
 
