@@ -341,15 +341,19 @@ var
   startDx, endDx, startDy, endDy: longint;
 
   srcOffset: longword;
+  srcStride, srcRowOffset: longword;
+  destRowY: longint;
+
   texture: PSoftwareTex;
   alpha: byte;
-  scaleX, scaleY: double;
+  scaleX: double;
   colour: longword;
 begin
   if not IsTexReady(texHandle) then exit;
   if (destWidth <= 0) or (destHeight <= 0) then exit;
 
   texture := BorrowTexPtr(texHandle);
+  if (texture^.width <= 0) or (texture^.height <= 0) then exit;
 
   { Handle clipping & edge cases }
 
@@ -378,14 +382,16 @@ begin
   { Render logic }
 
   scaleX := texture^.width / destWidth;
-  scaleY := texture^.height / destHeight;
+  srcStride := longword(texture^.width) * 4;
 
-  for dy := startDy to endDy do
+  for dy := startDy to endDy do begin
+    sy := (longint(dy) * texture^.height) div destHeight;
+    srcRowOffset := longword(sy) * srcStride;
+    destRowY := longint(destY) * dy;
+
     for dx := startDx to endDx do begin
       sx := trunc(dx * scaleX);
-      sy := trunc(dy * scaleY);
-
-      srcOffset := (sx + sy * texture^.width) * 4;
+      srcOffset := srcRowOffset + longword(sx) * 4;
       alpha := texture^.pixelData[srcOffset + 3];
 
       if alpha < 255 then continue;
@@ -393,6 +399,7 @@ begin
       colour := UnsafeTexPGet(texture, sx, sy);
       UnsafePSet(dx + destX, dy + destY, colour);
     end;
+  end;
 end;
 
 procedure SprRegionStretch(
