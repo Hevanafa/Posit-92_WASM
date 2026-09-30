@@ -11,7 +11,9 @@ library Game;
 
 uses
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
-  P92Keyboard, P92Mouse, P92TexDraw, P92Timing, P92VGA, P92PanicDisplay,
+  P92Keyboard, P92Mouse,
+  P92Tex, P92TexDraw, P92TexComp, P92TexEffects,
+  P92Timing, P92VGA,
   Assets;
 
 var

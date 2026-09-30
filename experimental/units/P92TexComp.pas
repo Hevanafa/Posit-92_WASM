@@ -31,7 +31,7 @@ var
   colour: longword;
   alpha: byte;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texturePtr := BorrowTexPtr(texHandle);
   opacity := clamp(opacity, 0.0, 1.0);
@@ -58,7 +58,7 @@ var
   px, py: smallint;
   colour: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texturePtr := BorrowTexPtr(texHandle);
 

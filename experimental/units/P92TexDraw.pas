@@ -88,7 +88,7 @@ var
   offset: longword;
   alpha: byte;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -134,7 +134,7 @@ var
   alpha: byte;
   colour: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -168,7 +168,7 @@ var
 
   ABGR: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -212,7 +212,7 @@ var
   px, py: smallint;
   ABGR: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
   ABGR := ARGBtoABGR(colour);
@@ -239,7 +239,7 @@ var
   alpha: byte;
   colour: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -276,7 +276,7 @@ var
   srcOffset: longword;
   alpha: byte;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   { Handle clipping }
 
@@ -330,7 +330,7 @@ var
   scaleX, scaleY: double;
   colour: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
   texture := BorrowTexPtr(texHandle);
 
   scaleX := texture^.width / destWidth;
@@ -365,7 +365,7 @@ var
   scaleX, scaleY: double;
   colour: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
   texture := BorrowTexPtr(texHandle);
 
   scaleX := srcWidth / destWidth;
@@ -406,7 +406,7 @@ var
   alpha: byte;
   ABGR: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
   ABGR := ARGBtoABGR(colour);
@@ -446,7 +446,7 @@ begin
     exit
   end;
 
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -498,7 +498,7 @@ var
   halfW, halfH: smallint;
   maxRadius: smallint;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
   texture := BorrowTexPtr(texHandle);
 
   { Negative for inverse transform }
@@ -543,7 +543,7 @@ var
   alpha: byte;
   colour: longword;
 begin
-  if not IsTexSet(src) or not IsTexSet(dest) then exit;
+  if not IsTexReady(src) or not IsTexReady(dest) then exit;
 
   srcTex := BorrowTexPtr(src);
   destTex := BorrowTexPtr(dest);
@@ -577,8 +577,8 @@ var
   alpha: byte;
   colour: longword;
 begin
-  if not IsTexSet(src) then PanicHalt('SprRegionToDest: src handle is unset!');
-  if not IsTexSet(dest) then PanicHalt('SprRegionToDest: dest handle is unset!');
+  if not IsTexReady(src) then PanicHalt('SprRegionToDest: src handle is unset!');
+  if not IsTexReady(dest) then PanicHalt('SprRegionToDest: dest handle is unset!');
 
   srcTex := BorrowTexPtr(src);
   destTex := BorrowTexPtr(dest);
@@ -611,7 +611,7 @@ var
   pos1, pos2: longint;
 begin
   if flip = SprFlipNone then exit;
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 

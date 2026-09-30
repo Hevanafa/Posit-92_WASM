@@ -29,7 +29,7 @@ var
   a, b: smallint;
   texture: PSoftwareTex;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -77,7 +77,7 @@ var
   texture: PSoftwareTex;
   alpha: byte;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -108,7 +108,7 @@ var
   a, b: word;
   texture: PSoftwareTex;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
