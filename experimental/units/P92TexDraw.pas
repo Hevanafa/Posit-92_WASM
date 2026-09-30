@@ -43,6 +43,7 @@ procedure SprRegion(
   const srcX, srcY, srcW, srcH: smallint;
   const destX, destY: smallint);
 
+{ Stretch a sprite with nearest neighbour scaling }
 procedure SprStretch(
   const texHandle: TTextureHandle;
   const destX, destY, destWidth, destHeight: smallint);
@@ -294,18 +295,25 @@ begin
 
   { Handle clipping }
 
-  startX := 0;
-  endX := srcW - 1;
   startY := 0;
   endY := srcH - 1;
 
-  if destX + startX < ClipX1 then startX := ClipX1 - destX;
-  if destX + endX > ClipX2 then endX := ClipX2 - destX;
+  if destY + startY < ClipY1 then
+    startY := ClipY1 - destY;
+  if destY + endY > ClipY2 then
+    endY := ClipY2 - destY;
 
-  if destY + startY < ClipY1 then startY := ClipY1 - destY;
-  if destY + endY > ClipY2 then endY := ClipY2 - destY;
+  startX := 0;
+  endX := srcW - 1;
+
+  if destX + startX < ClipX1 then
+    startX := ClipX1 - destX;
+  if destX + endX > ClipX2 then
+    endX := ClipX2 - destX;
 
   if (startX > endX) or (startY > endY) then exit;
+
+  { Render logic }
 
   texture := BorrowTexPtr(texHandle);
   texWidth4 := texture^.width * 4;
@@ -329,7 +337,6 @@ begin
   end;
 end;
 
-{ Stretch a sprite with nearest neighbour scaling }
 
 procedure SprStretch(
   const texHandle: TTextureHandle;
@@ -415,6 +422,7 @@ var
   colour: longword;
 begin
   if not IsTexReady(texHandle) then exit;
+
   texture := BorrowTexPtr(texHandle);
 
   scaleX := srcWidth / destWidth;
