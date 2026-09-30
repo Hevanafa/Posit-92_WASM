@@ -54,7 +54,10 @@ body {
   box-sizing: border-box;
 
   pointer-events: none;
+}
 
+#play-overlay > button > .visual,
+#play-overlay > button > img {
   transition:
     filter 0.2s ease-out,
     transform 0.2s ease-out;
@@ -100,6 +103,10 @@ body {
   will-change: filter;
 
   transform: scale(2);
+}
+
+#play-overlay > button:active > img {
+  transform: scale(1.84)
 }
 
 
