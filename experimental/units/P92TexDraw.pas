@@ -489,8 +489,6 @@ procedure SprFlipped(
   const x, y: smallint;
   const flip: TSprFlips);
 var
-  sx, sy: smallint;
-
   dx, dy: longint;
   startX, endX, startY, endY: longint;
   srcStartX, srcStartY: longint;
@@ -499,8 +497,6 @@ var
 
   texture: PSoftwareTex;
   flipH, flipV: boolean;
-
-  alpha: byte;
   colour: longword;
 begin
   if not IsTexReady(texHandle) then exit;
