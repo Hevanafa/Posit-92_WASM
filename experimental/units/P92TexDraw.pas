@@ -23,8 +23,7 @@ uses P92AssetHandles;
 type
   TSprFlip = (
     SprFlipHorizontal,
-    SprFlipVertical,
-    SprFlipBoth
+    SprFlipVertical
   );
   TSprFlips = set of TSprFlip;
 
@@ -73,7 +72,7 @@ procedure SprRegionToDest(
   const srcX, srcY, srcW, srcH: smallint;
   const destX, destY: smallint);
 
-procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: smallint);
+procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: TSprFlips);
 
 
 implementation
@@ -467,16 +466,11 @@ begin
     dx := x + sx;
     dy := y + sy;
 
-    case flip of
-      SprFlipHorizontal:
-        dx := x + texture^.width - sx - 1;
-      SprFlipVertical:
-        dy := y + texture^.height - sy - 1;
-      else begin
-        dx := x + texture^.width - sx - 1;
-        dy := y + texture^.height - sy - 1;
-      end
-    end;
+    if SprFlipHorizontal in flip then
+      dx := x + texture^.width - sx - 1;
+
+    if SprFlipVertical in flip then
+      dy := y + texture^.height - sy - 1;
 
     if (dx > ClipX2) or (dx < ClipX1)
       or (dy > ClipY2) or (dy < ClipY1) then continue;
