@@ -79,6 +79,7 @@ function RequestImage(const path: string): TTextureHandle;
 {$endif}
 
 function BorrowTexEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
+function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 function BorrowBMFontPtr(const bmfontHandle: TBMFontHandle): PBMFont;
@@ -269,6 +270,12 @@ begin
 
   BorrowTexEntryPtr := @textures[texHandle]
 end;
+
+function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
+begin
+  BorrowTexPtr := @textures[texHandle].texture
+end;
+
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 begin

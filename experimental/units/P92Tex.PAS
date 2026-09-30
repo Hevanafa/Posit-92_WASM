@@ -47,8 +47,7 @@ function CloneTex(const texHandle: TTextureHandle): TTextureHandle;
 procedure FreeTex(const texHandle: TTextureHandle);
 
 function IsTexSet(const texHandle: TTextureHandle): boolean;
-procedure AssertTexSet(const varName: string; const texHandle: longint);
-function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
+procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 
 function GetTexWidth(const texHandle: TTextureHandle): smallint;
 procedure SetTexWidth(const texHandle: TTextureHandle; const value: smallint);
@@ -157,16 +156,12 @@ begin
   IsTexSet := textures[texHandle].status = AssetStatusReady
 end;
 
-procedure AssertTexSet(const varName: string; const texHandle: longint);
+procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 begin
   if not IsTexSet(texHandle) then
     PanicHalt(varName + ' is unset!');
 end;
 
-function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
-begin
-  BorrowTexPtr := @textures[texHandle].texture
-end;
 
 function GetTexWidth(const texHandle: TTextureHandle): smallint;
 var
