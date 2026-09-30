@@ -4,6 +4,9 @@
 
   --overlay-width: 640px;
   --overlay-height: 400px;
+
+  --play-button-width: 192px;
+  --play-button-height: 192px;
 }
 
 body {
@@ -16,78 +19,81 @@ body {
   position: absolute;
   margin: auto;
   inset: 0;
-  width: var(--overlay-width);
-  height: var(--overlay-height);
-
-  background: inherit;
-}
-
-#play-overlay::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgb(223, 223, 223, 0.2) 0px,  /* #dfdfdf */
-    rgb(223, 223, 223, 0.2) 2px,
-    transparent 2px,
-    transparent 6px
-  );
+  width: fit-content;
+  height: fit-content;
 }
 
 #play-overlay > button {
-  position: absolute;
-  margin: auto;
-  inset: 0;
+  position: relative;
 
   font-size: 32px;
   color: white;
   cursor: pointer;
 
-  /* Warm Flame from https://webgradients.com/ */
-  /* background-image: linear-gradient(45deg, #ff9a9e, #fad0c4); */
+  width: var(--play-button-width);
+  height: var(--play-button-height);
 
   background: transparent;
-  border: 1px solid var(--posit-92-dark-accent);
+  border: none;
+}
+
+#play-overlay > button > .visual {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: linear-gradient(to bottom, #E3E3E3, #717171);
+  /* border: 1px solid var(--posit-92-dark-accent); */
   box-sizing: border-box;
 }
 
-@keyframes yellow-neon {
-  0% { filter: drop-shadow(0 0 12px #FFFF55) }
-  50% { filter: drop-shadow(0 0 20px #FFFF55) }
-  100% { filter: drop-shadow(0 0 12px #FFFF55) }
+#play-overlay > button > .visual,
+#play-overlay > button > img {
+  transition:
+    filter 0.2s ease-out,
+    transform 0.2s ease-out;
 }
 
-@keyframes white-neon {
-  0% { filter: drop-shadow(0 0 6px white) }
-  50% { filter: drop-shadow(0 0 14px white) }
-  100% { filter: drop-shadow(0 0 6px white) }
+#play-overlay > button > .visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: repeating-conic-gradient(
+    from 92deg,
+    #E3E3E3 0deg,
+    #717171 36deg,
+    #E3E3E3 72deg);
+  width: 92%;
+  height: 92%;
+}
+
+#play-overlay > button:hover > .visual {
+  filter: brightness(1.1);
+}
+
+#play-overlay > button:active > .visual {
+  filter: brightness(0.8);
+  transform: scale(0.92);
 }
 
 #play-overlay > button > img {
-  image-rendering: pixelated;
-
+  image-rendering: pixelated;  
   filter: drop-shadow(0 0 12px #FFFF55);
-  will-change: filter;
-
   transform: scale(2);
-  transition: transform 0.2s ease-out;
 }
 
-#play-overlay > button:hover > img {
-  transform: scale(2.1)
+#play-overlay > button:active > img {
+  transform: scale(1.84)
 }
 
-#play-overlay > button.animated > img {
-  animation: yellow-neon 3.0s ease-in-out infinite;
-  transition: filter 0.2s ease-out;
-}
-
-#play-overlay > button.animated:hover > img {
-  animation: white-neon 2.4s ease-in-out infinite;
-}
 
 
 #game {
