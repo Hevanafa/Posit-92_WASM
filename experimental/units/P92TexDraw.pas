@@ -341,13 +341,12 @@ var
   startDx, endDx, startDy, endDy: longint;
 
   srcOffset: longword;
-  srcStride, srcRowOffset: longword;
-  destRowY: longint;
+  srcStride, srcRowOffset, destOffset: longword;
 
   texture: PSoftwareTex;
-  alpha: byte;
+  surface: PByteArray;
   scaleX: double;
-  colour: longword;
+  ABGR: longword;
 begin
   if not IsTexReady(texHandle) then exit;
   if (destWidth <= 0) or (destHeight <= 0) then exit;
@@ -381,23 +380,24 @@ begin
 
   { Render logic }
 
+  surface := BorrowSurfacePtr;
   scaleX := texture^.width / destWidth;
   srcStride := longword(texture^.width) * 4;
 
   for dy := startDy to endDy do begin
     sy := (longint(dy) * texture^.height) div destHeight;
     srcRowOffset := longword(sy) * srcStride;
-    destRowY := longint(destY) * dy;
 
     for dx := startDx to endDx do begin
       sx := trunc(dx * scaleX);
       srcOffset := srcRowOffset + longword(sx) * 4;
-      alpha := texture^.pixelData[srcOffset + 3];
+      ABGR := PLongWord(@texture^.pixelData[srcOffset])^;
 
-      if alpha < 255 then continue;
+      if ABGR < $FF000000 then continue;
 
-      colour := UnsafeTexPGet(texture, sx, sy);
-      UnsafePSet(dx + destX, dy + destY, colour);
+      destOffset := (longword(dy + destY) * VGAWidth + longword(dx + destX)) * 4;
+
+      PLongWord(@surface^[destOffset])^ := ABGR;
     end;
   end;
 end;
