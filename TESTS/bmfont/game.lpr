@@ -39,10 +39,10 @@ end;
 
 procedure OnPreload;
 begin
-  imgCursor := RequestImage('assets/images/cursor.png');
+  texCursor := RequestImage('assets/images/cursor.png');
 
-  imgSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
-  imgSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
+  texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
+  texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
 
   { font := RequestBMFont('assets/fonts/p92_sans_8.txt'); }
   font := RequestBMFont('assets/fonts/p92_sans_8_bold.txt');
@@ -50,14 +50,9 @@ end;
 
 procedure OnReady;
 begin
-
+  HideCursor;
 end;
 
-
-procedure DrawMouse;
-begin
-  spr(imgCursor, mouseX, mouseY)
-end;
 
 procedure DrawOnce;
 const
@@ -104,19 +99,28 @@ begin
   Cls($FF6495ED);
 
   if (trunc(gameTime * 4) and 1) > 0 then
-    Spr(imgSpecimenP92[1], 148, 84)
+    Spr(texSpecimenP92[1], 148, 84)
   else
-    Spr(imgSpecimenP92[0], 148, 84);
+    Spr(texSpecimenP92[0], 148, 84);
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 
-  GlyphTest;
+  GlyphTest
+end;
 
-  DrawMouse;
-  DrawFPS;
+procedure Init;
+var
+  appConfig: TP92AppConfig;
+begin
+  appConfig := DefaultP92AppConfig;
+
+  appConfig.EnableDrawFPS := true;
+
+  P92Start(appConfig);
 end;
 
 exports
+  Init,
   OnPreload,
   OnReady,
   Update, Draw;

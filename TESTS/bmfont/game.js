@@ -1,6 +1,6 @@
 "use strict";
 
-class Game extends SoundMixin(BMFontMixin(Posit92)) {
+class Game extends BMFontMixin(Posit92) {
 }
 
 async function Main() {
@@ -11,6 +11,5 @@ async function Main() {
 function Play() {
   const overlay = document.getElementById("play-overlay");
   overlay.parentNode.removeChild(overlay);
-
   Main()
 }
