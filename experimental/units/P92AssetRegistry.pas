@@ -1,3 +1,8 @@
+{
+  Asset Registry unit
+  Part of Posit-92 game engine
+}
+
 unit P92AssetRegistry;
 
 {$Mode ObjFPC}
