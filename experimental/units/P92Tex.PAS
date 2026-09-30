@@ -34,13 +34,6 @@ type
     pixelData: PByte;
   end;
 
-const
-  { SprFlips enum }
-  SprFlipNone = 0;
-  SprFlipHorizontal = 1;
-  SprFlipVertical = 2;
-  SprFlipBoth = SprFlipHorizontal or SprFlipVertical;
-
 
 function NewTex(const width, height: smallint): TTextureHandle;
 function CloneTex(const texHandle: TTextureHandle): TTextureHandle;

@@ -20,6 +20,12 @@ interface
 
 uses P92AssetHandles;
 
+const
+  SprFlipNone = 0;
+  SprFlipHorizontal = 1;
+  SprFlipVertical = 2;
+  SprFlipBoth = SprFlipHorizontal or SprFlipVertical;
+
 procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);
 
 procedure SprTint(const texHandle: TTextureHandle; const x, y: smallint; const colour: longword);
