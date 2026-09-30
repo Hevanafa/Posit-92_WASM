@@ -20,11 +20,13 @@ interface
 
 uses P92AssetHandles;
 
-const
-  SprFlipNone = 0;
-  SprFlipHorizontal = 1;
-  SprFlipVertical = 2;
-  SprFlipBoth = SprFlipHorizontal or SprFlipVertical;
+type
+  TSprFlip = (
+    SprFlipHorizontal,
+    SprFlipVertical,
+    SprFlipBoth
+  );
+  TSprFlips = set of TSprFlip;
 
 procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);
 
@@ -56,7 +58,7 @@ procedure SprRegionTint(
 procedure SprFlipped(
   const texHandle: TTextureHandle;
   const x, y: smallint;
-  const flip: smallint);
+  const flip: TSprFlips);
 
 { rotation is in radians }
 procedure SprRotate(
@@ -433,11 +435,10 @@ begin
   end;
 end;
 
-{ flip: use SprFlips enum }
 procedure SprFlipped(
   const texHandle: TTextureHandle;
   const x, y: smallint;
-  const flip: smallint
+  const flip: TSprFlips
 );
 var
   sx, sy: smallint;
@@ -447,7 +448,7 @@ var
   alpha: byte;
   colour: longword;
 begin
-  if flip = SprFlipNone then begin
+  if flip = [] then begin
     Spr(texHandle, x, y);
     exit
   end;
@@ -607,8 +608,7 @@ begin
   end;
 end;
 
-{ flip: Use SprFlipped enum }
-procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: smallint);
+procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: TSprFlips);
 var
   texture: PSoftwareTex;
   px, py: smallint;
@@ -616,13 +616,13 @@ var
   tempColour: longword;
   pos1, pos2: longint;
 begin
-  if flip = SprFlipNone then exit;
+  if flip = [] then exit;
   if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
   { Horizontal flip }
-  if (flip and SprFlipHorizontal) <> 0 then begin
+  if SprFlipHorizontal in flip then begin
     halfW := texture^.width div 2;
 
     for py:=0 to texture^.height - 1 do
@@ -637,8 +637,7 @@ begin
     end;
   end;
 
-  { Vertical flip }
-  if (flip and SprFlipVertical) <> 0 then begin
+  if SprFlipVertical in flip then begin
     halfH := texture^.height div 2;
 
     for py:=0 to halfH - 1 do
