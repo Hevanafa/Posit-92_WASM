@@ -487,8 +487,7 @@ end;
 procedure SprFlipped(
   const texHandle: TTextureHandle;
   const x, y: smallint;
-  const flip: TSprFlips
-);
+  const flip: TSprFlips);
 var
   sx, sy: smallint;
   dx, dy: smallint;
@@ -496,7 +495,8 @@ var
   startX, endX, startY, endY: longint;
   srcOffset: longword;
   texture: PSoftwareTex;
-  w, h: longint;
+  flipH, flipV: boolean;
+
   alpha: byte;
   colour: longword;
 begin
@@ -508,6 +508,7 @@ begin
   end;
 
   texture := BorrowTexPtr(texHandle);
+  if texture = nil then exit;
   if (texture^.width <= 0) or (texture^.height <= 0) then exit;
 
   { Handle edge cases & clipping }
@@ -522,7 +523,7 @@ begin
     endY := ClipY2;
 
   startX := x;
-  endX := x + texture^.height - 1;
+  endX := x + texture^.width - 1;
 
   if startX < ClipX1 then
     startX := ClipX1;
@@ -535,10 +536,11 @@ begin
 
   { Render logic }
 
-  { TODO: Move flips out of the loop}
+  flipH := SprFlipHorizontal in flip;
+  flipV := SprFlipVertical in flip;
 
-  for sy := 0 to texture^.height - 1 do
-    for sx := 0 to texture^.width - 1 do begin
+  for sy := startY to endY do begin
+    for sx := startX to endX do begin
       srcOffset := (sx + sy * texture^.width) * 4;
       alpha := texture^.pixelData[srcOffset + 3];
 
@@ -559,6 +561,7 @@ begin
       colour := UnsafeTexPGet(texture, sx, sy);
       UnsafePSet(dx, dy, colour);
     end;
+  end;
 end;
 
 procedure SprRotate(
