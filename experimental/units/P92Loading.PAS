@@ -18,7 +18,11 @@ implementation
 
 uses
   P92Core, P92Conversions, P92AssetRegistry,
-  P92VGA, P92WebGL;
+  P92VGA
+{$IFDEF P92_WEBGL}
+  , P92WebGL
+{$ENDIF}
+  ;
 
 procedure RenderLoadingScreen;
 var
@@ -30,11 +34,12 @@ begin
   Print(s, 8, 16);
 
   VGAUpload;
-{$ifdef P92_WEBGL}
+
+{$IFDEF P92_WEBGL}
   WebGLPresent;
-{$else}
+{$ELSE}
   VGAPresent;
-{$endif}
+{$ENDIF}
 end;
 
 end.
