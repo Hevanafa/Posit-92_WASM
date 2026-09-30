@@ -490,10 +490,13 @@ procedure SprFlipped(
   const flip: TSprFlips);
 var
   sx, sy: smallint;
-  dx, dy: smallint;
 
+  dx, dy: longint;
   startX, endX, startY, endY: longint;
-  srcOffset: longword;
+  srcStartX, srcStartY: longint;
+  srcStepX, srcRowStep: longint;
+  srcRowOffset, srcOffset: longint;
+
   texture: PSoftwareTex;
   flipH, flipV: boolean;
 
@@ -539,28 +542,37 @@ begin
   flipH := SprFlipHorizontal in flip;
   flipV := SprFlipVertical in flip;
 
-  for sy := startY to endY do begin
-    for sx := startX to endX do begin
-      srcOffset := (sx + sy * texture^.width) * 4;
-      alpha := texture^.pixelData[srcOffset + 3];
+  if flipH then begin
+    srcStartX := (x + texture^.width - 1) - startX;
+    srcStepX := -4
+  end else begin
+    srcStartX := startX - x;
+    srcStepX := 4
+  end;
 
-      if alpha < 255 then continue;
+  if flipV then begin
+    srcStartY := (y + texture^.height - 1) - startY;
+    srcRowStep := -texture^.width * 4;
+  end else begin
+    srcStartY := startY - y;
+    srcRowStep := texture^.width * 4;
+  end;
 
-      dx := x + sx;
-      dy := y + sy;
+  srcRowOffset := (srcStartY * texture^.width + srcStartX) * 4;
 
-      if SprFlipHorizontal in flip then
-        dx := x + texture^.width - sx - 1;
+  for dy := startY to endY do begin
+    srcOffset := srcRowOffset;
 
-      if SprFlipVertical in flip then
-        dy := y + texture^.height - sy - 1;
+    for dx := startX to endX do begin
+      if texture^.pixelData[srcOffset + 3] = 255 then begin
+        colour := PLongWord(@texture^.pixelData[srcOffset])^;
+        UnsafePSet(dx, dy, colour);
+      end;
 
-      if (dx > ClipX2) or (dx < ClipX1)
-        or (dy > ClipY2) or (dy < ClipY1) then continue;
-
-      colour := UnsafeTexPGet(texture, sx, sy);
-      UnsafePSet(dx, dy, colour);
+      inc(srcOffset, srcStepX)
     end;
+
+    inc(srcRowOffset, srcRowStep)
   end;
 end;
 
