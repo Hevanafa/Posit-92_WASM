@@ -26,7 +26,7 @@ end;
 
 procedure OnReady;
 begin
-
+  RandSeed := 255;
 end;
 
 
@@ -48,8 +48,15 @@ begin
     After row stride opt: 0.1300s
     After PGet inlining: 0.0920s
     After pointer dereferencing on both SprPGet and PSet: 0.0560s }
-  for a:=1 to OpCount do
-    Spr(imgSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12);
+  { for a:=1 to OpCount do
+    Spr(imgSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
+
+  for a:=1 to opCount do
+    SprStretch(
+      imgSpecimenP92[0],
+      random(VgaWidth) - 10,
+      random(VgaHeight) - 10,
+      10 + random(20), 10 + random(20));
 
   endTick := GetTimer;
 

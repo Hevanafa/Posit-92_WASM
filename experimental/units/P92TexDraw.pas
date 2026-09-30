@@ -104,6 +104,7 @@ begin
   texture := BorrowTexPtr(texHandle);
 
   { Handle clipping }
+
   startX := trunc(max(0, ClipX1 - x));
   endX := trunc(min(texture^.width - 1, ClipX2 - x));
 
@@ -111,6 +112,8 @@ begin
   endY := trunc(min(texture^.height - 1, ClipY2 - y));
 
   if (startX > endX) or (startY > endY) then exit;
+
+  { Render logic }
 
   stride := texture^.width * 4;
   destStride := VGAWidth * 4;
@@ -342,6 +345,7 @@ var
   colour: longword;
 begin
   if not IsTexReady(texHandle) then exit;
+
   texture := BorrowTexPtr(texHandle);
 
   scaleX := texture^.width / destWidth;
