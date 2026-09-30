@@ -90,6 +90,7 @@ procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 function BorrowBMFontPtr(const bmfontHandle: TBMFontHandle): PBMFont;
+function IsBMFontReady(const bmfontHandle: TBMFontHandle): boolean;
 
 {$ifdef P92_WASM}
 procedure JsRequestBMFont(bmfontHandle: longint); external 'env' name 'JsRequestBMFont';
@@ -317,11 +318,14 @@ end;
 
 function BorrowBMFontPtr(const bmfontHandle: TBMFontHandle): PBMFont;
 begin
-  { if bmfonts[bmfontHandle].status <> AssetStatusReady then
-    raise Exception.Create('Attempting to use bmfont ' + i32str(bmfontHandle)); }
-
   BorrowBMFontPtr := @bmfonts[bmfontHandle]
 end;
+
+function IsBMFontReady(const bmfontHandle: TBMFontHandle): boolean;
+begin
+  IsBMFontReady := bmfonts[bmfontHandle].status = AssetStatusReady;
+end;
+
 
 {$ifdef P92_WASM}
 function RequestBMFont(const path: string): longint;
