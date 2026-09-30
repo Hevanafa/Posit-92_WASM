@@ -9,3 +9,19 @@ use strict;
 use warnings;
 use v5.38.2;
 
+use File::Copy;
+
+my $dh;
+opendir $dh, "DEMOS";
+
+for (grep { ($_ !~ /\./) && (-d "DEMOS/".$_) } readdir $dh) {
+  next if "DEMOS/hello_demoscene" eq "DEMOS/$_";
+
+  copy(
+    "DEMOS/hello_demoscene/posit-92.css",
+    "DEMOS/$_/posit-92.css")
+}
+
+closedir $dh;
+
+# TODO: Handle TESTS dirs
