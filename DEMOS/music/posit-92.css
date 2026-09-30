@@ -85,6 +85,10 @@ body {
 }
 
 #play-overlay > button > img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  
   image-rendering: pixelated;  
   filter: drop-shadow(0 0 12px #FFFF55);
   transform: scale(2);
