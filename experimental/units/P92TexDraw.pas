@@ -497,7 +497,7 @@ var
 
   texture: PSoftwareTex;
   flipH, flipV: boolean;
-  colour: longword;
+  ABGR: longword;
 begin
   if not IsTexReady(texHandle) then exit;
 
@@ -560,10 +560,10 @@ begin
     srcOffset := srcRowOffset;
 
     for dx := startX to endX do begin
-      if texture^.pixelData[srcOffset + 3] = 255 then begin
-        colour := PLongWord(@texture^.pixelData[srcOffset])^;
-        UnsafePSet(dx, dy, colour);
-      end;
+      ABGR := PLongWord(@texture^.pixelData[srcOffset])^;
+
+      if ABGR >= $FF000000 then
+        UnsafePSet(dx, dy, ABGR);
 
       inc(srcOffset, srcStepX)
     end;
