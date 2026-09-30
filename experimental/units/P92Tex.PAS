@@ -46,7 +46,6 @@ function NewTex(const width, height: smallint): TTextureHandle;
 function CloneTex(const texHandle: TTextureHandle): TTextureHandle;
 procedure FreeTex(const texHandle: TTextureHandle);
 
-function IsTexSet(const texHandle: TTextureHandle): boolean;
 procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 
 function GetTexWidth(const texHandle: TTextureHandle): smallint;
@@ -140,21 +139,6 @@ begin
 end;
 
 
-function IsTexSet(const texHandle: TTextureHandle): boolean;
-begin
-  IsTexSet := false;
-
-{$ifdef PanicOnInvalidHandle}
-  if imgHandle <= 0 then
-    panicHalt('Invalid imgHandle: ' + i32str(imgHandle));
-{$else}
-  if texHandle <= 0 then exit;
-{$endif}
-
-  { IsTexSet := (textures[texHandle].width > 0) and (textures[texHandle].height > 0) }
-  { IsTexSet := (textures[texHandle].allocSize > 0) }
-  IsTexSet := textures[texHandle].status = AssetStatusReady
-end;
 
 procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 begin

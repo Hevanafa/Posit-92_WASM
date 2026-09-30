@@ -85,6 +85,7 @@ function RequestImage(const path: string): TTextureHandle;
 
 function BorrowTexEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
 function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
+function IsTexSet(const texHandle: TTextureHandle): boolean;
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 function BorrowBMFontPtr(const bmfontHandle: TBMFontHandle): PBMFont;
@@ -279,6 +280,22 @@ end;
 function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
 begin
   BorrowTexPtr := @textures[texHandle].texture
+end;
+
+function IsTexSet(const texHandle: TTextureHandle): boolean;
+begin
+  IsTexSet := false;
+
+{$ifdef PanicOnInvalidHandle}
+  if imgHandle <= 0 then
+    panicHalt('Invalid imgHandle: ' + i32str(imgHandle));
+{$else}
+  if texHandle <= 0 then exit;
+{$endif}
+
+  { IsTexSet := (textures[texHandle].width > 0) and (textures[texHandle].height > 0) }
+  { IsTexSet := (textures[texHandle].allocSize > 0) }
+  IsTexSet := textures[texHandle].status = AssetStatusReady
 end;
 
 
