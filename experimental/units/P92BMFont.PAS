@@ -45,7 +45,10 @@ procedure PrintBMFont(
 
 function MeasureBMFont(
   const fontHandle: TBMFontHandle;
-  const text: string): smallint;
+  const text: string
+): smallint;
+
+function GetBMFontLineHeight(const bmfontHandle: TBMFontHandle): smallint;
 
 function PrintBMFontCharColour(
   const fontHandle: TBMFontHandle;
@@ -63,7 +66,8 @@ function PrintBMFontCharToDest(
   const fontHandle: TBMFontHandle;
   const destHandle: longint;
   const ch: char;
-  const x, y: smallint): smallint;
+  const x, y: smallint
+): smallint;
 
 procedure PrintBMFontToDest(
   const fontHandle: TBMFontHandle;
@@ -165,7 +169,8 @@ end;
 
 function MeasureBMFont(
   const fontHandle: TBMFontHandle;
-  const text: string): smallint;
+  const text: string
+): smallint;
 var
   fontPtr: PBMFont;
   a: word;
@@ -187,6 +192,12 @@ begin
         inc(MeasureBMFont, fontPtr^.glyphs[glyphIdx].xadvance);
     end;
   end;
+end;
+
+function GetBMFontLineHeight(const bmfontHandle: TBMFontHandle): smallint;
+begin
+  GetBMFontLineHeight :=
+    BorrowBMFontPtr(bmfontHandle)^.lineHeight
 end;
 
 { Returns xadvance for the next char }
