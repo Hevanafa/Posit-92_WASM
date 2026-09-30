@@ -496,6 +496,7 @@ var
   srcRowOffset, srcOffset: longint;
 
   texture: PSoftwareTex;
+  surface: PByteArray;
   flipH, flipV: boolean;
   ABGR: longword;
 begin
@@ -554,6 +555,7 @@ begin
     srcRowStep := texture^.width * 4;
   end;
 
+  surface := BorrowSurfacePtr;
   srcRowOffset := (srcStartY * texture^.width + srcStartX) * 4;
 
   for dy := startY to endY do begin
@@ -563,7 +565,7 @@ begin
       ABGR := PLongWord(@texture^.pixelData[srcOffset])^;
 
       if ABGR >= $FF000000 then
-        UnsafePSet(dx, dy, ABGR);
+        PLongWord(@surface^[(dy * VGAWidth + dx) * 4])^ := ABGR;
 
       inc(srcOffset, srcStepX)
     end;
