@@ -48,8 +48,6 @@ body {
   background: linear-gradient(to bottom, #E3E3E3, #717171);
   /* border: 1px solid var(--posit-92-dark-accent); */
   box-sizing: border-box;
-
-  pointer-events: none;
 }
 
 #play-overlay > button > .visual,
@@ -86,18 +84,9 @@ body {
   transform: scale(0.92);
 }
 
-@keyframes yellow-neon {
-  0% { filter: drop-shadow(0 0 12px #FFFF55) }
-  50% { filter: drop-shadow(0 0 20px #FFFF55) }
-  100% { filter: drop-shadow(0 0 12px #FFFF55) }
-}
-
 #play-overlay > button > img {
-  image-rendering: pixelated;
-  
+  image-rendering: pixelated;  
   filter: drop-shadow(0 0 12px #FFFF55);
-  will-change: filter;
-
   transform: scale(2);
 }
 
