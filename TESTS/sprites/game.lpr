@@ -1,5 +1,6 @@
 {
-  Default boilerplate
+  Sprite test project
+  Part of Posit-92 game engine
   Mixins: bmfont, sound
 }
 
@@ -18,10 +19,8 @@ uses
 
 procedure OnPreload;
 begin
-  imgCursor := RequestImage('assets/images/cursor.png');
-
-  imgSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
-  imgSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
+  texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
+  texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
 end;
 
 procedure OnReady;
@@ -42,21 +41,23 @@ begin
     After using RGBA on the hot path: 0.0600s
     After clipping: 0.0270s }
   { for a:=1 to 1000 do
-    Spr(imgSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
+    Spr(texSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
 
   { Original 5000 ops: 0.1350s
     After row stride opt: 0.1300s
     After PGet inlining: 0.0920s
     After pointer dereferencing on both SprPGet and PSet: 0.0560s }
   { for a:=1 to OpCount do
-    Spr(imgSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
+    Spr(texSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
 
   { 10000 ops:
     Original: 0.4650s
-    With clipping: 0.2080s }
+    With clipping: 0.2080s
+    Direct address assignment: 0.1280s
+  }
   for a:=1 to opCount do
     SprStretch(
-      imgSpecimenP92[0],
+      texSpecimenP92[0],
       random(VgaWidth) - 10,
       random(VgaHeight) - 10,
       10 + random(30), 10 + random(30));
@@ -89,6 +90,8 @@ var
   appConfig: TP92AppConfig;
 begin
   appConfig := DefaultP92AppConfig;
+
+  appConfig.LoadDefaultCursor := false;
 
   P92Start(appConfig);
 end;
