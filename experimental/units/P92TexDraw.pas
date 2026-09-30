@@ -492,42 +492,46 @@ procedure SprFlipped(
 var
   sx, sy: smallint;
   dx, dy: smallint;
-  srcPos: longword;
+  srcOffset: longword;
   texture: PSoftwareTex;
   alpha: byte;
   colour: longword;
 begin
+  if not IsTexReady(texHandle) then exit;
+
   if flip = [] then begin
     Spr(texHandle, x, y);
     exit
   end;
 
-  if not IsTexReady(texHandle) then exit;
-
   texture := BorrowTexPtr(texHandle);
 
+  { TODO: Handle edge cases & clipping }
+
+  { Render logic }
+
   for sy := 0 to texture^.height - 1 do
-  for sx := 0 to texture^.width - 1 do begin
-    srcPos := (sx + sy * texture^.width) * 4;
-    alpha := texture^.pixelData[srcPos + 3];
+    for sx := 0 to texture^.width - 1 do begin
+      srcOffset := (sx + sy * texture^.width) * 4;
+      alpha := texture^.pixelData[srcOffset + 3];
 
-    if alpha < 255 then continue;
+      if alpha < 255 then continue;
 
-    dx := x + sx;
-    dy := y + sy;
+      dx := x + sx;
+      dy := y + sy;
 
-    if SprFlipHorizontal in flip then
-      dx := x + texture^.width - sx - 1;
+      if SprFlipHorizontal in flip then
+        dx := x + texture^.width - sx - 1;
 
-    if SprFlipVertical in flip then
-      dy := y + texture^.height - sy - 1;
+      if SprFlipVertical in flip then
+        dy := y + texture^.height - sy - 1;
 
-    if (dx > ClipX2) or (dx < ClipX1)
-      or (dy > ClipY2) or (dy < ClipY1) then continue;
+      if (dx > ClipX2) or (dx < ClipX1)
+        or (dy > ClipY2) or (dy < ClipY1) then continue;
 
-    colour := UnsafeTexPGet(texture, sx, sy);
-    UnsafePSet(dx, dy, colour);
-  end;
+      colour := UnsafeTexPGet(texture, sx, sy);
+      UnsafePSet(dx, dy, colour);
+    end;
 end;
 
 procedure SprRotate(
