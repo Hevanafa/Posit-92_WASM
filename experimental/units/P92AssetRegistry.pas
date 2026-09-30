@@ -294,8 +294,6 @@ begin
   if texHandle <= 0 then exit;
 {$endif}
 
-  { IsTexSet := (textures[texHandle].width > 0) and (textures[texHandle].height > 0) }
-  { IsTexSet := (textures[texHandle].allocSize > 0) }
   IsTexSet := textures[texHandle].status = AssetStatusReady
 end;
 
