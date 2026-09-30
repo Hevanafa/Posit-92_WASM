@@ -27,6 +27,10 @@ type
   );
   TSprFlips = set of TSprFlip;
 
+const
+  SprFlipsNone = [];
+  SprFlipsBoth = [SprFlipHorizontal, SprFlipVertical];
+
 procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);
 
 procedure SprTint(const texHandle: TTextureHandle; const x, y: smallint; const colour: longword);
