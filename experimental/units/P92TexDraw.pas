@@ -521,7 +521,17 @@ begin
   if endY > ClipY2 then
     endY := ClipY2;
 
-  { TODO: Handle X clipping }
+  startX := x;
+  endX := x + texture^.height - 1;
+
+  if startX < ClipX1 then
+    startX := ClipX1;
+
+  if endX > ClipX2 then
+    endX := ClipX2;
+
+  { Fully offscreen }
+  if (startX > endX) or (startY > endY) then exit;
 
   { Render logic }
 
