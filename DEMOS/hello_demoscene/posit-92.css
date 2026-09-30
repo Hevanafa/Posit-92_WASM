@@ -29,24 +29,39 @@ body {
   position: absolute;
   margin: auto;
   inset: 0;
-  border-radius: 50%;
 
   font-size: 32px;
   color: white;
   cursor: pointer;
 
-  /* background: transparent; */
+  background: transparent;
+  border: none;
+
+  width: inherit;
+  height: inherit;
+}
+
+#play-overlay > button > .visual {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+
+  pointer-events: none;
+
   background: linear-gradient(to bottom, #E3E3E3, #717171);
   /* border: 1px solid var(--posit-92-dark-accent); */
-  border: none;
   box-sizing: border-box;
+
+  pointer-events: none;
 
   transition:
     filter 0.2s ease-out,
     transform 0.2s ease-out;
 }
 
-#play-overlay > button > div:first-child {
+#play-overlay > button > .visual::after {
+  content: "";
   position: absolute;
   inset: 0;
   margin: auto;
@@ -63,6 +78,15 @@ body {
   height: 92%;
 }
 
+#play-overlay > button:hover > .visual {
+  filter: brightness(1.1);
+}
+
+#play-overlay > button:active > .visual {
+  filter: brightness(0.8);
+  transform: scale(0.92);
+}
+
 @keyframes yellow-neon {
   0% { filter: drop-shadow(0 0 12px #FFFF55) }
   50% { filter: drop-shadow(0 0 20px #FFFF55) }
@@ -76,15 +100,6 @@ body {
   will-change: filter;
 
   transform: scale(2);
-}
-
-#play-overlay > button:hover {
-  filter: brightness(1.1);
-}
-
-#play-overlay > button:active {
-  filter: brightness(0.8);
-  transform: scale(0.92);
 }
 
 
