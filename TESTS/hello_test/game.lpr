@@ -18,15 +18,13 @@ uses
 
 procedure OnPreload;
 begin
-  imgCursor := RequestImage('assets/images/cursor.png');
-
-  imgSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
-  imgSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
+  texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
+  texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
 end;
 
 procedure OnReady;
 begin
-
+  HideCursor
 end;
 
 procedure DrawOnce;
@@ -35,12 +33,22 @@ begin
 
   Cls($FF6495ED);
 
-  Spr(imgSpecimenP92[0], 148, 84);
+  Spr(texSpecimenP92[0], 148, 84);
 
-  PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
+  PrintDefaultCentred('Hello world! (Draw once)', VgaWidth div 2, 120);
+end;
+
+procedure Init;
+var
+  appConfig: TP92AppConfig;
+begin
+  appConfig := DefaultP92AppConfig;
+
+  P92Start(appConfig);
 end;
 
 exports
+  Init,
   OnPreload,
   OnReady,
   DrawOnce;
