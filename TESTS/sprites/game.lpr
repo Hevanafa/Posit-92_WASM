@@ -51,12 +51,14 @@ begin
   { for a:=1 to OpCount do
     Spr(imgSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
 
+  { 10000 ops:
+    Original: 0.4650s }
   for a:=1 to opCount do
     SprStretch(
       imgSpecimenP92[0],
       random(VgaWidth) - 10,
       random(VgaHeight) - 10,
-      10 + random(20), 10 + random(20));
+      10 + random(30), 10 + random(30));
 
   endTick := GetTimer;
 
@@ -65,7 +67,7 @@ end;
 
 procedure DrawOnce;
 const
-  OpCount = 5000;
+  OpCount = 10000;
 var
   t: double;
   s: string;

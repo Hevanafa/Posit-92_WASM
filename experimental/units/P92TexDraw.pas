@@ -338,18 +338,43 @@ procedure SprStretch(
 var
   sx, sy: smallint;
   dx, dy: smallint;
-  srcPos: longword;
+  startDx, endDx, startDy, endDy: longint;
+
+  srcOffset: longword;
   texture: PSoftwareTex;
   alpha: byte;
   scaleX, scaleY: double;
   colour: longword;
 begin
   if not IsTexReady(texHandle) then exit;
+  if (destWidth <= 0) or (destHeight <= 0) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
+  { Handle edge cases }
+
+  if (destX > ClipX2) or (destY > ClipY2)
+    or (longint(destX) + destWidth - 1 < ClipX1)
+    or (longint(destY) + destHeight - 1 < ClipY1) then exit;
+
+  startDx := 0;
+  endDx := destWidth - 1;
+
+  if destX < clip1 then
+    startDx := ClipX1 - destX;
+
+  if longint(destX) + endDx > ClipX2 then
+    endDx := ClipX2 - destX;
+
+  { TODO: Implement DY clipping }
+
+
+  { Render logic }
+
   scaleX := texture^.width / destWidth;
   scaleY := texture^.height / destHeight;
+
+  { TODO: Replace starts and ends for DY and DX }
 
   for dy := 0 to destHeight - 1 do
   for dx := 0 to destWidth - 1 do begin
@@ -359,8 +384,9 @@ begin
     sx := trunc(dx * scaleX);
     sy := trunc(dy * scaleY);
 
-    srcPos := (sx + sy * texture^.width) * 4;
-    alpha := texture^.pixelData[srcPos + 3];
+    srcOffset := (sx + sy * texture^.width) * 4;
+    alpha := texture^.pixelData[srcOffset + 3];
+
     if alpha < 255 then continue;
 
     colour := UnsafeTexPGet(texture, sx, sy);
