@@ -46,8 +46,6 @@ function NewTex(const width, height: smallint): TTextureHandle;
 function CloneTex(const texHandle: TTextureHandle): TTextureHandle;
 procedure FreeTex(const texHandle: TTextureHandle);
 
-procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
-
 function GetTexWidth(const texHandle: TTextureHandle): smallint;
 procedure SetTexWidth(const texHandle: TTextureHandle; const value: smallint);
 function GetTexHeight(const texHandle: TTextureHandle): smallint;
@@ -139,12 +137,6 @@ begin
 end;
 
 
-
-procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
-begin
-  if not IsTexSet(texHandle) then
-    PanicHalt(varName + ' is unset!');
-end;
 
 
 function GetTexWidth(const texHandle: TTextureHandle): smallint;

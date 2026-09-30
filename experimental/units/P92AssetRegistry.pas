@@ -86,6 +86,7 @@ function RequestImage(const path: string): TTextureHandle;
 function BorrowTexEntryPtr(const texHandle: TTextureHandle): PSoftwareTexEntry;
 function BorrowTexPtr(const texHandle: TTextureHandle): PSoftwareTex;
 function IsTexSet(const texHandle: TTextureHandle): boolean;
+procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
 
 function BorrowBMFontEntryPtr(const bmfontHandle: TBMFontHandle): PBMFontEntry;
 function BorrowBMFontPtr(const bmfontHandle: TBMFontHandle): PBMFont;
@@ -296,6 +297,12 @@ begin
   { IsTexSet := (textures[texHandle].width > 0) and (textures[texHandle].height > 0) }
   { IsTexSet := (textures[texHandle].allocSize > 0) }
   IsTexSet := textures[texHandle].status = AssetStatusReady
+end;
+
+procedure AssertTexSet(const varName: string; const texHandle: TTextureHandle);
+begin
+  if not IsTexSet(texHandle) then
+    PanicHalt(varName + ' is unset!');
 end;
 
 
