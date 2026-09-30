@@ -5,10 +5,11 @@ unit Assets;
 
 interface
 
+uses P92AssetHandles;
+
 var
-  imgCursor: longint;
-  imgSpecimenP92: array[0..1] of longint;
-  imgTest: longint;
+  texSpecimenP92: array[0..1] of TTextureHandle;
+  texTest: TTextureHandle;
 
 
 implementation

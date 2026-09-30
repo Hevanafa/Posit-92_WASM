@@ -22,11 +22,6 @@ var
   { Game state variables }
   gameTime: double;
 
-procedure DrawMouse;
-begin
-  Spr(imgCursor, mouseX, mouseY)
-end;
-
 procedure TestBasicAllocFree;
 var
   p1, p2: pointer;
@@ -136,12 +131,10 @@ end;
 
 procedure OnPreload;
 begin
-  imgCursor := RequestImage('assets/images/cursor.png');
+  texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
+  texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
 
-  imgSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
-  imgSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
-
-  imgTest := RequestImage('assets/fonts/nokia_cellphone_fc_8_0.png');
+  texTest := RequestImage('assets/fonts/p92_sans_8_regular.png');
 end;
 
 procedure OnReady;
@@ -177,18 +170,30 @@ begin
   Cls($FF6495ED);
 
   if (trunc(gameTime * 4) and 1) > 0 then
-    Spr(imgSpecimenP92[1], 148, 84)
+    Spr(texSpecimenP92[1], 148, 84)
   else
-    Spr(imgSpecimenP92[0], 148, 84);
+    Spr(texSpecimenP92[0], 148, 84);
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
+end;
 
-  DrawMouse;
-  DrawFPS;
+procedure Init;
+var
+  appConfig: TP92AppConfig;
+begin
+  appConfig := DefaultP92AppConfig;
+
+  appConfig.EnableDrawFPS := true;
+
+  P92Start(appConfig);
 end;
 
 exports
-  OnPreload, OnReady, Update, Draw;
+  Init,
+  OnPreload,
+  OnReady,
+  Update,
+  Draw;
 
 begin
 { Starting point is intentionally left empty }
