@@ -70,7 +70,7 @@ begin
   GetEasingPerc := Clamp((t - startTick) / duration, 0.0, 1.0)
 end;
 
-function IsEasingComplete(const startTick,duration,t:double):boolean;
+function IsEasingComplete(const startTick, duration, t: double):boolean;
 begin
   IsEasingComplete := GetEasingPerc(startTick, duration, t) >= 1.0
 end;
