@@ -22,7 +22,7 @@ procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: l
 
 implementation
 
-uses P92Tex, P92TexDraw, P92VGA;
+uses P92AssetRegistry, P92Tex, P92TexDraw, P92VGA;
 
 procedure SprOutline(const texHandle: TTextureHandle; const x, y: smallint; const colour: longword);
 var

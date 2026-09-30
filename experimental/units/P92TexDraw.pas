@@ -71,7 +71,7 @@ procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: smallint);
 implementation
 
 uses
-  P92Logger, P92Conversions,
+  P92Logger, P92Conversions, P92AssetRegistry,
   P92Tex, P92Maths,
   P92Panic, P92VGA;
 

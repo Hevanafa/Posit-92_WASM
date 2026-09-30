@@ -22,7 +22,7 @@ procedure SprBlend(const texHandle: TTextureHandle; const x, y: smallint);
 
 implementation
 
-uses P92Tex, P92Maths, P92VGA;
+uses P92AssetRegistry, P92Tex, P92Maths, P92VGA;
 
 procedure SprAlpha(const texHandle: TTextureHandle; const x, y: smallint; opacity: double);
 var
