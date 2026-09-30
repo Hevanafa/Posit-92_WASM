@@ -19,26 +19,22 @@ body {
   position: absolute;
   margin: auto;
   inset: 0;
-  width: var(--play-button-width);
-  height: var(--play-button-height);
-
-  background: inherit;
+  width: fit-content;
+  height: fit-content;
 }
 
 #play-overlay > button {
-  position: absolute;
-  margin: auto;
-  inset: 0;
+  position: relative;
 
   font-size: 32px;
   color: white;
   cursor: pointer;
 
+  width: var(--play-button-width);
+  height: var(--play-button-height);
+
   background: transparent;
   border: none;
-
-  width: inherit;
-  height: inherit;
 }
 
 #play-overlay > button > .visual {
