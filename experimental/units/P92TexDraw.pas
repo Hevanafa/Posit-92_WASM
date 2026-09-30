@@ -492,8 +492,11 @@ procedure SprFlipped(
 var
   sx, sy: smallint;
   dx, dy: smallint;
+
+  startX, endX, startY, endY: longint;
   srcOffset: longword;
   texture: PSoftwareTex;
+  w, h: longint;
   alpha: byte;
   colour: longword;
 begin
@@ -505,10 +508,24 @@ begin
   end;
 
   texture := BorrowTexPtr(texHandle);
+  if (texture^.width <= 0) or (texture^.height <= 0) then exit;
 
-  { TODO: Handle edge cases & clipping }
+  { Handle edge cases & clipping }
+
+  startY := y;
+  endY := y + texture^.height - 1;
+
+  if startY < ClipY1 then
+    startY := ClipY1;
+
+  if endY > ClipY2 then
+    endY := ClipY2;
+
+  { TODO: Handle X clipping }
 
   { Render logic }
+
+  { TODO: Move flips out of the loop}
 
   for sy := 0 to texture^.height - 1 do
     for sx := 0 to texture^.width - 1 do begin
