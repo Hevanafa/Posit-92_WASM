@@ -67,7 +67,10 @@ body {
   margin: auto;
   pointer-events: none;
 
-  background: red;
+  background: repeating-conic-gradient(
+    from 0deg,
+    #FFFFFF 0deg,
+    #787878 30deg);
   border-radius: 50%;
   width: 95%;
   height: 95%;
