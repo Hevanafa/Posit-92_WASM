@@ -494,6 +494,7 @@ var
   srcStartX, srcStartY: longint;
   srcStepX, srcRowStep: longint;
   srcRowOffset, srcOffset: longint;
+  destRowOffset, destOffset: longint;
 
   texture: PSoftwareTex;
   surface: PByteArray;
@@ -557,20 +558,24 @@ begin
 
   surface := BorrowSurfacePtr;
   srcRowOffset := (srcStartY * texture^.width + srcStartX) * 4;
+  destRowOffset := (startY * VGAWidth + startX) * 4;
 
   for dy := startY to endY do begin
     srcOffset := srcRowOffset;
+    destOffset := destRowOffset;
 
     for dx := startX to endX do begin
       ABGR := PLongWord(@texture^.pixelData[srcOffset])^;
 
       if ABGR >= $FF000000 then
-        PLongWord(@surface^[(dy * VGAWidth + dx) * 4])^ := ABGR;
+        PLongWord(@surface^[destOffset])^ := ABGR;
 
-      inc(srcOffset, srcStepX)
+      inc(srcOffset, srcStepX);
+      inc(destOffset, 4)
     end;
 
-    inc(srcRowOffset, srcRowStep)
+    inc(srcRowOffset, srcRowStep);
+    inc(destRowOffset, VGAWidth * 4)
   end;
 end;
 
