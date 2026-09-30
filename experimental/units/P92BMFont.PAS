@@ -196,6 +196,11 @@ end;
 
 function GetBMFontLineHeight(const bmfontHandle: TBMFontHandle): smallint;
 begin
+  if not IsBMFontReady(bmfontHandle) then begin
+    GetBMFontLineHeight := 0;
+    exit
+  end;
+
   GetBMFontLineHeight :=
     BorrowBMFontPtr(bmfontHandle)^.lineHeight
 end;
