@@ -10,7 +10,7 @@ uses P92AssetHandles;
 
 {$IFDEF P92_WASM}
 const
-  Posit92Version = '0.5.1';
+  Posit92Version = '0.6';
 
 type
   TCallback = procedure;
