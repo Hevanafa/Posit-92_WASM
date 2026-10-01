@@ -27,19 +27,19 @@ All the commands listed here assume that you're already in a demo/test project w
 npx http-server -p 8008 -c-1
 ```
 
-`-p` or `--port` makes it serve at a certain port
+`-p` or `--port` sets the port
 
-`-c-1` invalidates all the cached files
+`-c-1` disables caching
 
 **Perl http_this**
 
-This requires HTTPThis. Installing it is easy:
+This requires the `App::HTTPThis` module.  Install it with:
 
 ```powershell
 cpanm App::HTTPThis
 ```
 
-I use Perl v5.38.2 to run this command
+Tested with Perl v5.38.2
 
 Then, after the installation is complete, use this command:
 
@@ -47,9 +47,9 @@ Then, after the installation is complete, use this command:
 http_this --port 8008 --autoindex
 ```
 
-`--port` makes it serve at a certain port
+`--port` sets the port
 
-`--autoindex` makes it serve the `index.html`, without it, `http_this` defaults to listing the directory
+`--autoindex` serves the `index.html` instead of showing a directory listing
 
 ---
 
