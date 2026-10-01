@@ -42,7 +42,7 @@ Rare exceptions may be approved by the maintainer on a case-by-case basis.  Exam
 
 - Artwork created for a very specific purpose where suitable human made assets are unavailable
 - Experimental or non-essential artwork where provenance is clearly documented
-- Artwork that has been substantially reworked by a real human person
+- Artwork that has been substantially reworked or redrawn by a real human person, rather than merely traced or lightly edited
 - Other cases where the maintainer considers the result appropriate for the project
 
 Meeting any of these conditions does **not** guarantee acceptance
