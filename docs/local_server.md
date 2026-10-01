@@ -19,7 +19,7 @@ The Bun server is only one option; you can use another static HTTP server if you
 
 ## Other HTTP servers
 
-NPM http-server:
+**NPM http-server**
 
 ```powershell
 npx http-server -c-1 .
@@ -27,4 +27,26 @@ npx http-server -c-1 .
 
 `-c-1` invalidates all the cached files
 
-You can use any language that can serve a static HTTP server, be it Python, Perl, Ruby, PHP, or even Pascal, as long as the `index.html`, `game.wasm`, and the app assets are accessible
+**Perl http_this**
+
+This requires HTTPThis. Installing it is easy:
+
+```powershell
+cpanm App::HTTPThis
+```
+
+I use Perl v5.38.2 to run this command
+
+Then, after the installation is complete, use this command:
+
+```powershell
+http_this --port 8008 --autoindex
+```
+
+`--port` makes it serve at a certain port
+
+`--autoindex` makes it serve the `index.html`, without it, `http_this` defaults to listing the directory
+
+---
+
+You can use any language that can serve a static HTTP server, be it Python, Ruby, PHP, or even Pascal, as long as the `index.html`, `game.wasm`, and the app assets are accessible
