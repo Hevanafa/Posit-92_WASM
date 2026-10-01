@@ -1,6 +1,7 @@
 {
-  Default boilerplate
-  Mixins: bmfont, sound
+  Flavour text demo
+  Part of Posit-92 game engine
+  Mixins: bmfont
 }
 
 library Game;
@@ -73,17 +74,20 @@ begin
 
   frameIdx := U16Iif((trunc(gameTime * 4) and 1) > 0, 1, 0);
 
+  Spr(
+    texSpecimenP92[frameIdx],
+    x - 12, y - 12);
+
+  {
   SprStretch(
     texSpecimenP92[frameIdx],
     x - w div 2, y - h div 2,
     w, h);
+  }
 
-  s := 'Now with more scanlines!';
+  s := 'WebAssembly, the Pascal way!';
   w := MeasureDefault(s);
   left := (VgaWidth - w) div 2;
-
-  { PrintDefault('Hello world!', left, 120); }
-  { PrintCharColour('Z', 10, 10, $FFFFFFFF); }
 
   for a:=1 to length(s) do begin
     c := s[a];
