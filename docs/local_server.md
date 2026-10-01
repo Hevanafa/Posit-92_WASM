@@ -19,11 +19,15 @@ The Bun server is only one option; you can use another static HTTP server if you
 
 ## Other HTTP servers
 
+All the commands listed here assume that you're already in a demo/test project where the `index.html` file sits
+
 **NPM http-server**
 
 ```powershell
-npx http-server -c-1 .
+npx http-server -p 8008 -c-1
 ```
+
+`-p` or `--port` makes it serve at a certain port
 
 `-c-1` invalidates all the cached files
 
