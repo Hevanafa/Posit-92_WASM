@@ -1,5 +1,9 @@
 # AI Policy
 
+Version: 1.0
+
+Effective date: 1 October 2026
+
 This document was made to address the prevalent use of AI these days, specifically AI agents and LLMs alike
 
 "This repository" refers specifically to the Posit-92 (WASM) GitHub repository
