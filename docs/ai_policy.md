@@ -1,6 +1,6 @@
 # AI Policy
 
-This document was made to address the prevalent use of AI these days
+This document was made to address the prevalent use of AI these days, specifically AI agents and LLMs alike
 
 "This repository" refers specifically to the Posit-92 (WASM) GitHub repository
 
@@ -8,8 +8,19 @@ This document was made to address the prevalent use of AI these days
 
 10 auto-generated lines can be more dangerous than 500 if nobody understands them
 
-AI-assisted contributions are allowed, but:
+AI-assisted contributions are **allowed**, but the human contributor must:
 
-- The human contributor must understand the commit
-- The human contributor must test thoroughly of the code committed
-- The human contributor must take responsibility for what they submit
+- Understand the commit
+- Test thoroughly of the code committed
+- Take responsibility for what they submit
+
+These are a few questions that deliberately increase friction for large or basically poorly understood AI-generated changes:
+
+- "Can you explain the diff?"
+- "Have you tested if it actually compiles & runs without errors?"
+- "What makes you think this fits in the scope of a problem that you tried to fix?"
+- "Are you sure this would benefit in the long run, and why?"
+- "Do you take any responsibility of your commit, including regressions?"
+- "Can you explain the maintenance tradeoff?"
+
+I know AI detection is unreliable, so I chose the **demonstrated understanding** approach because it is observable
