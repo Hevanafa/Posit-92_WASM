@@ -6,7 +6,11 @@ This document was made to address the prevalent use of AI these days, specifical
 
 "Human contributor" here refers to the human person who actively participates in maintaining this repository
 
-10 auto-generated lines can be more dangerous than 500 if nobody understands them
+## Code commits
+
+This section explains what things that are allowed to commit if you choose to use an AI agent, whether it be GPT 6 Astra, Claude Code, DeepSeek,Cursor agent, or whatever LLM you use
+
+> 10 auto-generated lines can be more dangerous than 500 if nobody understands them
 
 AI-assisted contributions are **allowed**, but the human contributor must:
 
