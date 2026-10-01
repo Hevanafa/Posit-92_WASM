@@ -1,6 +1,8 @@
 #
 
-![preview](preview.png)
+![preview 1](preview_1.png)
+
+![preview 2](preview_2.png)
 
 This project is a port of the original [POSIT-92](https://github.com/Hevanafa/POSIT-92) for DOS, which targets WebAssembly
 
