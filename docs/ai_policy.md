@@ -12,9 +12,12 @@ AI-assisted contributions are **allowed**, but the human contributor must:
 
 - Understand the commit
 - Test thoroughly of the code committed
+- Test the compilation and runtime
 - Take responsibility for what they submit
+- Understand the maintainability cost including possible regressions
+- Find a reason for the diff to be justifiable
 
-These are a few questions that deliberately increase friction for large or basically poorly understood AI-generated changes:
+These are a few review questions that deliberately increase friction for large or basically poorly understood AI-generated changes:
 
 - "Can you explain the diff?"
 - "Have you tested if it actually compiles & runs without errors?"
