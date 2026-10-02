@@ -35,8 +35,6 @@ var
 
 procedure OnPreload;
 begin
-  writelog('Entered OnPreload');
-
   texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
   texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
 end;
@@ -44,10 +42,6 @@ end;
 procedure OnReady;
 begin
   HideCursor;
-
-  writelog('Entered OnReady');
-
-  writelog('SizeOf string: ' + I32Str(sizeof(string)));
 
   { Initialise game state here }
   gameTime := 0.0;
@@ -296,8 +290,10 @@ begin
   flavourTexts.Add('No "modernisation" sprint required!');
   flavourTexts.Add('Still waiting for the framework rewrite!');
 
+{
   writelog('Flavour text capacity: ' + I32Str(flavourTexts.Capacity));
   writelog('Flavour text count: ' + i32str(flavourTexts.Count));
+}
 
   displayedTextIdx := trunc(GetTimer) mod flavourTexts.Count;
 end;
