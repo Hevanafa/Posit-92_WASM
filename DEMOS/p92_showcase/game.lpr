@@ -121,11 +121,6 @@ begin
   flavourTexts.Add('The game lives in the WASM!');
   flavourTexts.Add('JavaScript is merely the glue!');
 
-  writelog('Flavour text capacity: ' + I32Str(flavourTexts.Capacity));
-  writelog('Flavour text count: ' + i32str(flavourTexts.Count));
-
-  { TODO: Enable these sections one by one }
-{
   flavourTexts.Add('No node_modules ecosystem required!');
   flavourTexts.Add('No bundler archaeology required!');
   flavourTexts.Add('No dependency tree forest!');
@@ -284,7 +279,9 @@ begin
   flavourTexts.Add('Dependency count: suspiciously low');
   flavourTexts.Add('No "modernisation" sprint required!');
   flavourTexts.Add('Still waiting for the framework rewrite!');
-}
+
+  writelog('Flavour text capacity: ' + I32Str(flavourTexts.Capacity));
+  writelog('Flavour text count: ' + i32str(flavourTexts.Count));
 
   displayedTextIdx := trunc(GetTimer) mod flavourTexts.Count;
 end;
