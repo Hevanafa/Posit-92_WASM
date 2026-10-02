@@ -32,7 +32,7 @@ var
   texturePtr: PSoftwareTex;
   startX, endX, startY, endY: smallint;
   px, py: smallint;
-  colour: longword;
+  ABGR: longword;
   alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
@@ -66,15 +66,15 @@ begin
 
   for py := startY to endY do
     for px := startX to endX do begin
-      colour := UnsafeTexPGet(texturePtr, px, py);
+      ABGR := UnsafeTexPGet(texturePtr, px, py);
 
-      alpha := colour shr 24;
+      alpha := ABGR shr 24;
       if alpha = 0 then continue;
 
       alpha := trunc(alpha * opacity);
-      colour := (colour and $FFFFFF) or (alpha shl 24);
+      ABGR := (ABGR and $FFFFFF) or (alpha shl 24);
 
-      UnsafePSetBlend(x + px, y + py, colour)
+      UnsafePSetBlend(x + px, y + py, ABGR)
     end;
 end;
 
