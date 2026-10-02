@@ -166,8 +166,17 @@ begin
 
   flavourTexts.Add('C++? How many pluses do you need?');
   flavourTexts.Add('Undefined behaviour sold separately!');
-  flavourTexts.Add('No header archaeology required!'
+  flavourTexts.Add('No header archaeology required!');
   flavourTexts.Add('Pascal survived without operator soup!');
+
+  { Java }
+
+  flavourTexts.Add('Write once, install a JVM everywhere!');
+  flavourTexts.Add('class FactoryThing<T> not included!');
+  flavourTexts.Add('public static void main can take the day off!');
+  flavourTexts.Add('Do you have any List<AbstractSingletonProxyFactoryGrapeItem>?');
+  flavourTexts.Add('Not everything needs to be a class!');
+  flavourTexts.Add('No garbage collector negotiations required!');
 
   { GPU stuff }
 
