@@ -83,7 +83,10 @@ begin
   end;
   }
 
-  { 1000 ops }
+  { 1000 ops
+    Original: 0.0960s
+    5000 ops
+    Original: 0.4090s }
   for a:=1 to opCount do begin
     SprAlpha(
       texSpecimenP92[0],
@@ -97,7 +100,7 @@ end;
 
 procedure DrawOnce;
 const
-  OpCount = 1000;
+  OpCount = 5000;
 var
   t: double;
   s: string;

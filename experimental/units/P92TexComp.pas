@@ -30,14 +30,33 @@ uses P92AssetRegistry, P92Tex, P92Maths, P92VGA;
 procedure SprAlpha(const texHandle: TTextureHandle; const x, y: smallint; opacity: double);
 var
   texturePtr: PSoftwareTex;
+  startX, endX, startY, endY: smallint;
   px, py: smallint;
   colour: longword;
   alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
 
-  texturePtr := BorrowTexPtr(texHandle);
+  { Handle edge cases & clipping }
+
   opacity := clamp(opacity, 0.0, 1.0);
+  if opacity <= 0.0 then exit;
+
+  texturePtr := BorrowTexPtr(texHandle);
+
+  startX := ClipX1 - x;
+  endX := ClipX2 - x;
+
+  if startX < 0 then
+    startX := 0;
+  if endX > texturePtr^.width - 1 then
+    endX := texturePtr^.width - 1;
+
+  { TODO: Handle Y clipping }
+
+
+
+  { Render logic }
 
   for py := 0 to texturePtr^.height - 1 do
     for px := 0 to texturePtr^.width - 1 do begin
