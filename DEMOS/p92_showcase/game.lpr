@@ -182,6 +182,14 @@ begin
   flavourTexts.Add('Enterprise-grade Hello World not required!');
   flavourTexts.Add('public static void main System.out.println? Begin writeln is enough!');
 
+  { Python }
+
+  flavourTexts.Add('Indentation is for humans, begin/end is for certainty!');
+  flavourTexts.Add('pip install absolutely nothing!');
+  flavourTexts.Add('No virtual environment archaeology!');
+  flavourTexts.Add('Python is lovely, but sir, this is Pascal');  { Kinda like the "Sir, this is Wendy's" }
+  flavourTexts.Add('Fast enough without asking NumPy or C to do it!');
+
   { GPU stuff }
 
   flavourTexts.Add('Your GPU can take the day off!');
