@@ -47,18 +47,36 @@ begin
   flavourTexts.Add('WebAssembly, the Pascal way!');
   flavourTexts.Add('The best WebAssembly game engine for Pascal!');
 
-  flavourTexts.Add('Modern problems require 1992 solutions!');
+  { Self-confidence stuff }
 
   flavourTexts.Add('Pascal is not dead!');
+  flavourTexts.Add('Yes, Pascal can do that!');
+  flavourTexts.Add('Built for computers and fantasy computers');
+  flavourTexts.Add('Handwritten with questionable enthusiasm!');
+
+  { Vintage stuff }
+
+  flavourTexts.Add('Modern problems require 1992 solutions!');
   flavourTexts.Add('Still compiling after 30 years!');
   flavourTexts.Add('Powered by suspiciously old technology!');
   flavourTexts.Add('Turbo Pascal approved!*');
   flavourTexts.Add('Made with actual pointers!');
-  flavourTexts.Add('Handwritten with questionable enthusiasm!');
-
-  flavourTexts.Add('Built for computers and fantasy computers');
+  flavourTexts.Add('640K of RAM ought to be enough for somebody!');
   flavourTexts.Add('DOS is a feature');
-  flavourTexts.Add('Yes, Pascal can do that!');
+  flavourTexts.Add('Also runs on computers from this century!');
+  flavourTexts.Add('One codebase, several decades!');
+
+  { Slime stuff }
+
+  flavourTexts.Add('Contains 92% more slime!');
+  flavourTexts.Add('Slime-powered game engine');
+  flavourTexts.Add('Scientifically engineered slime!');
+  flavourTexts.Add('Slime girls love deterministic behaviour!');
+  flavourTexts.Add('Made by a self-proclaimed Pascal wizard!');
+
+  { Font stuff }
+
+  flavourTexts.Add('P92 Sans and P92 Boot included!');
 
   { JS-related stuff }
 
@@ -68,6 +86,8 @@ begin
   { GPU stuff }
 
   flavourTexts.Add('Your GPU can take the day off!');
+  flavourTexts.Add('No shaders? No problem!');
+  flavourTexts.Add('The engine your GPU forgot to fear!');
 
   displayedFlavourText := flavourTexts[trunc(GetTimer) mod flavourTexts.Count];
 end;
