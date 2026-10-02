@@ -22,7 +22,7 @@ interface
 
 const
   WasmMemorySize = 2 * 1048576;  { 2 MB }
-  StackSize = 512 * 1024;
+  StackSize = 384 * 1024;
   PoolSize = 128 * 1024;
 
 procedure InitHeapRegion(const startAddr: pointer);
