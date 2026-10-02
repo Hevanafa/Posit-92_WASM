@@ -11,16 +11,13 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
-  FGL,
+  Classes,
   P92Core, P92Conversions, P92Fonts, P92AssetRegistry, P92WasmHost,
   P92Logger, P92BMFont, P92Iif, P92WasmHeap,
   P92Keyboard, P92Mouse,
   P92Graphics, P92Tex, P92TexDraw, P92TexEffects, P92Colour,
   P92Easings, P92Timing, P92FPS, P92VGA,
   Assets;
-
-type
-  TStringList = specialize TFPGList<string>;
 
 const
   White = $FFFFFFFF;
@@ -51,7 +48,6 @@ begin
   nextTextChangeTick := GetTimer + TextChangeInterval;
 
   flavourTexts := TStringList.create;
-  { flavourTexts.Capacity := 128; }
 
   flavourTexts.Add('WebAssembly, the Pascal way!');
   flavourTexts.Add('The best WebAssembly game engine for Pascal!');
