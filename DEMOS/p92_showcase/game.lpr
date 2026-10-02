@@ -23,11 +23,13 @@ type
   TStringList = specialize TFPGList<string>;
 
 const
+  White = $FFFFFFFF;
   TextChangeInterval = 5.0;
 
 var
   { Game state variables }
   gameTime: double;
+  { uses real time }
   nextTextChangeTick: double;
 
   flavourTexts: TStringList;
@@ -326,6 +328,7 @@ var
   x, y: smallint;
   w, h: smallint;
   scale: double;
+  perc: double;
 begin
   { Cls($FF6495ED); }
 
@@ -356,6 +359,8 @@ begin
     w, h);
   }
 
+  { Rainbow text }
+
   s := flavourTexts[displayedTextIdx];
   w := MeasureDefault(s);
   left := (VgaWidth - w) div 2;
@@ -368,6 +373,14 @@ begin
 
     colour := HSVtoRGB(hue, 1.0, 1.0);
     inc(left, PrintCharColour(c, left, 128, colour));
+  end;
+
+  { Progress bar }
+
+  if nextTextChangeTick - GetTimer > 0.0 then begin
+    perc := (nextTextChangeTick - GetTimer) / TextChangeInterval;
+
+    HLine(0, trunc(perc * 320), VGAHeight - 1, White);
   end;
 end;
 
