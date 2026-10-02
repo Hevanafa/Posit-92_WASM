@@ -58,6 +58,19 @@ begin
   flavourTexts.Add('Yes, Pascal can do that!');
   flavourTexts.Add('Built for computers and fantasy computers');
   flavourTexts.Add('Handwritten with questionable enthusiasm!');
+  flavourTexts.Add('Pascal was never the problem!');
+  flavourTexts.Add('Yes, we still use Pascal!');
+
+  flavourTexts.Add('Pascal belongs in the big 26!');
+  flavourTexts.Add('Structured programming strikes again!');
+  flavourTexts.Add('Strong types, stronger opinions!');
+  flavourTexts.Add('Pointers are friends!');
+  flavourTexts.Add('Objects without the ceremony!');
+  flavourTexts.Add('Old language, new tricks!');
+
+  flavourTexts.Add('Write Pascal. Ship games.');
+  flavourTexts.Add('Still waiting for Pascal to die!');
+  flavourTexts.Add('if Condition then begin doStuff end;');
 
   { Vintage stuff }
 
@@ -77,16 +90,45 @@ begin
   flavourTexts.Add('Slime-powered game engine');
   flavourTexts.Add('Scientifically engineered slime!');
   flavourTexts.Add('Slime girls love deterministic behaviour!');
+
   flavourTexts.Add('Made by a self-proclaimed Pascal wizard!');
+
+  flavourTexts.Add('Powered by industrial grade slime!');
+  flavourTexts.Add('Now with improved slime viscosity!');
+  flavourTexts.Add('Slime girls prefer static linking!');
+  flavourTexts.Add('Slime girls do their own memory management!');
+  flavourTexts.Add('Slime girls hate unnecessary abstractions!');
+  flavourTexts.Add('92% slime, 8% pointer arithmetic!');
+  flavourTexts.Add('Keep away from unsupervised slimes!');
 
   { Font stuff }
 
   flavourTexts.Add('P92 Sans and P92 Boot included!');
 
-  { JS-related stuff }
+  { JS stuff }
 
   flavourTexts.Add('No JavaScript framework required!');
   flavourTexts.Add('No npm install!');
+  flavourTexts.Add('JavaScript kept on a short leash!');
+  flavourTexts.Add('Less JS, more Pascal!');
+  flavourTexts.Add('The game lives in the WASM!');
+  flavourTexts.Add('JavaScript is merely the glue!');
+
+  flavourTexts.Add('No node_modules ecosystem required!');
+  flavourTexts.Add('No bundler archaeology required!');
+  flavourTexts.Add('No dependency tree forest!');
+  flavourTexts.Add('No package-lock novella!');
+
+  flavourTexts.Add('Runs without React!');
+  flavourTexts.Add('Runs without Vue!');
+  flavourTexts.Add('Runs without knowing what Vite is!');
+  flavourTexts.Add('Your package manager may remain closed!');
+  flavourTexts.Add('npm has been informed it may rest today!');
+  flavourTexts.Add('Just enough JS to open the door!');
+
+  { Other languages }
+
+  flavourTexts.Add('Rust? Is that the game or the crab?');
 
   { GPU stuff }
 
@@ -111,7 +153,7 @@ begin
   flavourTexts.Add('No architecture astronautics required!');
   flavourTexts.Add('The dependency graph is pleasantly boring!');
   flavourTexts.Add('Zero hype-driven development!');
-  flavourTexts.Add('One executable idea at a time!')
+  flavourTexts.Add('One executable idea at a time!');
   flavourTexts.Add('If the browser can call it, Pascal can own it!');
 
   flavourTexts.Add('WASM without the elaborate ceremony!');
@@ -120,6 +162,11 @@ begin
   flavourTexts.Add('Fewer layers, fewer mysteries!');
   flavourTexts.Add('Engine first, ecosystem second!');
   flavourTexts.Add('Built before the trend cycle ends!');
+
+  flavourTexts.Add('Your tech stack has 67 packages. Mine has a framebuffer');
+  flavourTexts.Add('Dependency count: suspiciously low');
+  flavourTexts.Add('No "modernisation" sprint required!');
+  flavourTexts.Add('Still waiting for the framework rewrite!');
 
   displayedTextIdx := trunc(GetTimer) mod flavourTexts.Count;
 end;
