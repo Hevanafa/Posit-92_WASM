@@ -16,7 +16,7 @@ uses
   P92Logger, P92BMFont, P92Iif, P92WasmHeap,
   P92Keyboard, P92Mouse,
   P92Graphics, P92Tex, P92TexDraw, P92TexEffects, P92Colour,
-  P92Timing, P92FPS, P92VGA,
+  P92Easings, P92Timing, P92FPS, P92VGA,
   Assets;
 
 type
@@ -24,6 +24,7 @@ type
 
 const
   White = $FFFFFFFF;
+  AccentPale = $FFDEF6B8;
   TextChangeInterval = 5.0;
 
 var
@@ -378,9 +379,10 @@ begin
   { Progress bar }
 
   if nextTextChangeTick - GetTimer > 0.0 then begin
-    perc := (nextTextChangeTick - GetTimer) / TextChangeInterval;
+    perc := 1.0 - (nextTextChangeTick - GetTimer) / TextChangeInterval;
+    w := trunc(LerpEased(0, 319, perc, @EaseOutQuad));
 
-    HLine(0, trunc(perc * 320), VGAHeight - 1, White);
+    HLine(0, w, VGAHeight - 1, AccentPale);
   end;
 end;
 
