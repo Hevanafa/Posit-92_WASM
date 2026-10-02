@@ -7,6 +7,10 @@ This document was made to track known quirks with the heap manager implementatio
 
 It hangs the engine, so simply don't use it as of now
 
+Update 02-10-2026: You can use it simply by increasing the stack size
+
+Reference: [stack_requirements.md](stack_requirements.md)
+
 ## About `TFPGObjectList.Clear`
 14-08-2026
 
