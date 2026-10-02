@@ -14,7 +14,8 @@ uses
   P92Core, P92Fonts, P92WasmHost, P92AssetRegistry,
   P92Logger, P92Conversions,
   P92Graphics, P92Keyboard, P92Mouse, P92Sounds,
-  P92TexDraw, P92Timing, P92FPS, P92VGA,
+  P92Tex, P92TexDraw, P92TexComp, P92TexEffects,
+  P92Timing, P92FPS, P92VGA,
   Assets;
 
 procedure OnPreload;
@@ -68,6 +69,7 @@ begin
   { 10000 ops
     Original: 0.3810s
   }
+  {
   for a:=1 to opCount do begin
     flips := [];
 
@@ -79,6 +81,14 @@ begin
       random(VgaWidth) - 12,
       random(VgaHeight) - 12, flips)
   end;
+  }
+
+  { 1000 ops }
+  for a:=1 to opCount do begin
+    SprAlpha(
+      texSpecimenP92[0],
+      random(VGAWidth) - 12, random(VGAHeight) - 12, random);
+  end;
 
   endTick := GetTimer;
 
@@ -87,7 +97,7 @@ end;
 
 procedure DrawOnce;
 const
-  OpCount = 10000;
+  OpCount = 1000;
 var
   t: double;
   s: string;

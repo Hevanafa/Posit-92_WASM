@@ -16,6 +16,9 @@ interface
 
 uses P92AssetHandles;
 
+{
+  opacity: 0.0 .. 1.0
+}
 procedure SprAlpha(const texHandle: TTextureHandle; const x, y: smallint; opacity: double);
 procedure SprBlend(const texHandle: TTextureHandle; const x, y: smallint);
 
