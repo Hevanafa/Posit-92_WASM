@@ -136,7 +136,7 @@ type WebAssemblyInstance = WebAssembly.Instance & { exports: WasmExports };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class Posit92 {
-  public static readonly Version = "0.6";
+  public static readonly Version = "0.6.1";
 
   readonly #wasmSource = "game.wasm";
 
