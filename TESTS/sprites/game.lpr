@@ -85,8 +85,11 @@ begin
 
   { 1000 ops
     Original: 0.0960s
+
     5000 ops
-    Original: 0.4090s }
+    Original: 0.4090s
+    After clipping: 0.2330s
+    After row stride: 0.2440s }
   for a:=1 to opCount do begin
     SprAlpha(
       texSpecimenP92[0],

@@ -32,6 +32,7 @@ var
   texturePtr: PSoftwareTex;
   startX, endX, startY, endY: smallint;
   px, py: smallint;
+  srcOffset, srcRowStart, srcStride: longword;
   ABGR: longword;
   alpha: byte;
 begin
@@ -63,10 +64,18 @@ begin
   if (startX > endX) or (startY > endY) then exit;
 
   { Render logic }
+  srcStride := longword(texturePtr^.width) * 4;
+  srcRowStart := (longword(startY) * texturePtr^.width + longword(startX)) * 4;
 
-  for py := startY to endY do
+  for py := startY to endY do begin
+    srcOffset := srcRowStart;
+
     for px := startX to endX do begin
-      ABGR := UnsafeTexPGet(texturePtr, px, py);
+      ABGR := PLongWord(@texturePtr^.pixelData[srcOffset])^;
+
+      { This has to come before the alpha=0 check, otherwise
+        transparent pixels would skip the increment }
+      inc(srcOffset, 4);
 
       alpha := ABGR shr 24;
       if alpha = 0 then continue;
@@ -76,6 +85,9 @@ begin
 
       UnsafePSetBlend(x + px, y + py, ABGR)
     end;
+
+    inc(srcRowStart, srcStride)
+  end;
 end;
 
 procedure SprBlend(const texHandle: TTextureHandle; const x, y: smallint);
