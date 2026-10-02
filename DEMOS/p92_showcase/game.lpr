@@ -43,9 +43,33 @@ begin
   gameTime := 0.0;
 
   flavourTexts := TStringList.create;
-  flavourTexts.Add('WebAssembly, the Pascal way!');
 
-  displayedFlavourText := flavourTexts[random(flavourTexts.Count)];
+  flavourTexts.Add('WebAssembly, the Pascal way!');
+  flavourTexts.Add('The best WebAssembly game engine for Pascal!');
+
+  flavourTexts.Add('Modern problems require 1992 solutions!');
+
+  flavourTexts.Add('Pascal is not dead!');
+  flavourTexts.Add('Still compiling after 30 years!');
+  flavourTexts.Add('Powered by suspiciously old technology!');
+  flavourTexts.Add('Turbo Pascal approved!*');
+  flavourTexts.Add('Made with actual pointers!');
+  flavourTexts.Add('Handwritten with questionable enthusiasm!');
+
+  flavourTexts.Add('Built for computers and fantasy computers');
+  flavourTexts.Add('DOS is a feature');
+  flavourTexts.Add('Yes, Pascal can do that!');
+
+  { JS-related stuff }
+
+  flavourTexts.Add('No JavaScript framework required!');
+  flavourTexts.Add('No npm install!');
+
+  { GPU stuff }
+
+  flavourTexts.Add('Your GPU can take the day off!');
+
+  displayedFlavourText := flavourTexts[trunc(GetTimer) mod flavourTexts.Count];
 end;
 
 procedure Update;
