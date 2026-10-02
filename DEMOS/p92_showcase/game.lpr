@@ -22,12 +22,16 @@ uses
 type
   TStringList = specialize TFPGList<string>;
 
+const
+  TextChangeInterval = 5.0;
+
 var
   { Game state variables }
   gameTime: double;
+  nextTextChangeTick: double;
 
   flavourTexts: TStringList;
-  displayedFlavourText: string;
+  displayedTextIdx: smallint;
 
 procedure OnPreload;
 begin
@@ -41,6 +45,7 @@ begin
 
   { Initialise game state here }
   gameTime := 0.0;
+  nextTextChangeTick := GetTimer + TextChangeInterval;
 
   flavourTexts := TStringList.create;
 
@@ -89,12 +94,21 @@ begin
   flavourTexts.Add('No shaders? No problem!');
   flavourTexts.Add('The engine your GPU forgot to fear!');
 
-  displayedFlavourText := flavourTexts[trunc(GetTimer) mod flavourTexts.Count];
+  displayedTextIdx := trunc(GetTimer) mod flavourTexts.Count;
 end;
 
 procedure Update;
+var
+  now: double;
 begin
+  now := GetTimer;
+
   if IsKeyDown(SC_ESCAPE) then SignalDone;
+
+  if now >= nextTextChangeTick then begin
+    nextTextChangeTick := nextTextChangeTick + TextChangeInterval;
+    displayedTextIdx := (displayedTextIdx + 1) mod flavourTexts.count;
+  end;
 
   gameTime := gameTime + DeltaTime
 end;
@@ -141,7 +155,7 @@ begin
     w, h);
   }
 
-  s := displayedFlavourText;
+  s := flavourTexts[displayedTextIdx];
   w := MeasureDefault(s);
   left := (VgaWidth - w) div 2;
 
