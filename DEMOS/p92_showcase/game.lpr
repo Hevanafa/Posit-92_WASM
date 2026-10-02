@@ -52,7 +52,7 @@ begin
   flavourTexts.Add('WebAssembly, the Pascal way!');
   flavourTexts.Add('The best WebAssembly game engine for Pascal!');
 
-  { Self-confidence stuff }
+  { Pascal confidence }
 
   flavourTexts.Add('Pascal is not dead!');
   flavourTexts.Add('Yes, Pascal can do that!');
@@ -93,6 +93,33 @@ begin
   flavourTexts.Add('Your GPU can take the day off!');
   flavourTexts.Add('No shaders? No problem!');
   flavourTexts.Add('The engine your GPU forgot to fear!');
+
+  { Shipping confidence }
+
+  flavourTexts.Add('Who needs pas2js if wasm32 can do it?');
+  flavourTexts.Add('Who needs WASI if there''s no filesystem involved?');
+  flavourTexts.Add('No filesystem? No WASI problem!');
+
+  flavourTexts.Add('Another abstraction layer? Declined!');
+  flavourTexts.Add('Framework-free by deliberate choice!');
+  flavourTexts.Add('No runtime acrobatics required!');
+  flavourTexts.Add('Less tech stack, more game!');
+  flavourTexts.Add('Technically impressive. Practically unnecessary.');
+  flavourTexts.Add('Shipping beats feature density!');
+
+  flavourTexts.Add('Built to run, not to trend!');
+  flavourTexts.Add('No architecture astronautics required!');
+  flavourTexts.Add('The dependency graph is pleasantly boring!');
+  flavourTexts.Add('Zero hype-driven development!');
+  flavourTexts.Add('One executable idea at a time!')
+  flavourTexts.Add('If the browser can call it, Pascal can own it!');
+
+  flavourTexts.Add('WASM without the elaborate ceremony!');
+  flavourTexts.Add('No framework migration planned!');
+  flavourTexts.Add('The tech stack ends here!');
+  flavourTexts.Add('Fewer layers, fewer mysteries!');
+  flavourTexts.Add('Engine first, ecosystem second!');
+  flavourTexts.Add('Built before the trend cycle ends!');
 
   displayedTextIdx := trunc(GetTimer) mod flavourTexts.Count;
 end;
