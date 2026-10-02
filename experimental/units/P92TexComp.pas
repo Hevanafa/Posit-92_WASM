@@ -32,7 +32,11 @@ var
   texturePtr: PSoftwareTex;
   startX, endX, startY, endY: smallint;
   px, py: smallint;
+
   srcOffset, srcRowStart, srcStride: longword;
+  destOffset, destRowStart, destStride: longword;
+  surface: PByteArray;
+
   ABGR: longword;
   alpha: byte;
 begin
@@ -64,11 +68,18 @@ begin
   if (startX > endX) or (startY > endY) then exit;
 
   { Render logic }
+
+  surface := BorrowSurfacePtr;
+
   srcStride := longword(texturePtr^.width) * 4;
   srcRowStart := (longword(startY) * texturePtr^.width + longword(startX)) * 4;
 
+  destStride := longword(VGAWidth) * 4;
+  destRowStart := (longword(y + startY) * VGAWidth + longword(x + startX)) * 4;
+
   for py := startY to endY do begin
     srcOffset := srcRowStart;
+    destOffset := destRowStart;
 
     for px := startX to endX do begin
       ABGR := PLongWord(@texturePtr^.pixelData[srcOffset])^;
@@ -76,14 +87,20 @@ begin
       { This has to come before the alpha=0 check, otherwise
         transparent pixels would skip the increment }
       inc(srcOffset, 4);
+      inc(destOffset, 4);
 
       alpha := ABGR shr 24;
       if alpha = 0 then continue;
 
       alpha := trunc(alpha * opacity);
+      if alpha = 0 then continue;
+
       ABGR := (ABGR and $FFFFFF) or (alpha shl 24);
 
-      UnsafePSetBlend(x + px, y + py, ABGR)
+      if alpha = 255 then
+        PLongWord(@surface^[destOffset])^ := ABGR
+      else
+        PLongWord(@surface^[destOffset])^ := BlendABGR(ABGR, destPtr^);
     end;
 
     inc(srcRowStart, srcStride)
