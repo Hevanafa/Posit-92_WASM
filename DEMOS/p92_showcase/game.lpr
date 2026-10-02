@@ -234,6 +234,12 @@ begin
   flavourTexts.Add('LOD system not required at [this] distance!');
   flavourTexts.Add('The polygon budget has been converted into snacks!');
 
+  flavourTexts.Add('This engine has zero interest in your tangent space!');
+  flavourTexts.Add('Flat sprites for a flat surface!');
+  flavourTexts.Add('The Z axis has been given annual leave, maybe forever!');
+  flavourTexts.Add('Emotionally rasterised!');
+  flavourTexts.Add('Bright pixels win over volumetric lighting in 99% of cases!*');
+
   { Shipping confidence }
 
   flavourTexts.Add('Cool stack bro, but did it actually help ship the thing?');
