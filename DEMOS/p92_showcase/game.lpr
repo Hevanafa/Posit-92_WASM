@@ -11,6 +11,7 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
+  FGL,
   P92Core, P92Fonts, P92AssetRegistry, P92WasmHost,
   P92Logger, P92BMFont, P92Iif, P92WasmHeap,
   P92Keyboard, P92Mouse,
@@ -18,9 +19,15 @@ uses
   P92Timing, P92FPS, P92VGA,
   Assets;
 
+type
+  TStringList = specialize TFPGList<string>;
+
 var
   { Game state variables }
   gameTime: double;
+
+  flavourTexts: TStringList;
+  displayedFlavourText: string;
 
 procedure OnPreload;
 begin
@@ -33,7 +40,12 @@ begin
   HideCursor;
 
   { Initialise game state here }
-  gameTime := 0.0
+  gameTime := 0.0;
+
+  flavourTexts := TStringList.create;
+  flavourTexts.Add('WebAssembly, the Pascal way!');
+
+  displayedFlavourText := flavourTexts[random(flavourTexts.Count)];
 end;
 
 procedure Update;
@@ -85,7 +97,7 @@ begin
     w, h);
   }
 
-  s := 'WebAssembly, the Pascal way!';
+  s := displayedFlavourText;
   w := MeasureDefault(s);
   left := (VgaWidth - w) div 2;
 
