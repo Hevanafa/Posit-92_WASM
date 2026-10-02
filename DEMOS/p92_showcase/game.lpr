@@ -30,8 +30,16 @@ var
   { uses real time }
   nextTextChangeTick: double;
 
+  lastProceed: boolean;
+
   flavourTexts: TStringList;
   displayedTextIdx: smallint;
+
+
+function IsProceedPressed: boolean;
+begin
+  IsProceedPressed := IsKeyDown(SC_SPACE) or IsLeftMousePressed
+end;
 
 procedure OnPreload;
 begin
@@ -305,8 +313,15 @@ begin
 
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
+  if lastProceed <> IsProceedPressed then begin
+    lastProceed := IsProceedPressed;
+
+    if lastProceed then
+      nextTextChangeTick := now;
+  end;
+
   if now >= nextTextChangeTick then begin
-    nextTextChangeTick := nextTextChangeTick + TextChangeInterval;
+    nextTextChangeTick := now + TextChangeInterval;
     displayedTextIdx := (displayedTextIdx + 1) mod flavourTexts.count;
   end;
 
