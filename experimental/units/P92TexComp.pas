@@ -52,18 +52,22 @@ begin
   if endX > texturePtr^.width - 1 then
     endX := texturePtr^.width - 1;
 
-  { TODO: Handle Y clipping }
+  startY := ClipY1 - y;
+  endY := ClipY2 - y;
 
+  if startY < 0 then
+    startY := 0;
+  if endY > texturePtr^.height - 1 then
+    endY := texturePtr^.height - 1;
 
+  if (startX > endX) or (startY > endY) then exit;
 
   { Render logic }
 
-  for py := 0 to texturePtr^.height - 1 do
-    for px := 0 to texturePtr^.width - 1 do begin
-      if (x + px > clipX2) or (x + px < clipX1)
-        or (y + py > clipY2) or (y + py < clipY1) then continue;
-
+  for py := startY to endY do
+    for px := startX to endX do begin
       colour := UnsafeTexPGet(texturePtr, px, py);
+
       alpha := colour shr 24;
       if alpha = 0 then continue;
 
