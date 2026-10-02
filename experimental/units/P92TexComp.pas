@@ -25,7 +25,7 @@ procedure SprBlend(const texHandle: TTextureHandle; const x, y: smallint);
 
 implementation
 
-uses P92AssetRegistry, P92Tex, P92Maths, P92VGA;
+uses P92AssetRegistry, P92Colour, P92Tex, P92Maths, P92VGA;
 
 procedure SprAlpha(const texHandle: TTextureHandle; const x, y: smallint; opacity: double);
 var
@@ -36,6 +36,7 @@ var
   srcOffset, srcRowStart, srcStride: longword;
   destOffset, destRowStart, destStride: longword;
   surface: PByteArray;
+  destPtr: PLongWord;
 
   ABGR: longword;
   alpha: byte;
@@ -96,14 +97,16 @@ begin
       if alpha = 0 then continue;
 
       ABGR := (ABGR and $FFFFFF) or (alpha shl 24);
+      destPtr := PLongWord(@surface^[destOffset]);
 
       if alpha = 255 then
-        PLongWord(@surface^[destOffset])^ := ABGR
+        destPtr^ := ABGR
       else
-        PLongWord(@surface^[destOffset])^ := BlendABGR(ABGR, destPtr^);
+        destPtr^ := BlendABGR(ABGR, destPtr^);
     end;
 
-    inc(srcRowStart, srcStride)
+    inc(srcRowStart, srcStride);
+    inc(destRowStart, destStride)
   end;
 end;
 
