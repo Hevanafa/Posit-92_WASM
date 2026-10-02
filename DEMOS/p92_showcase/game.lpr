@@ -12,7 +12,7 @@ library Game;
 
 uses
   FGL,
-  P92Core, P92Fonts, P92AssetRegistry, P92WasmHost,
+  P92Core, P92Conversions, P92Fonts, P92AssetRegistry, P92WasmHost,
   P92Logger, P92BMFont, P92Iif, P92WasmHeap,
   P92Keyboard, P92Mouse,
   P92Graphics, P92Tex, P92TexDraw, P92TexEffects, P92Colour,
@@ -35,6 +35,8 @@ var
 
 procedure OnPreload;
 begin
+  writelog('Entered OnPreload');
+
   texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
   texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
 end;
@@ -43,11 +45,16 @@ procedure OnReady;
 begin
   HideCursor;
 
+  writelog('Entered OnReady');
+
+  writelog('SizeOf string: ' + I32Str(sizeof(string)));
+
   { Initialise game state here }
   gameTime := 0.0;
   nextTextChangeTick := GetTimer + TextChangeInterval;
 
   flavourTexts := TStringList.create;
+  { flavourTexts.Capacity := 128; }
 
   flavourTexts.Add('WebAssembly, the Pascal way!');
   flavourTexts.Add('The best WebAssembly game engine for Pascal!');
@@ -114,6 +121,11 @@ begin
   flavourTexts.Add('The game lives in the WASM!');
   flavourTexts.Add('JavaScript is merely the glue!');
 
+  writelog('Flavour text capacity: ' + I32Str(flavourTexts.Capacity));
+  writelog('Flavour text count: ' + i32str(flavourTexts.Count));
+
+  { TODO: Enable these sections one by one }
+{
   flavourTexts.Add('No node_modules ecosystem required!');
   flavourTexts.Add('No bundler archaeology required!');
   flavourTexts.Add('No dependency tree forest!');
@@ -272,6 +284,7 @@ begin
   flavourTexts.Add('Dependency count: suspiciously low');
   flavourTexts.Add('No "modernisation" sprint required!');
   flavourTexts.Add('Still waiting for the framework rewrite!');
+}
 
   displayedTextIdx := trunc(GetTimer) mod flavourTexts.Count;
 end;
