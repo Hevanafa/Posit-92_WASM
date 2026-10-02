@@ -131,16 +131,21 @@ begin
   { Rust }
 
   flavourTexts.Add('Rust? Is that the game or the crab?');
-  flavourTexts.Add('Borrow checker? I know who owns my pointers!');
-  flavourTexts.Add('Fearless concurrency? I fear nothing at 60 FPS!');
-  flavourTexts.Add('Memory safety through knowing what you''re doing!');
+  flavourTexts.Add('Pascal taught discipline before borrow checking was cool!');
+  flavourTexts.Add('Fearless concurrency? Pascal fears nothing at 60 FPS!');
+  flavourTexts.Add('Pascal: Memory safety through knowing what you''re doing!');
   flavourTexts.Add('The crab may remain peacefully on the beach!');
+  flavourTexts.Add('Pascal was teaching explicit state before it was fashionable!');
 
-  flavourTexts.Add('Borrow checker? I brought discipline!');
-  flavourTexts.Add('Unsafe?  We call that responsibility!');
+  flavourTexts.Add('Pascal survived decades without a borrow checker!');
+  flavourTexts.Add('Pascal: structured enough to keep you honest!');
+  flavourTexts.Add('Unsafe? We call that responsibility!');
   flavourTexts.Add('No fighting the borrow checker today!');
   flavourTexts.Add('Ownership model: I wrote the code, I know the owner!');
   flavourTexts.Add('Lifetime annotations? Mine end at OnCleanup!');
+
+  flavourTexts.Add('Pascal trusts you. Try to deserve it!');
+  flavourTexts.Add('Pascal has one game loop and zero existential dread!');
 
   { Go }
 
