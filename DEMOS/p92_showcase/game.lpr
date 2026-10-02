@@ -128,13 +128,30 @@ begin
 
   { Other languages }
 
+  { Rust }
+
   flavourTexts.Add('Rust? Is that the game or the crab?');
+  flavourTexts.Add('Borrow checker? I know who owns my pointers!');
+  flavourTexts.Add('Fearless concurrency? I fear nothing at 60 FPS!');
+  flavourTexts.Add('Memory safety through knowing what you''re doing!');
+  flavourTexts.Add('The crab may remain peacefully on the beach!');
+
+  { Go }
+
+  flavourTexts.Add('Go? I already went!');
+  flavourTexts.Add('Goroutines? I have a game loop!');
+  flavourTexts.Add('Channels? We call those variables!');
+  flavourTexts.Add('Error handling, now with fewer if err != nil !';
+  flavourTexts.Add('Nice mascot. We also have a hot slime girl';
+  flavourTexts.Add('Simple language? Now YOU are speaking my language!');
 
   { GPU stuff }
 
   flavourTexts.Add('Your GPU can take the day off!');
   flavourTexts.Add('No shaders? No problem!');
   flavourTexts.Add('The engine your GPU forgot to fear!');
+
+  { TODO: Add more GPU stuff }
 
   { Shipping confidence }
 
