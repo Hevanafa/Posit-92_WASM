@@ -18,6 +18,7 @@ implementation
 
 uses P92Maths;
 
+{ This returns exactly round(v / 255) }
 function Div255(v: longword): longword; inline;
 begin
   inc(v, 128);
