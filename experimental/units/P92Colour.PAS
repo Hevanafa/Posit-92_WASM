@@ -6,6 +6,8 @@ unit P92Colour;
 
 interface
 
+function BlendABGR(const src, dest: longword): longword; inline;
+
 { h, s, v: [0.0, 1.0] }
 function HSVtoRGB(h, s, v: double): longword;
 function LerpColour(const colourA, colourB: longword; const perc: double): longword;
@@ -14,6 +16,28 @@ function LerpColour(const colourA, colourB: longword; const perc: double): longw
 implementation
 
 uses P92Maths;
+
+function Div255(v: longword): longword; inline;
+begin
+  inc(v, 128);
+  Div255 := (v + (v shr 8)) shr 8
+end;
+
+function BlendABGR(const src, dest:longword):longword;
+var
+  alpha, intAlpha, r, g, b, outAlpha: longword;
+begin
+  alpha := src shr 24;
+  intAlpha := 255 - alpha;
+
+  r := Div255((src and $FF) * alpha + (dest and $FF) * intAlpha);
+  g := Div255((src shr 8 and $FF) * alpha + (dest shr 8 and $FF) * intAlpha);
+  b := Div255((src shr 16 and $FF) * alpha + (dest shr 8 and $FF) * intAlpha);
+  outAlpha := alpha + Div255((dest shr 24) * intAlpha);
+
+  BlendABGR := (outAlpha shl 24) or (b shl 16) or (g shl 8) or r
+end;
+
 
 function HSVtoRGB(h, s, v: double): longword;
 var
