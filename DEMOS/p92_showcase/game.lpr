@@ -220,6 +220,20 @@ begin
   flavourTexts.Add('Shaders are optional. Pixels are mandatory!');
   flavourTexts.Add('Who needs triangles anyway?');
 
+  { 3D stuff }
+
+  flavourTexts.Add('Nice normal map! We brought a bitmap!');
+  flavourTexts.Add('PBR? Pretty Bitmap Rendering?');
+  flavourTexts.Add('Ray tracing? We already know where the pixels are!');
+  flavourTexts.Add('Your mesh has more triangles than this game has pixels!');
+  flavourTexts.Add('No need to triangulate the slime!');
+  flavourTexts.Add('Who needs a depth buffer if everything is already right before your eyes!');
+  flavourTexts.Add('Your material graph looks [very] impressive from 320x200!');
+  flavourTexts.Add('Tessellation can remain peacefully unemployed!');
+  flavourTexts.Add('5500 polygons for a toothbrush!');  { Regarding to [that one programmer] }
+  flavourTexts.Add('LOD system not required at [this] distance!');
+  flavourTexts.Add('The polygon budget has been converted into snacks!');
+
   { Shipping confidence }
 
   flavourTexts.Add('Cool stack bro, but did it actually help ship the thing?');
