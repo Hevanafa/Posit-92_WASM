@@ -168,6 +168,8 @@ begin
   flavourTexts.Add('Undefined behaviour sold separately!');
   flavourTexts.Add('No header archaeology required!');
   flavourTexts.Add('Pascal survived without operator soup!');
+  flavourTexts.Add('RAII? Pascal prefers Free-dom!');
+  flavourTexts.Add('Your compiler error has exceeded the whole text buffer!');
 
   { Java }
 
@@ -177,6 +179,8 @@ begin
   flavourTexts.Add('Do you have any List<AbstractSingletonProxyFactoryGrapeItem>?');
   flavourTexts.Add('Not everything needs to be a class!');
   flavourTexts.Add('No garbage collector negotiations required!');
+  flavourTexts.Add('Enterprise-grade Hello World not required!');
+  flavourTexts.Add('public static void main System.out.println? Begin writeln is enough!');
 
   { GPU stuff }
 
