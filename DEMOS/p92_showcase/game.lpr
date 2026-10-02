@@ -189,6 +189,10 @@ begin
   flavourTexts.Add('Enterprise-grade Hello World not required!');
   flavourTexts.Add('public static void main System.out.println? Begin writeln is enough!');
 
+  flavourTexts.Add('Java called, is it another giga-bite?');
+  flavourTexts.Add('JVM warmup not included!');
+  flavourTexts.Add('No virtual machine was harmed in the making of this frame');
+
   { Python }
 
   flavourTexts.Add('Indentation is for humans, begin/end is for certainty!');
@@ -204,6 +208,18 @@ begin
   flavourTexts.Add('No gems or rocks required!');  { This may also involve Lua }
   flavourTexts.Add('Convention over configuration? How about neither?');
   flavourTexts.Add('Rails not included. We have no train station!');
+
+  flavourTexts.Add('Who brought a garbage collector to a 320x200 game?');
+  flavourTexts.Add('Heap size: measured in kilobytes, not willy-nilly');
+  flavourTexts.Add('Some runtimes need more RAM than this game has pixels');
+  flavourTexts.Add('Garbage collection? We already know where everything is!');
+  flavourTexts.Add('Ruby: elegant syntax, enthusiastic appetite');
+
+  flavourTexts.Add('The whole game fits inside someone else''s startup overhead!');
+  flavourTexts.Add('A whole engine, still lighter than your black hole called dependencies');
+
+  flavourTexts.Add('Please remain calm, it''s only 2 MB of RAM');
+  flavourTexts.Add('512K stack: decadent luxury!');
 
   { GPU stuff }
 
