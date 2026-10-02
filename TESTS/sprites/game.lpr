@@ -89,7 +89,8 @@ begin
     5000 ops
     Original: 0.4090s
     After clipping: 0.2330s
-    After row stride: 0.2440s }
+    After row stride: 0.2440s
+    After inlined blending: 0.1260s }
   for a:=1 to opCount do begin
     SprAlpha(
       texSpecimenP92[0],

@@ -84,8 +84,9 @@ begin
 
     for px := startX to endX do begin
       ABGR := PLongWord(@texturePtr^.pixelData[srcOffset])^;
+      destPtr := PLongWord(@surface^[destOffset]);
 
-      { This has to come before the alpha=0 check, otherwise
+      { Advance both offsets before any continue, otherwise
         transparent pixels would skip the increment }
       inc(srcOffset, 4);
       inc(destOffset, 4);
@@ -97,7 +98,6 @@ begin
       if alpha = 0 then continue;
 
       ABGR := (ABGR and $FFFFFF) or (alpha shl 24);
-      destPtr := PLongWord(@surface^[destOffset]);
 
       if alpha = 255 then
         destPtr^ := ABGR
