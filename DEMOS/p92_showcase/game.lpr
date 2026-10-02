@@ -203,11 +203,26 @@ begin
   flavourTexts.Add('Your GPU can take the day off!');
   flavourTexts.Add('No shaders? No problem!');
   flavourTexts.Add('The engine your GPU forgot to fear!');
+  flavourTexts.Add('Your CPU drew this!');
+  flavourTexts.Add('Software rendering is still rendering!');
+  flavourTexts.Add('Pixels personally escorted by the CPU!');
 
-  { TODO: Add more GPU stuff }
+  flavourTexts.Add('No vertex shader paperwork required!');
+  flavourTexts.Add('No fragment shader negotiations!');
+  flavourTexts.Add('No shader compilation surprises!');
+  flavourTexts.Add('GPU utilisation sold separately!');
+
+  flavourTexts.Add('Your shiny RTX card is deeply confused!');
+  flavourTexts.Add('Your integrated graphics may enjoy vacation!');
+  flavourTexts.Add('Rasterised the stubborn way!');
+  flavourTexts.Add('Draw pixels. Present pixels. Done');
+  flavourTexts.Add('Framebuffer goes in, picture comes out!');
+  flavourTexts.Add('Shaders are optional. Pixels are mandatory!');
+  flavourTexts.Add('Who needs triangles anyway?');
 
   { Shipping confidence }
 
+  flavourTexts.Add('Cool stack bro, but did it actually help ship the thing?');
   flavourTexts.Add('Who needs pas2js if wasm32 can do it?');
   flavourTexts.Add('Who needs WASI if there''s no filesystem involved?');
   flavourTexts.Add('No filesystem? No WASI problem!');
