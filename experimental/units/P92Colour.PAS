@@ -18,24 +18,25 @@ implementation
 
 uses P92Maths;
 
-{ This returns exactly round(v / 255) }
+{ Returns exactly round(v / 255)
+  for v in 0..65025 (i.e. 255 * 255) }
 function Div255(v: longword): longword; inline;
 begin
   inc(v, 128);
   Div255 := (v + (v shr 8)) shr 8
 end;
 
-function BlendABGR(const srcABGR, destABGR:longword):longword;
+function BlendABGR(const srcABGR, destABGR: longword): longword; inline;
 var
-  alpha, intAlpha, r, g, b, outAlpha: longword;
+  alpha, invAlpha, r, g, b, outAlpha: longword;
 begin
   alpha := srcABGR shr 24;
-  intAlpha := 255 - alpha;
+  invAlpha := 255 - alpha;
 
-  r := Div255((srcABGR and $FF) * alpha + (destABGR and $FF) * intAlpha);
-  g := Div255((srcABGR shr 8 and $FF) * alpha + (destABGR shr 8 and $FF) * intAlpha);
-  b := Div255((srcABGR shr 16 and $FF) * alpha + (destABGR shr 8 and $FF) * intAlpha);
-  outAlpha := alpha + Div255((destABGR shr 24) * intAlpha);
+  r := Div255((srcABGR and $FF) * alpha + (destABGR and $FF) * invAlpha);
+  g := Div255((srcABGR shr 8 and $FF) * alpha + (destABGR shr 8 and $FF) * invAlpha);
+  b := Div255((srcABGR shr 16 and $FF) * alpha + (destABGR shr 16 and $FF) * invAlpha);
+  outAlpha := alpha + Div255((destABGR shr 24) * invAlpha);
 
   BlendABGR := (outAlpha shl 24) or (b shl 16) or (g shl 8) or r
 end;
