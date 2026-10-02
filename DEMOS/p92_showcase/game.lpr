@@ -136,14 +136,26 @@ begin
   flavourTexts.Add('Memory safety through knowing what you''re doing!');
   flavourTexts.Add('The crab may remain peacefully on the beach!');
 
+  flavourTexts.Add('Borrow checker? I brought discipline!');
+  flavourTexts.Add('Unsafe?  We call that responsibility!');
+  flavourTexts.Add('No fighting the borrow checker today!');
+  flavourTexts.Add('Ownership model: I wrote the code, I know the owner!');
+  flavourTexts.Add('Lifetime annotations? Mine end at OnCleanup!');
+
   { Go }
 
   flavourTexts.Add('Go? I already went!');
   flavourTexts.Add('Goroutines? I have a game loop!');
   flavourTexts.Add('Channels? We call those variables!');
-  flavourTexts.Add('Error handling, now with fewer if err != nil !';
-  flavourTexts.Add('Nice mascot. We also have a hot slime girl';
+  flavourTexts.Add('Error handling, now with fewer if err != nil !');
+
+  flavourTexts.Add('Nice mascot. We also have a hot slime girl!');
+
   flavourTexts.Add('Simple language? Now YOU are speaking my language!');
+  flavourTexts.Add('Go looks suspiciously familiar!');
+  flavourTexts.Add('Go is like Pascal, but someone hid the semicolons!');
+  flavourTexts.Add('Minimal syntax? Pascal was doing that before it was cool!');
+  flavourTexts.Add('Go has :=. I have := too!');
 
   { GPU stuff }
 
