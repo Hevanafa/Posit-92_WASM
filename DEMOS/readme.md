@@ -50,7 +50,7 @@ Each project has its own `project.lpi`, with `game.lpr` as the entry point
 
 - **dos_display** -- A recreation of watered-down DOS with a scrolling scanline background
 - **particles** -- Click to spawn colourful marble particles
-- **scanlines_plus** -- "Now with more scanlines!" with a scrolling rainbow label and Specimen P-92 bouncing
+- **p92_showcase** -- Fun pokes at other programming languages and tech stacks, with a scrolling rainbow label and Specimen P-92's face
 - **vga_crt_effect** -- Pip Boy from Fallout on a fluorescent green CRT, fully CPU-bound rendering
 
 ## Others
