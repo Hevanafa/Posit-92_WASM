@@ -190,6 +190,14 @@ begin
   flavourTexts.Add('Python is lovely, but sir, this is Pascal');  { Kinda like the "Sir, this is Wendy's" }
   flavourTexts.Add('Fast enough without asking NumPy or C to do it!');
 
+  { Ruby }
+
+  flavourTexts.Add('That''s a pretty gem, Ruby, but wrong toolbox!');
+  flavourTexts.Add('Everything is an object? Even this framebuffer?');
+  flavourTexts.Add('No gems or rocks required!');  { This may also involve Lua }
+  flavourTexts.Add('Convention over configuration? How about neither?');
+  flavourTexts.Add('Rails not included. We have no train station!');
+
   { GPU stuff }
 
   flavourTexts.Add('Your GPU can take the day off!');
