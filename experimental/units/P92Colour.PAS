@@ -28,15 +28,16 @@ end;
 
 function BlendABGR(const srcABGR, destABGR: longword): longword; inline;
 var
-  alpha, invAlpha, r, g, b, outAlpha: longword;
+  srcAlpha, invAlpha: longword;
+  r, g, b, outAlpha: longword;
 begin
-  alpha := srcABGR shr 24;
-  invAlpha := 255 - alpha;
+  srcAlpha := srcABGR shr 24;
+  invAlpha := 255 - srcAlpha;
 
-  r := Div255((srcABGR and $FF) * alpha + (destABGR and $FF) * invAlpha);
-  g := Div255((srcABGR shr 8 and $FF) * alpha + (destABGR shr 8 and $FF) * invAlpha);
-  b := Div255((srcABGR shr 16 and $FF) * alpha + (destABGR shr 16 and $FF) * invAlpha);
-  outAlpha := alpha + Div255((destABGR shr 24) * invAlpha);
+  r := Div255((srcABGR and $FF) * srcAlpha + (destABGR and $FF) * invAlpha);
+  g := Div255((srcABGR shr 8 and $FF) * srcAlpha + (destABGR shr 8 and $FF) * invAlpha);
+  b := Div255((srcABGR shr 16 and $FF) * srcAlpha + (destABGR shr 16 and $FF) * invAlpha);
+  outAlpha := srcAlpha + Div255((destABGR shr 24) * invAlpha);
 
   BlendABGR := (outAlpha shl 24) or (b shl 16) or (g shl 8) or r
 end;
