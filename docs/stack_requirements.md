@@ -4,11 +4,11 @@ This document shows tested stack envelopes
 
 ## TL;DR
 
-For projects using Free Pascal RTL units such as SysUtils, Classes, FGL, and Math:
+For projects using Free Pascal RTL units such as `SysUtils`, `Classes`, `FGL`, and `Math`:
 
 Recommended stack size: **512 KB**
 
-**384 KB** has been tested and works, while 320 KB and below crashes
+**384 KB** has been tested and works, while **320 KB and below crashes**
 
 For minimal Posit-92 projects without the Free Pascal RTL:
 
