@@ -133,7 +133,7 @@ begin
   flavourTexts.Add('Rust? Is that the game or the crab?');
   flavourTexts.Add('Pascal taught discipline before borrow checking was cool!');
   flavourTexts.Add('Fearless concurrency? Pascal fears nothing at 60 FPS!');
-  flavourTexts.Add('Pascal: Memory safety through knowing what you''re doing!');
+  flavourTexts.Add('Pascal: memory safety through knowing what you''re doing!');
   flavourTexts.Add('The crab may remain peacefully on the beach!');
   flavourTexts.Add('Pascal was teaching explicit state before it was fashionable!');
 
@@ -161,6 +161,13 @@ begin
   flavourTexts.Add('Go is like Pascal, but someone hid the semicolons!');
   flavourTexts.Add('Minimal syntax? Pascal was doing that before it was cool!');
   flavourTexts.Add('Go has :=. I have := too!');
+
+  { C++ }
+
+  flavourTexts.Add('C++? How many pluses do you need?');
+  flavourTexts.Add('Undefined behaviour sold separately!');
+  flavourTexts.Add('No header archaeology required!'
+  flavourTexts.Add('Pascal survived without operator soup!');
 
   { GPU stuff }
 
