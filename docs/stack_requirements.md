@@ -2,6 +2,24 @@
 
 This document shows tested stack envelopes
 
+## TL;DR
+
+For projects using Free Pascal RTL units such as SysUtils, Classes, FGL, and Math:
+
+Recommended stack size: **512 KB**
+
+**384 KB** has been tested and works, while 320 KB and below crashes
+
+For minimal Posit-92 projects without the Free Pascal RTL:
+
+**320 KB** has been tested and works
+
+These are tested stack envelopes, not guaranteed minimum requirements
+
+You can change the supposed stack region in the `P92WasmHeap` unit
+
+## Details
+
 **Minimal Posit-92**
 
 ```text
@@ -33,5 +51,6 @@ Various stack size tests:
 768 K: works
 512 K: works
 384 K: works
+320 K: crashes
 256 K: crashes
 ```
