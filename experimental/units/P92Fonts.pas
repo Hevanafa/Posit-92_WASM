@@ -60,5 +60,7 @@ begin
     defaultFontHandle, ch, x, y, colour)
 end;
 
+begin
+  defaultFontHandle := 0;
 end.
 
