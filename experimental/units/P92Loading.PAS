@@ -17,23 +17,35 @@ procedure RenderLoadingScreen;
 implementation
 
 uses
-  P92Core, P92Conversions, P92AssetRegistry, P92VGA
+  P92Core, P92Conversions, P92AssetRegistry, P92Graphics, P92VGA
 {$IFDEF P92_WEBGL}
   , P92WebGL
 {$ENDIF}
   ;
 
 procedure RenderLoadingScreen;
+const
+  BarLeft = 120;
+  BarTop = 116;
+  BarWidth = 80;
+  BarHeight = 10;
 var
   s: string;
+  perc: double;
 begin
-  Cls($00000000);
+  Cls($FF000000);
 
   s := 'Loading...';
   Print(s, (VGAWidth - 8 * length(s)) shr 1, 76);
 
   s := I32Str(GetAssetReadyCount) + ' / ' + I32Str(GetAssetTotalCount) + ' assets';
   Print(s, (VGAWidth - 8 * length(s)) shr 1, 92);
+
+  if GetAssetTotalCount > 0 then begin
+    perc := GetAssetReadyCount / GetAssetTotalCount;
+
+    Rect(BarLeft, BarTop, BarLeft + BarWidth - 1, BarTop + BarHeight - 1, $FFFFFFFF);
+  end;
 
   VGAUpload;
 
