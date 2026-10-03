@@ -1,6 +1,6 @@
 {
   Easings demo
-  Mixins: bmfont, sound
+  Mixins: bmfont
 }
 
 library Game;

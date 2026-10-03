@@ -1,8 +1,14 @@
+{
+  Rich text demo
+  Part of Posit-92 game engine
+
+  Mixins: bmfont
+}
+
 library Game;
 
 {$Mode ObjFPC}
-{$H+}
-{$J-}
+{$H+}{$J-}
 
 uses
   P92Core, P92AssetRegistry, P92WasmHost,

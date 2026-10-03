@@ -1,5 +1,6 @@
 {
-  Title: Music demo
+  Music demo
+  Part of Posit-92 game engine
   Mixins: bmfont, sound
 }
 

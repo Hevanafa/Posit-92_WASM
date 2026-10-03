@@ -1,3 +1,9 @@
+{
+  Gamepad demo
+  Part of Posit-92 game engine
+  Mixins: bmfont, gamepad
+}
+
 library Game;
 
 {$Mode ObjFPC}

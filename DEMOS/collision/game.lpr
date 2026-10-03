@@ -1,7 +1,7 @@
 {
   Collision demo
   Part of Posit-92 game engine
-  Mixins: bmfont, sound
+  Mixins: bmfont
 }
 
 library Game;

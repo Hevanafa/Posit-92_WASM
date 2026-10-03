@@ -1,6 +1,6 @@
 {
   Chain Easing demo
-  Mixins: bmfont, sound
+  Mixins: bmfont
 }
 
 library Game;

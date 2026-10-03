@@ -1,3 +1,10 @@
+{
+  Progressive Web App demo
+  Part of Posit-92 game engine
+
+  Mixins: bmfont
+}
+
 library Game;
 
 {$Mode ObjFPC}
