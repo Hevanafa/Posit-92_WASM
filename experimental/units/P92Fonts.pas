@@ -15,7 +15,8 @@ procedure PrintDefault(const text: string; const x, y: smallint);
 procedure PrintDefaultCentred(const text: string; const cx, y: smallint);
 function MeasureDefault(const text: string): word;
 
-function PrintCharColour(const ch: char; const x, y: smallint; const colour: longword): word;
+{ Returns xadvance }
+function PrintCharColour(const ch: char; const x, y: smallint; const colour: longword): smallint;
 
 
 implementation
@@ -53,8 +54,7 @@ begin
   MeasureDefault := MeasureBMFont(defaultFontHandle, text)
 end;
 
-{ Returns the width of the glyph }
-function PrintCharColour(const ch: char; const x, y: smallint; const colour: longword): word;
+function PrintCharColour(const ch: char; const x, y: smallint; const colour: longword): smallint;
 begin
   PrintCharColour := PrintBMFontCharColour(
     defaultFontHandle, ch, x, y, colour)
