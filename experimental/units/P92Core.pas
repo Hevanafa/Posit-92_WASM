@@ -135,21 +135,22 @@ uses
   P92Strings, P92Timing, P92FPS, P92Sounds,
   P92Panic, P92VGA
 {$endif}
+
 {$ifdef P92_WASM}
   P92Fonts, P92AssetRegistry, P92WasmHeap, P92Conversions,
-  P92FPS, P92Logger,
+  P92FPS, P92Logger, P92Timing,
 {$ifdef P92_ENABLE_SOUNDS}
   P92Sounds,
 {$endif}
-  P92Timing,
   P92Keyboard, P92Mouse,
-  P92Tex, P92TexDraw, P92VGA, P92WasmHost, P92WasmMemMgr, P92InteropBuf, P92Loading
+  P92Tex, P92TexDraw, P92VGA, P92WasmHost, P92WasmMemMgr,
+  P92InteropBuf, P92Loading
+{$ifdef P92_WEBGL}
+  , P92WebGL
+{$endif}
 {$endif}
 {$ifdef P92_IMGUI}
   , P92IMGUI
-{$endif}
-{$ifdef P92_WEBGL}
-  , P92WebGL
 {$endif}
   ;
 
@@ -409,10 +410,8 @@ end;
 procedure P92Draw;
 begin
 {$ifdef P92_WASM}
-  cls($FF000000);
-
   if engineRunState = ersPreload then
-    RenderLoadingScreen;
+    bootConfig.DrawLoading;
 {$endif}
 end;
 
