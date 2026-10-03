@@ -31,7 +31,7 @@ remove_tree $dist_dir if -d $dist_dir;
 
 mkdir $dist_dir;
 
-# Copy main files
+# Copy essential files
 
 my @files = (
   $game_wasm,
@@ -40,6 +40,9 @@ my @files = (
   "posit-92.js",
   "index.html",
   "favicon.ico"
+  
+  # TODO: Include required mixin files
+  # TODO: List other assets as necessary
 );
 
 for (@files) {
@@ -49,10 +52,13 @@ for (@files) {
 }
 
 # Copy assets
+
 dircopy(catfile($script_dir, "assets"), catfile("$dist_dir", "assets")) or
   warn "Couldn't copy assets: $!";
 
 say colored("Copied to dist successfully!", "bright_green");
+
+# Handle ZIP
 
 if (grep { $_ eq "--zip" } @ARGV) {
   unless (-f $seven_zip_path) {
