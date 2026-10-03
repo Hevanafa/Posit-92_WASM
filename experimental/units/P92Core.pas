@@ -48,6 +48,10 @@ type
 
     { default: false }
     EnableDrawFPS: boolean;
+
+    { Callbacks }
+
+    DrawLoading: TCallback;
   end;
 {$ENDIF}
 
@@ -571,6 +575,10 @@ begin
   newConfig.LoadDefaultCursor := true;
   newConfig.EnableScreenshotHotkey := true;
   newConfig.EnableDrawFPS := false;
+
+  { Callbacks }
+
+  newConfig.DrawLoading := @P92Loading.RenderLoadingScreen;
 
   DefaultP92AppConfig := newConfig;
 end;
