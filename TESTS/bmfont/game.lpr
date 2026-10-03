@@ -1,6 +1,8 @@
 {
   BMFont test project
-  Mixins: bmfont, sound
+  Part of Posit-92 game engine
+
+  Mixins: bmfont
 }
 
 library Game;

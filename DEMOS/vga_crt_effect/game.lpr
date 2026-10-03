@@ -1,3 +1,8 @@
+{
+  Pip-boy from Fallout with CRT effects demo
+  Part of Posit-92 game engine
+}
+
 library Game;
 
 {$Mode ObjFPC}

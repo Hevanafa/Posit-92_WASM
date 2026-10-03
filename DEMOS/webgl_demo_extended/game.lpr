@@ -1,6 +1,8 @@
 {
-  Title: WebGL Demo
-  Mixins: bmfont, sound, webgl
+  WebGL Demo
+  Part of Posit-92 game engine
+
+  Mixins: bmfont, webgl
 }
 
 library Game;

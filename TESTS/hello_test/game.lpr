@@ -1,6 +1,6 @@
 {
-  Default boilerplate
-  Mixins: bmfont, sound
+  Default test project boilerplate
+  Mixins: bmfont
 }
 
 library Game;
