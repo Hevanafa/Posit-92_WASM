@@ -10,6 +10,7 @@ uses P92AssetHandles;
 
 procedure LoadDefaultBMFont;
 function GetDefaultFontHandle: TBMFontHandle;
+function GetDefaultFontLineHeight: smallint;
 
 procedure PrintDefault(const text: string; const x, y: smallint);
 procedure PrintDefaultCentred(const text: string; const cx, y: smallint);
@@ -26,14 +27,24 @@ uses P92AssetRegistry, P92BMFont, P92Core;
 var
   defaultFontHandle: TBMFontHandle;
 
+procedure LoadDefaultBMFont;
+begin
+  defaultFontHandle := RequestBMFont(GetBootConfig.DefaultBMFontPath)
+end;
+
 function GetDefaultFontHandle: TBMFontHandle;
 begin
   GetDefaultFontHandle := defaultFontHandle
 end;
 
-procedure LoadDefaultBMFont;
+function GetDefaultFontLineHeight: smallint;
 begin
-  defaultFontHandle := RequestBMFont(GetBootConfig.DefaultBMFontPath)
+  if defaultFontHandle = 0 then begin
+    GetDefaultFontLineHeight := 0;
+    exit
+  end;
+
+  GetDefaultFontLineHeight := BorrowBMFontPtr(defaultFontHandle)^.lineHeight
 end;
 
 procedure PrintDefault(const text: string; const x, y: smallint);
