@@ -4,6 +4,8 @@ unit P92Core;
 {$H-}  { Use ShortStrings }
 {$J-}  { Don't allow assignments to typed consts }
 
+{DEFINE DebugEngineRunStates}
+
 interface
 
 uses P92AssetHandles;
@@ -166,7 +168,7 @@ type
 
 const
   DefaultCursorPath = 'assets/images/cursor.png';
-  DebugEngineRunStates = false;
+  DefaultBMFontPath = 'assets/fonts/p92_sans_8_regular.txt';
 
   BootFontGlyphWidth = 8;
   BootFontGlyphHeight = 8;
@@ -250,8 +252,9 @@ begin
 
   engineRunState := ersBoot;
 
-  if DebugEngineRunStates then
-    WriteLog('ersBoot');
+{$IFDEF DebugEngineRunStates}
+  WriteLog('ersBoot');
+{$ENDIF}
 
 {$ifdef P92_SDL2}
   InitVideoMem(
@@ -293,8 +296,9 @@ begin
 
   engineRunState := ersPreload;
 
-  if DebugEngineRunStates then
-    WriteLog('ersPreload');
+{$IFDEF DebugEngineRunStates}
+  WriteLog('ersPreload');
+{$ENDIF}
 
 {$ifdef P92_SDL2}
   if bootConfig.LoadDefaultCursor then
@@ -325,8 +329,9 @@ begin
 
   engineRunState := ersReady;
 
-  if DebugEngineRunStates then
-    WriteLog('ersReady');
+{$IFDEF DebugEngineRunStates}
+  WriteLog('ersReady');
+{$ENDIF}
 
 {$IFDEF P92_IMGUI}
 {$IFDEF P92_WASM}
@@ -561,7 +566,7 @@ begin
   newConfig.TargetFPS := 60;
 
   newConfig.LoadDefaultBMFont := true;
-  newConfig.DefaultBMFontPath := 'assets/fonts/p92_sans_8_regular.txt';
+  newConfig.DefaultBMFontPath := DefaultBMFontPath;
 
   newConfig.LoadDefaultCursor := true;
   newConfig.EnableScreenshotHotkey := true;
