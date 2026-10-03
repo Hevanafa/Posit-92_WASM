@@ -313,19 +313,14 @@ class Posit92 {
   async #InitWebAssembly(): Promise<void> {
     this.SetupImportObject();
     Object.freeze(this.#importObject);
+
     const response = await fetch(this.#wasmSource);
-
-    const contentLength =
-      response.headers.get("x-goog-stored-content-length")
-      ?? response.headers.get("content-length");
-
-    // in bytes:
-    const total = Number(contentLength);
-    let loaded = 0;
 
     if (response.body == null)
       throw new Error("Missing response.body");
 
+    // in bytes
+    let loaded = 0;
     const reader = response.body.getReader();
     const chunks = [];
 
@@ -336,12 +331,14 @@ class Posit92 {
       chunks.push(value);
       loaded += value.length;
 
-      this.OnWasmProgress(loaded, total);
+      this.OnWasmProgress(loaded);
     }
 
     // Combine chunks
+
     const bytes = new Uint8Array(loaded);
     let pos = 0;
+    
     for (const chunk of chunks) {
       bytes.set(chunk, pos);
       pos += chunk.length;
@@ -353,17 +350,14 @@ class Posit92 {
 
   /**
    * @param loaded in bytes
-   * @param total in bytes
    */
-  OnWasmProgress(loaded: number, total: number): void {
+  OnWasmProgress(loaded: number): void {
     const loadedKB = Math.ceil(loaded / 1024);
 
-    if (isNaN(total))
-      this.#SetLoadingText(`Downloading engine (${ loadedKB } KB)`);
-    else {
-      const totalKB = Math.ceil(total / 1024);
-      this.#SetLoadingText(`Downloading engine (${ loadedKB } KB / ${ totalKB } KB)`);
-    }
+    if (loadedKB > 0)
+      this.#SetLoadingText(`Downloading engine... ${ loadedKB } KB received`);
+    else
+      this.#SetLoadingText(`Downloading engine...`);
   }
 
   /**
