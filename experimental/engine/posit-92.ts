@@ -136,7 +136,7 @@ type WebAssemblyInstance = WebAssembly.Instance & { exports: WasmExports };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class Posit92 {
-  public static readonly Version = "0.6.1";
+  public static readonly Version = "0.6.2";
 
   readonly #wasmSource = "game.wasm";
 
@@ -338,7 +338,7 @@ class Posit92 {
 
     const bytes = new Uint8Array(loaded);
     let pos = 0;
-    
+
     for (const chunk of chunks) {
       bytes.set(chunk, pos);
       pos += chunk.length;
