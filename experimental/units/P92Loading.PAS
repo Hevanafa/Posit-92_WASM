@@ -17,8 +17,7 @@ procedure RenderLoadingScreen;
 implementation
 
 uses
-  P92Core, P92Conversions, P92AssetRegistry,
-  P92VGA
+  P92Core, P92Conversions, P92AssetRegistry, P92VGA
 {$IFDEF P92_WEBGL}
   , P92WebGL
 {$ENDIF}
@@ -30,8 +29,11 @@ var
 begin
   Cls($00000000);
 
-  s := 'Assets: ' + I32Str(GetAssetReadyCount) + ' / ' + I32Str(GetAssetTotalCount);
-  Print(s, 8, 16);
+  s := 'Loading...';
+  Print(s, (VGAWidth - 8 * length(s)) shr 1, 76);
+
+  s := I32Str(GetAssetReadyCount) + ' / ' + I32Str(GetAssetTotalCount) + ' assets';
+  Print(s, (VGAWidth - 8 * length(s)) shr 1, 92);
 
   VGAUpload;
 
