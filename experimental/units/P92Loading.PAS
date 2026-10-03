@@ -29,6 +29,8 @@ const
   BarTop = 116;
   BarWidth = 80;
   BarHeight = 10;
+  { Copied from P92IMGUI }
+  AccentNormal = $FF8CDE92;
 var
   s: string;
   perc: double;
@@ -44,7 +46,15 @@ begin
   if GetAssetTotalCount > 0 then begin
     perc := GetAssetReadyCount / GetAssetTotalCount;
 
-    Rect(BarLeft, BarTop, BarLeft + BarWidth - 1, BarTop + BarHeight - 1, $FFFFFFFF);
+    RectFill(
+      BarLeft, BarTop,
+      BarLeft + trunc(BarWidth * perc) - 1, BarTop + BarHeight - 1,
+      AccentNormal);
+
+    Rect(
+      BarLeft, BarTop,
+      BarLeft + BarWidth - 1, BarTop + BarHeight - 1,
+      $FFFFFFFF);
   end;
 
   VGAUpload;
