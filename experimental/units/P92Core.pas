@@ -57,7 +57,7 @@ type
 
 {$IFDEF P92_SDL2}
 const
-  Posit92Version = '0.3';
+  Posit92Version = '0.3.1';
 
 type
   TCallback = procedure;
@@ -80,6 +80,7 @@ type
     EnableScreenshotHotkey: boolean;
 
     LoadDefaultCursor: boolean;
+    EnableDrawFPS: boolean;
 
     { Callbacks }
 
@@ -197,12 +198,6 @@ begin
   GetBootConfig := bootConfig
 end;
 
-procedure RequestBootFont;
-begin
-  SetBootFontHandle(
-    RequestImage('assets/fonts/p92_boot.png'))
-end;
-
 function GetBootFontHandle: TTextureHandle;
 begin
   GetBootFontHandle := BootFontHandle
@@ -211,6 +206,12 @@ end;
 procedure SetBootFontHandle(const value: TTextureHandle);
 begin
   BootFontHandle := value
+end;
+
+procedure RequestBootFont;
+begin
+  SetBootFontHandle(
+    RequestImage('assets/fonts/p92_boot.png'))
 end;
 
 function IsBootFontLoaded: boolean;
@@ -305,16 +306,18 @@ begin
   WriteLog('ersPreload');
 {$ENDIF}
 
-{$ifdef P92_SDL2}
-  if bootConfig.LoadDefaultCursor then
-    { imgCursor := LoadImage('assets\images\cursor.png'); }
-    hwCursor := HwRequestImage('assets\images\cursor.png')
-  else
-    hwCursor := 0;
-{$endif}
-
+{$IFDEF P92_WASM}
   if bootConfig.LoadDefaultCursor then
     texCursor := RequestImage(DefaultCursorPath);
+{$ENDIF}
+
+{$IFDEF P92_SDL2}
+  if bootConfig.LoadDefaultCursor then
+    { imgCursor := LoadImage(DefaultCursorPath); }
+    hwCursor := HwRequestImage(DefaultCursorPath)
+  else
+    hwCursor := 0;
+{$ENDIF}
 
   if bootConfig.LoadDefaultBMFont then
     LoadDefaultBMFont;
@@ -417,10 +420,11 @@ end;
 
 procedure P92AfterDraw;
 begin
-{$ifdef P92_IMGUI}
+{$IFDEF P92_IMGUI}
   ResetActiveWidget;
-{$endif}
+{$ENDIF}
 
+{$IFDEF P92_WASM}
 {$IFDEF P92_WEBGL}
   DrawMouse;
 
@@ -438,8 +442,9 @@ begin
   VGAUpload;
   VGAPresent;
 {$ENDIF}
+{$ENDIF}
 
-{$ifdef P92_SDL2}
+{$IFDEF P92_SDL2}
   if bootConfig.EnableDrawFPS then
     DrawFPS;
 
@@ -448,7 +453,7 @@ begin
   { Begin hardware layer }
   DrawMouse;
   VgaPresent
-{$endif}
+{$ENDIF}
 end;
 
 procedure PrintChar(const c: char; const x, y: smallint);
@@ -626,6 +631,7 @@ begin
     EnableScreenshotHotkey := true;
 
     LoadDefaultCursor := true;
+    EnableDrawFPS := false;
   end;
 
   DefaultP92AppConfig := newConfig

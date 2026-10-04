@@ -404,14 +404,15 @@ begin
   surface := IMG_Load(strBuffer);
 
   if surface = nil then begin
-    writeLog('RequestImage: Failed to load ' + filename);
+    PanicHalt('RequestImage: Failed to load ' + filename);
     RequestImage := -1;
     exit
   end;
 
   if surface^.format^.BitsPerPixel <> 32 then begin
-    WriteWarn('loadImage: Warning: ' + filename + ' is not 32 BPP!');
-    writeLog('loadImage: Convert it to 32 BPP then reload');
+    WriteWarn('RequestImage: Warning: ' + filename + ' is not 32 BPP!');
+    WriteLog('RequestImage: Convert it to 32 BPP then reload');
+
     SDL_FreeSurface(surface);
     RequestImage := -1;
     exit
@@ -456,7 +457,7 @@ begin
   {$I-} reset(f); {$I+}
 
   if IOResult <> 0 then begin
-    writeLog('Failed to open BMFont file: ' + filename);
+    PanicHalt('RequestBMFont: Failed to open BMFont file ' + filename);
     exit
   end;
 
@@ -589,12 +590,6 @@ var
 begin
   sndHandle := FindUnusedSoundHandle;
 
-{
-  writeLog('loadSound:');
-  writeLogI32(key);
-  writeLog(filename);
-}
-
   { Assuming that SDL2 mixer is always initialised }
   { if not soundsInitialised then exit; }
 
@@ -605,12 +600,12 @@ begin
   chunk := Mix_LoadWAV(strBuffer);
 
   if chunk = nil then begin
-    writeLog('loadSound: Failed to load ' + filename);
+    PanicHalt('RequestSound: Failed to load ' + filename);
     exit
   end;
 
   if sounds[sndHandle].chunk <> nil then begin
-    writeLog('loadSound: Warning: Possibly duplicate sound key ' + i32str(sndHandle));
+    writeLog('RequestSound: Warning: Possibly duplicate sound key ' + i32str(sndHandle));
     Mix_FreeChunk(sounds[sndHandle].chunk);
     exit
   end;

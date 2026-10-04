@@ -33,8 +33,8 @@ procedure VGAPresent; external 'env' name 'VGAPresent';
 
 {$ifdef P92_SDL2}
 { Uploads the pixel data to the GPU }
-procedure VgaUpload;
-procedure VgaPresent;
+procedure VGAUpload;
+procedure VGAPresent;
 {$endif}
 
 function VGAWidth: smallint;
@@ -111,7 +111,7 @@ begin
 end;
 
 {$ifdef P92_SDL2}
-procedure VgaUpload;
+procedure VGAUpload;
 begin
   { SDL_SetRenderDrawColor(renderer, $ed, $95, $64, $ff);
   SDL_RenderClear(renderer); }
@@ -121,7 +121,7 @@ begin
   SDL_RenderCopy(renderer, vgaTexture, nil, nil)
 end;
 
-procedure VgaPresent;
+procedure VGAPresent;
 begin
   SDL_RenderPresent(renderer)
 end;
