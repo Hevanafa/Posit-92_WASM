@@ -74,6 +74,8 @@ procedure ResetWidgetIndices;
 { Required: Must be placed at the end of the draw routine }
 procedure ResetActiveWidget;
 
+function IsWidgetHovered: boolean;
+
 procedure GUISetFont(const fontHandle: TBMFontHandle);
 
 function GUIMeasureText(const text: string): smallint;
@@ -239,6 +241,11 @@ procedure ResetActiveWidget;
 begin
   lastActiveWidget := activeWidget;
   if mouseJustReleased and (activeWidget >= 0) then activeWidget := -1;
+end;
+
+function IsWidgetHovered: boolean;
+begin
+  IsWidgetHovered := (hotWidget = nextWidgetID - 1)
 end;
 
 procedure GUISetFont(const fontHandle: TBMFontHandle);
