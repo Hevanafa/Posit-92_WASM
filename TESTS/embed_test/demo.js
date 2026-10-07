@@ -3,9 +3,12 @@
  */
 const instances = new Map();
 
-function spawnDemo(src) {
+function spawnDemo(src, sender) {
   if (src == null || src == "")
     throw new Error("src is required");
+
+  if (sender == null)
+    throw new Error("sender is required");
 
   if (instances.has(src)) return;
 
@@ -15,8 +18,10 @@ function spawnDemo(src) {
   iframe.width = "640";
   iframe.height = "400";
   iframe.style.border = "none";
+  iframe.style.display = "block";
 
-  document.body.appendChild(iframe);
+  // document.body.appendChild(iframe);
+
 
   instances.set(src, iframe);
 
