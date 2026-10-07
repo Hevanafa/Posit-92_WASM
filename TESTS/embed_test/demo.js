@@ -17,6 +17,20 @@
 //   }
 // }
 
+// window.addEventListener("message", e => {
+//   // console.log(e.origin, e.data);
+
+//   if (e.origin != window.location.origin) return;
+//   if (e.data?.from != "posit-92") return;
+
+//   console.log(e.origin, e.data);
+
+//   if (iframeInstance != null) {
+//     document.body.removeChild(iframeInstance);
+//     iframeInstance = null
+//   }
+// });
+
 /**
  * @type {Map<string, HTMLIFrameElement>}
  */
@@ -47,11 +61,14 @@ window.addEventListener("message", e => {
 
   if (e.origin != window.location.origin) return;
   if (e.data?.from != "posit-92") return;
-  
+
   console.log(e.origin, e.data);
 
-  if (iframeInstance != null) {
-    document.body.removeChild(iframeInstance);
-    iframeInstance = null
+  for (const [src, frame] of instances) {
+    if (frame.contentWindow == e.source) {
+      frame.remove();
+      instances.delete(src);
+      break
+    }
   }
 })
