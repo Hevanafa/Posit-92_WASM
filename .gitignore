@@ -65,3 +65,4 @@ experimental/engine/*.js.map
 TESTS/*/*.pl
 TESTS/*/*.ts
 TESTS/*/posit-92.js
+TESTS/embed_test/*/
