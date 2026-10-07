@@ -12,7 +12,8 @@ function spawnDemo(sender) {
   if (sender == null)
     throw new Error("sender is required");
 
-  const src = sender.dataset.src;
+  const demoName = sender.dataset.demo;
+  const src = "/posit-92_demos/" + demoName + "/";
 
   if (src == null || src == "")
     throw new Error("src is required");
@@ -28,8 +29,15 @@ function spawnDemo(sender) {
   iframe.style.display = "block";
 
   // document.body.appendChild(iframe);
-  sender.after(iframe);
-  sender.disabled = true;
+
+  // sender.after(iframe);
+  // sender.disabled = true;
+  // sender.style.cursor = "not-allowed";
+
+  const demoContainer = document.getElementById("demo_" + demoName);
+  demoContainer.appendChild(iframe);
+  demoContainer.style.display = "block";
+
   instances.set(src, { iframe, sender });
 
   return iframe;
@@ -44,7 +52,14 @@ window.addEventListener("message", e => {
   for (const [src, { iframe, sender } ] of instances) {
     if (iframe.contentWindow == e.source) {
       iframe.remove();
+
       sender.disabled = false;
+      sender.style.cursor = "";
+
+      const demoName = sender.dataset.demo;      
+      const demoContainer = document.getElementById("demo_" + demoName);
+      demoContainer.style.display = "none";
+
       instances.delete(src);
       break
     }

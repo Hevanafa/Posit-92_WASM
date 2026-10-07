@@ -5,10 +5,19 @@
   </head>
 
   <body>
-    <button data-src="/posit-92_demos/hello_demoscene/" onclick='spawnDemo(this)'>
+    <!-- Theoretical left column -->
+     
+    <button
+      data-demo="hello_demoscene"
+      onclick='spawnDemo(this)'>
       RUN DEMO
     </button>
-  </body>
 
-  <script src="demo.js"></script>
+    <div id="demo_hello_demoscene" style="display: none"></div>
+
+    <!-- Hidden Custom HTML block -->
+
+    <script src="demo.js"></script>
+
+  </body>
 </html>
