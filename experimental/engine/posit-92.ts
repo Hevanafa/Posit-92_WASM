@@ -255,6 +255,8 @@ class Posit92 {
   #SignalDone(): void {
     this.Cleanup();
     this.#done = true;
+
+    window.parent.postMessage("posit-92_exited", window.location.origin)
   }  
 
   constructor() {
