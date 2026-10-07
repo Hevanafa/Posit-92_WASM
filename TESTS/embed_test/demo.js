@@ -31,8 +31,9 @@ function spawnDemo(sender) {
   // document.body.appendChild(iframe);
 
   // sender.after(iframe);
-  // sender.disabled = true;
-  // sender.style.cursor = "not-allowed";
+
+  sender.disabled = true;
+  sender.style.cursor = "not-allowed";
 
   const demoContainer = document.getElementById("demo_" + demoName);
   demoContainer.appendChild(iframe);
