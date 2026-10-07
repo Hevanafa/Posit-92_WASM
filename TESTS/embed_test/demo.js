@@ -1,8 +1,13 @@
 /**
- * @type {Map<string, HTMLIFrameElement>}
+ * @type {Map<string, { iframe: HTMLIFrameElement, sender: HTMLElement } >}
  */
 const instances = new Map();
 
+/**
+ * 
+ * @param {HTMLButtonElement} sender 
+ * @returns 
+ */
 function spawnDemo(sender) {
   if (sender == null)
     throw new Error("sender is required");
@@ -24,7 +29,8 @@ function spawnDemo(sender) {
 
   // document.body.appendChild(iframe);
   sender.after(iframe);
-  instances.set(src, iframe);
+  sender.disabled = true;
+  instances.set(src, { iframe, sender });
 
   return iframe;
 }
@@ -35,9 +41,10 @@ window.addEventListener("message", e => {
 
   // console.log(e.origin, e.data);
 
-  for (const [src, frame] of instances) {
-    if (frame.contentWindow == e.source) {
-      frame.remove();
+  for (const [src, { iframe, sender } ] of instances) {
+    if (iframe.contentWindow == e.source) {
+      iframe.remove();
+      sender.disabled = false;
       instances.delete(src);
       break
     }
