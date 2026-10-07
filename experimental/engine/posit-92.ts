@@ -256,7 +256,10 @@ class Posit92 {
     this.Cleanup();
     this.#done = true;
 
-    window.parent.postMessage("posit-92_exited", window.location.origin)
+    window.parent.postMessage({
+      from: "posit-92",
+      type: "done"
+    }, window.location.origin);
   }  
 
   constructor() {
