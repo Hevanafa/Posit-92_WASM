@@ -261,14 +261,14 @@ end;
 
 procedure Init;
 var
-  appConfig: TP92AppConfig;
+  config: TP92AppConfig;
 begin
-  appConfig := DefaultP92AppConfig;
+  config := DefaultP92AppConfig;
 
-  appConfig.BufferWidth := 240;
-  appConfig.BufferHeight := 160;
+  config.BufferWidth := 240;
+  config.BufferHeight := 160;
 
-  P92Start(appConfig);
+  P92Start(config);
 end;
 
 exports

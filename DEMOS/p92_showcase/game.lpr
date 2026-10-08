@@ -399,13 +399,13 @@ end;
 
 procedure Init;
 var
-  appConfig: TP92AppConfig;
+  config: TP92AppConfig;
 begin
-  appConfig := DefaultP92AppConfig;
+  config := DefaultP92AppConfig;
 
-  appConfig.DefaultBMFontPath := 'assets/fonts/p92_sans_8_bold.txt';
+  config.DefaultBMFontPath := 'assets/fonts/p92_sans_8_bold.txt';
 
-  P92Start(appConfig);
+  P92Start(config);
 end;
 
 exports

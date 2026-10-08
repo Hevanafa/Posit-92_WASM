@@ -13,7 +13,8 @@ library Game;
 
 uses
   P92Core, P92Fonts, P92WasmHost, P92AssetRegistry, P92Conversions, P92FPS,
-  P92Graphics, P92Logger, P92InteropBuf, P92Keyboard, P92Mouse,
+  P92Graphics, P92Logger, P92InteropBuf,
+  P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw, P92Strings, P92Sounds, P92Timing, P92WasmMemMgr, P92WasmHeap,
   P92VGA,
   Assets;
@@ -177,7 +178,7 @@ var
   a: word;
   left: integer;
 begin
-  if not IsTexSet(texCGAFont) then begin
+  if not IsTexReady(texCGAFont) then begin
     writeLog('blitText: image is unset');
     exit
   end;
@@ -451,7 +452,7 @@ var
   a, b: word;
   texture: PSoftwareTex;
 begin
-  if not IsTexSet(texCGAFont) then begin
+  if not IsTexReady(texCGAFont) then begin
     writeLog('InitDefaultFont: texture is unset');
     exit
   end;
@@ -599,14 +600,14 @@ end;
 
 procedure Init;
 var
-  appConfig: TP92AppConfig;
+  config: TP92AppConfig;
 begin
-  appConfig := DefaultP92AppConfig;
+  config := DefaultP92AppConfig;
 
-  appConfig.LoadDefaultBMFont := false;
-  appConfig.LoadDefaultCursor := false;
+  config.LoadDefaultBMFont := false;
+  config.LoadDefaultCursor := false;
 
-  P92Start(appConfig);
+  P92Start(config);
 end;
 
 
