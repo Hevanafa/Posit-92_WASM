@@ -58,8 +58,7 @@ var
   lastDemoIndex: TDemoState;
 
   selectedFrame: integer;
-  { Use SprFlips enum }
-  spriteFlip: integer;
+  spriteFlip: TSprFlips;
   spriteRotation: double;
 
 
@@ -116,7 +115,7 @@ begin
   end;
 
   selectedFrame := 0;
-  spriteFlip := SprFlipHorizontal;
+  spriteFlip := [SprFlipHorizontal];
   spriteRotation := 0.0;
 end;
 
@@ -246,23 +245,27 @@ begin
     if lastUp <> isKeyDown(SC_UP) then begin
       lastUp := isKeyDown(SC_UP);
 
-      if lastUp then spriteFlip := spriteFlip xor SprFlipVertical;
+      if lastUp then
+        spriteFlip := spriteFlip >< [SprFlipVertical];
     end;
     if lastDown <> isKeyDown(SC_DOWN) then begin
       lastDown := isKeyDown(SC_DOWN);
 
-      if lastDown then spriteFlip := spriteFlip xor SprFlipVertical;
+      if lastDown then
+        spriteFlip := spriteFlip >< [SprFlipVertical];
     end;
 
     if lastLeft <> isKeyDown(SC_LEFT) then begin
       lastLeft := isKeyDown(SC_LEFT);
 
-      if lastLeft then spriteFlip := spriteFlip xor SprFlipHorizontal;
+      if lastLeft then
+        spriteFlip := spriteFlip >< [SprFlipHorizontal];
     end;
     if lastRight <> isKeyDown(SC_RIGHT) then begin
       lastRight := isKeyDown(SC_RIGHT);
 
-      if lastRight then spriteFlip := spriteFlip xor SprFlipHorizontal;
+      if lastRight then
+        spriteFlip := spriteFlip >< [SprFlipHorizontal];
     end;
   end;
 
