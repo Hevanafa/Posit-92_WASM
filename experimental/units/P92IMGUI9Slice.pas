@@ -39,7 +39,7 @@ var
   srcCentreW, srcCentreH: smallint;
   destCentreW, destCentreH: smallint;
 begin
-  if not IsTexSet(texHandle) then
+  if not IsTexReady(texHandle) then
     PanicHalt('SprNineSlice: texHandle is unset ' + '!');
 
   srcCentreW := GetTexWidth(texHandle) - margins.left - margins.right;

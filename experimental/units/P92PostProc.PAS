@@ -37,7 +37,8 @@ procedure ApplyFullPhosphor(const radius: smallint);
 implementation
 
 uses
-  P92Conversions, P92Tex, P92TexDraw, P92Easings, P92Logger, P92VGA;
+  P92Conversions, P92AssetRegistry, P92Tex, P92TexDraw,
+  P92Easings, P92Logger, P92VGA;
 
 var
   texBlur: longint;
@@ -58,7 +59,7 @@ var
   grey: byte;
   colour: longword;
 begin
-  if not IsTexSet(texHandle) then exit;
+  if not IsTexReady(texHandle) then exit;
 
   texture := BorrowTexPtr(texHandle);
 
@@ -87,7 +88,7 @@ begin
   py:=1;
   while py < vgaHeight do begin
     for px:=0 to vgaWidth - 1 do begin
-      colour := unsafePget(px, py);
+      colour := UnsafePGet(px, py);
 
       { Darken by 50% }
       r := colour shr 16 and $FF;
