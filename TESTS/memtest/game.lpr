@@ -181,13 +181,13 @@ end;
 
 procedure Init;
 var
-  appConfig: TP92AppConfig;
+  config: TP92AppConfig;
 begin
-  appConfig := DefaultP92AppConfig;
+  config := DefaultP92AppConfig;
 
-  appConfig.EnableDrawFPS := true;
+  config.EnableDrawFPS := true;
 
-  P92Start(appConfig);
+  P92Start(config);
 end;
 
 exports
