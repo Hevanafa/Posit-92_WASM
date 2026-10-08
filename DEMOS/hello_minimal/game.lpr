@@ -4,11 +4,11 @@ library Game;
 {$H+}{$J-}
 
 uses
-  P92Core, P92AssetRegistry, P92Logger, P92VGA;
+  P92Core, P92WasmHost, P92Graphics, P92VGA;
 
 procedure OnReady;
 begin
-  WriteLog('Hello from hello_minimal!')
+  HideCursor
 end;
 
 procedure Update;
@@ -20,7 +20,7 @@ procedure Draw;
 begin
   Cls($FF101010);
 
-  Print('Hello from hello_minimal!', 8, 8);
+  Print('Hello Posit-92!', 40, 40);
 end;
 
 procedure Init;
@@ -28,9 +28,6 @@ var
   config: TP92AppConfig;
 begin
   config := DefaultP92AppConfig;
-
-  config.LoadDefaultBMFont := false;
-  config.LoadDefaultCursor := false;
 
   P92Start(config);
 end;

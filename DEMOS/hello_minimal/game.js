@@ -1,15 +1,15 @@
 "use strict";
 
-/**
- * Minimal Boilerplate
- */
 class Game extends BMFontMixin(Posit92) {
 }
 
-/**
- * Entry point
- */
 async function Main() {
   const game = new Game();
   await game.Start();
+}
+
+function Play() {
+  const overlay = document.getElementById("play-overlay");
+  overlay.parentNode.removeChild(overlay);
+  Main()
 }
