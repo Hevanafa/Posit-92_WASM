@@ -4,7 +4,7 @@ library Game;
 {$H+}{$J-}
 
 uses
-  P92Core, P92WasmHost, P92Graphics, P92VGA;
+  P92Core, P92WasmHost, P92Graphics, P92Keyboard, P92VGA;
 
 procedure OnReady;
 begin
@@ -13,7 +13,7 @@ end;
 
 procedure Update;
 begin
-
+  if IsKeyDown(SC_ESCAPE) then SignalDone;
 end;
 
 procedure Draw;
