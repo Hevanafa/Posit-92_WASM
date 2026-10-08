@@ -24,14 +24,14 @@ var
   { Game state variables }
   gameTime: double;
 
-  seekerState: TSliderState;
+  seekerState: smallint;
 
-  repeatState: TCheckboxState;
+  repeatState: boolean;
   lastRepeat: boolean;
 
   isMuted: boolean;
-  volumeState: TSliderState;
-  lastVolume: integer;
+  volumeState,
+  lastVolume: smallint;
 
 
 procedure OnPreload;
@@ -55,15 +55,15 @@ begin
   { Initialise game state here }
   hideCursor;
 
-  seekerState.value := 0;
+  seekerState := 0;
 
-  repeatState.checked := true;
-  lastRepeat := repeatState.checked;
+  repeatState := true;
+  lastRepeat := repeatState;
 
   isMuted := false;
-  volumeState.value := 25;
-  lastVolume := volumeState.value;
-  SetSoundVolume(bgmClassic, volumeState.value / 100.0)
+  volumeState := 25;
+  lastVolume := volumeState;
+  SetSoundVolume(bgmClassic, volumeState / 100.0)
 end;
 
 
@@ -89,14 +89,14 @@ begin
 
   gameTime := gameTime + DeltaTime;
 
-  if lastRepeat <> repeatState.checked then begin
-    lastRepeat := repeatState.checked;
-    SetMusicRepeat(repeatState.checked)
+  if lastRepeat <> repeatState then begin
+    lastRepeat := repeatState;
+    SetMusicRepeat(repeatState)
   end;
 
-  if lastVolume <> volumeState.value then begin
-    lastVolume := volumeState.value;
-    SetSoundVolume(bgmClassic, volumeState.value / 100.0)
+  if lastVolume <> volumeState then begin
+    lastVolume := volumeState;
+    SetSoundVolume(bgmClassic, volumeState / 100.0)
   end;
 
   HandleMusicRepeat(BgmClassic);
@@ -132,14 +132,14 @@ begin
 
   if dragState = SliderReleased then begin
     { writeLog('Attempting to release slider'); }
-    seekTime := seekerState.value / 100.0 * duration;
+    seekTime := seekerState / 100.0 * duration;
     { writeLogF32(seekTime); }
 
     SeekMusic(seekTime)
   end;
 
   if (dragState <> SliderDragging) and (duration > 0.0) then
-    seekerState.value := round(actualTime / duration * 100.0);
+    seekerState := round(actualTime / duration * 100.0);
 
   { Music time }
   PrintDefault(GetMusicTimeStr, 100, 124);
@@ -158,7 +158,7 @@ begin
 
   { Volume control }
 
-  if isMuted or (volumeState.value = 0) then
+  if isMuted or (volumeState = 0) then
     spr(texVolumeOff, 202, 123)
   else
     spr(texVolumeOn, 202, 123);
