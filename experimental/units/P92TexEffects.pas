@@ -15,10 +15,6 @@ procedure SprOutline(const texHandle: TTextureHandle; const x, y: smallint; cons
 { colour: $AARRGGBB }
 procedure SprShadow(const texHandle: TTextureHandle; const x, y: smallint; const offsetX, offsetY: smallint; const colour: longword);
 
-{ Replaces 1 colour of a texture in place
-  Colour: $AARRGGBB }
-procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
-
 
 implementation
 
@@ -103,22 +99,5 @@ begin
   spr(texHandle, x, y)
 end;
 
-procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
-var
-  a, b: word;
-  texture: PSoftwareTex;
-begin
-  if not IsTexReady(texHandle) then exit;
-
-  texture := BorrowTexPtr(texHandle);
-
-  oldColour := ARGBtoABGR(oldColour);
-  newColour := ARGBtoABGR(newColour);
-
-  for b:=0 to texture^.height - 1 do
-    for a:=0 to texture^.width - 1 do
-      if UnsafeTexPGet(texture, a, b) = oldColour then
-        UnsafeTexPSet(texture, a, b, newColour);
-end;
 
 end.

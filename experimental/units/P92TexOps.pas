@@ -20,6 +20,9 @@ procedure SprRegionToDest(
 
 procedure TexFlip(const texHandle: TTextureHandle; const flip: TSprFlips);
 
+{ colour: $AARRGGBB }
+procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
+
 
 implementation
 
@@ -137,6 +140,25 @@ begin
       end;
   end;
 end;
+
+procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
+var
+  a, b: word;
+  texture: PSoftwareTex;
+begin
+  if not IsTexReady(texHandle) then exit;
+
+  texture := BorrowTexPtr(texHandle);
+
+  oldColour := ARGBtoABGR(oldColour);
+  newColour := ARGBtoABGR(newColour);
+
+  for b:=0 to texture^.height - 1 do
+    for a:=0 to texture^.width - 1 do
+      if UnsafeTexPGet(texture, a, b) = oldColour then
+        UnsafeTexPSet(texture, a, b, newColour);
+end;
+
 
 end.
 
