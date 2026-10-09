@@ -14,7 +14,7 @@ uses
   P92BMFont, P92Graphics, P92Loading,
   P92Conversions, P92FPS, P92Logger,
   P92Keyboard, P92Mouse, P92Gamepad,
-  P92Tex, P92TexDraw, P92TexEffects,
+  P92Tex, P92TexDraw, P92TexOps,
   P92Timing, P92VGA,
   Assets;
 
@@ -45,7 +45,7 @@ begin
   gameTime := 0.0;
 
   fontGrey := CloneBMFont(GetDefaultFontHandle);
-  ReplaceColour(BorrowBMFontPtr(fontGrey)^.texHandle, white, Grey)
+  ReplaceTexColour(BorrowBMFontPtr(fontGrey)^.texHandle, white, Grey)
 end;
 
 procedure StateLabel(const text: string; const x, y: integer; const enabled: boolean);

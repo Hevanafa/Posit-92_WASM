@@ -15,7 +15,7 @@ uses
   P92Core, P92Conversions, P92Fonts, P92AssetRegistry, P92WasmHost,
   P92Logger, P92BMFont, P92Iif, P92WasmHeap,
   P92Keyboard, P92Mouse,
-  P92Graphics, P92Tex, P92TexDraw, P92TexEffects, P92Colour,
+  P92Graphics, P92Tex, P92TexDraw, P92Colour,
   P92Easings, P92Timing, P92FPS, P92VGA,
   Assets;
 

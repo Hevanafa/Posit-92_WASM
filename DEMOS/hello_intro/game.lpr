@@ -17,7 +17,7 @@ uses
   P92Logger, P92WasmHost, P92Loading,
   P92Conversions, P92FPS,
   P92Keyboard, P92Mouse,
-  P92Tex, P92TexDraw, P92TexEffects,
+  P92Tex, P92TexDraw,
   P92Timing, P92VGA,
   Assets, IntroScr;
 
@@ -70,10 +70,6 @@ begin
   { Initialise game state here }
   actualGameState := GameStatePlaying;
   gameTime := 0.0;
-  
-  ReplaceColour(
-    BorrowBMFontPtr(GetDefaultFontHandle)^.texHandle,
-    $FFFFFFFF, $FF000000);
 end;
 
 

@@ -16,8 +16,8 @@ uses
   { SysUtils, }  { it's possible to use format() but I would rather not }
 
   P92Core, P92Fonts, P92WasmHost, P92AssetRegistry, P92BMFont,
-  P92Conversions, P92FPS, P92Graphics, P92Tex, P92TexDraw,
-  P92TexEffects, P92Loading, P92Logger,
+  P92Conversions, P92FPS, P92Loading, P92Logger,
+  P92Graphics, P92Tex, P92TexDraw, P92TexOps,
   P92Keyboard, P92Mouse, P92WasmHeap, P92Panic, P92Geometry,
   P92Timing, P92VGA, P92Colour,
   P92IMGUI, P92IMGUIPromptBox, P92IMGUI9Slice,
@@ -86,7 +86,7 @@ begin
   gameTime := 0.0;
 
   fontBlack := CloneBMFont(fontRegular);
-  ReplaceColour(BorrowBMFontPtr(fontBlack)^.texHandle, $FFFFFFFF, $FF000000);
+  ReplaceTexColour(BorrowBMFontPtr(fontBlack)^.texHandle, $FFFFFFFF, $FF000000);
 
   SetPromptBoxAssets(texPromptBG, texPromptButtonNormal, texPromptButtonNormal, texPromptButtonPressed);
 
@@ -95,7 +95,7 @@ begin
 
   fontBlack := CloneBMFont(GetDefaultFontHandle);
 
-  ReplaceColour(
+  ReplaceTexColour(
     BorrowBMFontPtr(fontBlack)^.texHandle,
     $FFFFFFFF, $FF000000);
 

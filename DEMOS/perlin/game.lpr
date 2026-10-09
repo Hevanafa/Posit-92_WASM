@@ -13,7 +13,7 @@ library Game;
 uses
   P92Core, P92WasmHost, P92AssetRegistry, P92FPS, P92Fonts, P92BMFont,
   P92Keyboard, P92Mouse,
-  P92Graphics, P92Geometry, P92Tex, P92TexDraw, P92TexEffects,
+  P92Graphics, P92Geometry, P92Tex, P92TexDraw, P92TexOps,
   P92IMGUI, P92Timing, P92VGA, P92Perlin,
   Assets;
 
@@ -64,7 +64,7 @@ begin
   hideCursor;
 
   fontBlack := CloneBMFont(GetDefaultFontHandle);
-  replaceColour(BorrowBMFontPtr(fontBlack)^.texHandle, white, black);
+  ReplaceTexColour(BorrowBMFontPtr(fontBlack)^.texHandle, white, black);
 
   { Initialise game state here }
   gameTime := 0.0;

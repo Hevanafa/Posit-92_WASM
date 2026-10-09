@@ -11,8 +11,9 @@ library Game;
 
 uses
   P92Core, P92Fonts, P92Conversions, P92FPS, P92WasmHost, P92AssetRegistry,
-  P92Keyboard, P92Mouse, P92Logger, P92Geometry,
-  P92Tex, P92TexDraw, P92TexEffects, P92Timing, P92VGA,
+  P92Keyboard, P92Mouse, P92Logger,
+  P92Geometry, P92Tex, P92TexDraw, P92TexOps,
+  P92Timing, P92VGA,
   Assets;
 
 const
@@ -68,7 +69,7 @@ begin
 
   for a:=1 to high(palette) do begin
     texParticles[a] := CloneTex(texParticle);
-    ReplaceColour(texParticles[a], palette[0], palette[a])
+    ReplaceTexColour(texParticles[a], palette[0], palette[a])
   end;
 end;
 

@@ -12,7 +12,7 @@ uses
   P92Core, P92Fonts, P92AssetRegistry, P92WasmHost,
   P92Conversions, P92FPS, P92Logger,
   P92Keyboard, P92Mouse,
-  P92Tex, P92TexDraw, P92TexEffects, P92TexOps,
+  P92Tex, P92TexDraw, P92TexOps,
   P92Easings, P92IMGUI,
   P92Timing, P92VGA,
   Assets;
