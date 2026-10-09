@@ -37,7 +37,8 @@ procedure ApplyFullPhosphor(const radius: smallint);
 implementation
 
 uses
-  P92Conversions, P92AssetRegistry, P92Tex, P92TexDraw,
+  P92Conversions, P92AssetRegistry,
+  P92Colour, P92Tex, P92TexDraw,
   P92Easings, P92Logger, P92VGA;
 
 var
@@ -176,13 +177,13 @@ begin
   if radius <= 0 then exit;
 
   if texBlurPtr = nil then begin
-    texBlur := NewTex(vgaWidth, vgaHeight);
+    texBlur := NewTex(VGAWidth, VGAHeight);
     texBlurPtr := BorrowTexPtr(texBlur);
   end;
 
   { Process from VGA (alpha channel is ignored) }
-  for b:=0 to vgaHeight - 1 do
-    for a:=0 to vgaWidth - 1 do begin
+  for b:=0 to VGAHeight - 1 do
+    for a:=0 to VGAWidth - 1 do begin
       red := 0;
       green := 0;
       blue := 0;
@@ -190,8 +191,8 @@ begin
 
       for d := -radius to radius do
         for c := -radius to radius do begin
-          if (a + c < 0) or (a + c >= vgaWidth)
-            or (b + d < 0) or (b + d >= vgaHeight) then continue;
+          if (a + c < 0) or (a + c >= VGAWidth)
+            or (b + d < 0) or (b + d >= VGAHeight) then continue;
 
           colour := ARGBtoABGR(UnsafePGet(a + c, b + d));
 
@@ -225,15 +226,15 @@ var
   colour: longword;
 begin
   if texChromabePtr = nil then begin
-    texChromabe := NewTex(vgaWidth, vgaHeight);
+    texChromabe := NewTex(VGAWidth, VGAHeight);
     texChromabePtr := BorrowTexPtr(texChromabe);
   end;
 
-  for py:=0 to vgaHeight - 1 do
-    for px:=0 to vgaWidth - 1 do begin
+  for py:=0 to VGAHeight - 1 do
+    for px:=0 to VGAWidth - 1 do begin
       { red shifts right }
       redX := px + 1;
-      if redX >= vgaWidth then redX := vgaWidth - 1;
+      if redX >= VGAWidth then redX := VGAWidth - 1;
 
       { blue shifts left }
       blueX := px - 1;
@@ -285,7 +286,7 @@ var
   colour: longword;
 begin
   if texVignettePtr = nil then begin
-    texVignette := NewTex(vgaWidth, vgaHeight);
+    texVignette := NewTex(VGAWidth, VGAHeight);
     texVignettePtr := BorrowTexPtr(texVignette);
   end;
 
@@ -293,11 +294,11 @@ begin
 
   { WriteLog('DEBUG applyFullVignette'); }
 
-  for py:=0 to vgaHeight - 1 do 
-  for px:=0 to vgaWidth - 1 do begin
+  for py:=0 to VGAHeight - 1 do 
+  for px:=0 to VGAWidth - 1 do begin
     { Coordinate normalisation }
-    centreX := vgaWidth / 2;
-    centreY := vgaHeight / 2;
+    centreX := VGAWidth / 2;
+    centreY := VGAHeight / 2;
 
     offsetX := px - centreX;
     offsetY := py - centreY;
@@ -351,7 +352,7 @@ begin
 }
 
     { Darken RGB channels with vignette factor }
-    colour := unsafePget(px, py);
+    colour := UnsafePGet(px, py);
 
     r := colour shr 16 and $FF;
     g := colour shr 8 and $FF;
@@ -396,13 +397,13 @@ begin
   if radius <= 0 then exit;
 
   if texPhosphorPtr = nil then begin
-    texPhosphor := NewTex(vgaWidth, vgaHeight);
+    texPhosphor := NewTex(VGAWidth, VGAHeight);
     texPhosphorPtr := BorrowTexPtr(texPhosphor);
   end;
 
   { Process from VGA (alpha channel is ignored) }
-  for b:=0 to vgaHeight - 1 do
-    for a:=0 to vgaWidth - 1 do begin
+  for b:=0 to VGAHeight - 1 do
+    for a:=0 to VGAWidth - 1 do begin
       red := 0;
       green := 0;
       blue := 0;
@@ -410,10 +411,10 @@ begin
 
       for d := -radius to radius do
         for c := -radius to radius do begin
-          if (a + c < 0) or (a + c >= vgaWidth)
-            or (b + d < 0) or (b + d >= vgaHeight) then continue;
+          if (a + c < 0) or (a + c >= VGAWidth)
+            or (b + d < 0) or (b + d >= VGAHeight) then continue;
 
-          colour := unsafePget(a + c, b + d);
+          colour := UnsafePGet(a + c, b + d);
 
           inc(red, colour shr 16 and $FF);
           inc(green, colour shr 8 and $FF);
@@ -435,10 +436,10 @@ begin
   { spr(texPhosphor, 0, 0) }
 
   { Blend back to VGA }
-  for b:=0 to vgaHeight - 1 do
-    for a:=0 to vgaWidth - 1 do begin
+  for b:=0 to VGAHeight - 1 do
+    for a:=0 to VGAWidth - 1 do begin
       { Get original from VGA }
-      origColour := unsafePget(a, b);
+      origColour := UnsafePGet(a, b);
       origR := origColour shr 16 and $FF;
       origG := origColour shr 8 and $FF;
       origB := origColour and $FF;
@@ -466,7 +467,7 @@ begin
 
       { Write back to VGA }
       colour := ($FF shl 24) or (finalR shl 16) or (finalG shl 8) or finalB;
-      unsafePset(a, b, colour)
+      UnsafePSet(a, b, colour)
     end;
 
   { spr(texPhosphor, 0, 0) }
