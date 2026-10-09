@@ -34,16 +34,16 @@ function IsEasingComplete(const startTick, duration, t: double): boolean;
 {
   a: start value
   z: end value (inclusive)
-  perc: lerp percentage, can be obtained from GetPerc
+  perc: easing percentage [0.0 .. 1.0], can be obtained from GetPerc
 }
-function Lerp(a, z, perc: double): double;
+function Lerp(const a, z, perc: double): double;
 
 {
   a: start value
   z: end value (inclusive)
-  perc: lerp percentage, can be obtained from GetPerc
+  perc: easing percentage [0.0 .. 1.0], can be obtained from GetPerc
 }
-function LerpEased(a, z, perc: double; const ease: TEaseFunc): double;
+function LerpEased(const a, z, perc: double; const ease: TEaseFunc): double;
 
 { Easing functions }
 
@@ -75,18 +75,16 @@ begin
   IsEasingComplete := GetEasingPerc(startTick, duration, t) >= 1.0
 end;
 
-function Lerp(a, z, perc: double): double;
+function Lerp(const a, z, perc: double): double;
 begin
-  perc := clamp(perc, 0.0, 1.0);
   Lerp := a + perc * (z - a)
 end;
 
-function LerpEased(a, z, perc: double; const ease: TEaseFunc): double;
+function LerpEased(const a, z, perc: double; const ease: TEaseFunc): double;
 begin
   if not assigned(ease) then
     PanicHalt('LerpEased: ease function is not supplied!');
 
-  perc := Clamp(perc, 0.0, 1.0);
   LerpEased := a + ease(perc) * (z - a)
 end;
 
