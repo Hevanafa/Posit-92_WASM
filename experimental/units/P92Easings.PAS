@@ -17,14 +17,17 @@ interface
 type
   TEaseFunc = function(perc: double): double;
 
-{
+{ Normalises the easing to 0.0 .. 1.0
+  result := (t - startTick) / duration
+
   startTick: in seconds
   duration: in seconds
   t: current time, in seconds
 }
 function GetEasingPerc(startTick, duration, t: double): double;
 
-{
+{ Gets the easing complete condition (if n >= 1.0), obtained from GetEasingPerc
+
   startTick: in seconds
   duration: in seconds
   t: current time, in seconds
