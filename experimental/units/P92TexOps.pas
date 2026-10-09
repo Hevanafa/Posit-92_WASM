@@ -21,12 +21,12 @@ procedure SprRegionToDest(
 procedure TexFlip(const texHandle: TTextureHandle; const flip: TSprFlips);
 
 { colour: $AARRGGBB }
-procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
+procedure ReplaceTexColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
 
 
 implementation
 
-uses P92Maths, P92Panic;
+uses P92Maths, P92Panic, P92Colour, P92VGA;
 
 procedure SprToDest(const src, dest: TTextureHandle; const x, y: smallint);
 var
@@ -141,7 +141,7 @@ begin
   end;
 end;
 
-procedure ReplaceColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
+procedure ReplaceTexColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
 var
   a, b: word;
   texture: PSoftwareTex;

@@ -57,7 +57,7 @@ begin
   blinkyX := 160;
   blinkyY := 144;
 
-  ReplaceColour(
+  ReplaceTexColour(
     BorrowBMFontPtr(GetDefaultFontHandle)^.texHandle, $FFFFFFFF, $FF000000)
 end;
 

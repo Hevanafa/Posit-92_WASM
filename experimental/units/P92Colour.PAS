@@ -11,6 +11,7 @@ function BlendABGR(const srcABGR, destABGR: longword): longword; inline;
 
 { h, s, v: [0.0, 1.0] }
 function HSVtoRGB(h, s, v: double): longword;
+
 function LerpColour(const colourA, colourB: longword; const perc: double): longword;
 
 
