@@ -43,7 +43,7 @@ function Lerp(a, z, perc: double): double;
   z: end value (inclusive)
   perc: lerp percentage, can be obtained from GetPerc
 }
-function LerpEased(a, z, perc: double; ease: TEaseFunc): double;
+function LerpEased(a, z, perc: double; const ease: TEaseFunc): double;
 
 { Easing functions }
 
@@ -81,7 +81,7 @@ begin
   Lerp := a + perc * (z - a)
 end;
 
-function LerpEased(a, z, perc: double; ease: TEaseFunc): double;
+function LerpEased(a, z, perc: double; const ease: TEaseFunc): double;
 begin
   if not assigned(ease) then
     PanicHalt('LerpEased: ease function is not supplied!');
