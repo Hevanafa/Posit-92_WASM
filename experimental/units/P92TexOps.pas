@@ -19,7 +19,7 @@ procedure SprRegionToDest(
   const srcX, srcY, srcW, srcH: smallint;
   const destX, destY: smallint);
 
-procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: TSprFlips);
+procedure TexFlip(const texHandle: TTextureHandle; const flip: TSprFlips);
 
 
 implementation
@@ -93,7 +93,7 @@ begin
   end;
 end;
 
-procedure SprFlipInPlace(const texHandle: TTextureHandle; const flip: TSprFlips);
+procedure TexFlip(const texHandle: TTextureHandle; const flip: TSprFlips);
 var
   texture: PSoftwareTex;
   px, py: smallint;
