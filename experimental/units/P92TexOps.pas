@@ -143,20 +143,31 @@ end;
 
 procedure ReplaceTexColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
 var
-  a, b: word;
-  texture: PSoftwareTex;
+  a, b: smallint;
+  texturePtr: PSoftwareTex;
+  offset: longword;
 begin
   if not IsTexReady(texHandle) then exit;
 
-  texture := BorrowTexPtr(texHandle);
+  texturePtr := BorrowTexPtr(texHandle);
 
   oldColour := ARGBtoABGR(oldColour);
   newColour := ARGBtoABGR(newColour);
 
-  for b:=0 to texture^.height - 1 do
-    for a:=0 to texture^.width - 1 do
-      if UnsafeTexPGet(texture, a, b) = oldColour then
-        UnsafeTexPSet(texture, a, b, newColour);
+  { Just to suppress the warnings }
+  a:=0; b:=0;
+
+  for b := 0 to texturePtr^.height - 1 do
+    a := 0;
+
+    repeat
+      offset := b * texturePtr^.width + a;
+
+      PLongWord(@texturePtr^.pixelData[offset])^ :=
+        newColour;
+
+      inc(a)
+    until a >= texturePtr^.width;
 end;
 
 
