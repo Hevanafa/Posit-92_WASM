@@ -80,7 +80,7 @@ implementation
 
 uses
   P92Conversions, P92Logger, P92AssetRegistry, P92PanicDisplay,
-  P92Tex, P92TexDraw;
+  P92Tex, P92TexDraw, P92TexOps;
 
 { Returns glyph.xadvance }
 function PrintBMFontChar(
