@@ -13,10 +13,16 @@ unit P92WasmMemMgr;
 
 interface
 
+{$IFDEF P92_WASM}
+
 procedure InitHeapMgr;
+
+{$ENDIF}
 
 
 implementation
+
+{$IFDEF P92_WASM}
 
 uses P92WasmHeap;
 
@@ -67,5 +73,7 @@ begin
 
   SetMemoryManager(customMemMgr)
 end;
+
+{$ENDIF}
 
 end.

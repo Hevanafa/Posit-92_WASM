@@ -20,6 +20,8 @@ unit P92WasmHeap;
 
 interface
 
+{$IFDEF P92_WASM}
+
 const
   WasmMemorySize = 2 * 1048576;  { 2 MB }
   StackSize = 384 * 1024;
@@ -45,8 +47,12 @@ function BorrowBucketAllocRegionEnd: pointer;
 function BorrowFreeListRegionStart: pointer;
 function BorrowFreeListRegionEnd: pointer;
 
+{$ENDIF}
+
 
 implementation
+
+{$IFDEF P92_WASM}
 
 uses P92Logger, P92Conversions, P92Panic;
 
@@ -568,6 +574,8 @@ function BorrowFreeListRegionEnd: pointer;
 begin
   BorrowFreeListRegionEnd := freeListEnd
 end;
+
+{$ENDIF}
 
 end.
 

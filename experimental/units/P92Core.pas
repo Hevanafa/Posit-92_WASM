@@ -57,7 +57,7 @@ type
 
 {$IFDEF P92_SDL2}
 const
-  Posit92Version = '0.3.1';
+  Posit92Version = '0.3.2';
 
 type
   TCallback = procedure;
@@ -77,7 +77,10 @@ type
     DefaultBMFontPath: string;
 
     TargetFPS: smallint;
+
     EnableScreenshotHotkey: boolean;
+    { default: empty string, Downloads folder }
+    ScreenshotsDir: string;
 
     LoadDefaultCursor: boolean;
     EnableDrawFPS: boolean;
@@ -102,12 +105,21 @@ procedure HostCallOnPreload; external 'env' name 'HostCallOnPreload';
 procedure HostCallOnReady; external 'env' name 'HostCallOnReady';
 {$ENDIF}
 
-function GetBootConfig: TP92AppConfig;
-
+{$IFDEF P92_WASM}
 procedure P92Boot; public name 'P92Boot';
 procedure P92Update; public name 'P92Update';
 procedure P92Draw; public name 'P92Draw';
 procedure P92AfterDraw; public name 'P92AfterDraw';
+{$ENDIF}
+
+{$IFDEF P92_SDL2}
+procedure P92Boot;
+procedure P92Update;
+procedure P92Draw;
+procedure P92AfterDraw;
+{$ENDIF}
+
+function GetBootConfig: TP92AppConfig;
 
 procedure PrintChar(const c: char; const x, y: smallint);
 procedure Print(const txt: string; const x, y: smallint);
@@ -189,6 +201,8 @@ var
 
   { Used by screenshot }
   lastF2: boolean;
+  screenshotHint: string;
+  screenshotEndTick: double;
 
   fpsTop, fpsRight: smallint;
 
@@ -355,6 +369,106 @@ begin
 {$endif}
 end;
 
+{$IFDEF P92_SDL2}
+function SHGetKnownFolderPath(
+  rfid: PGUID;
+  dwFlags: DWORD;
+  hToken: THandle;
+  out ppszPath: PWideChar
+): HRESULT; stdcall; external 'shell32.dll';
+
+procedure CoTaskMemFree(pv: Pointer); stdcall; external 'ole32.dll';
+
+function GetDownloadsDir: AnsiString;
+const
+  GUIDDownloads: TGuid = '{374DE290-123F-4565-9164-39C4925E467B}';
+var
+  p: PWideChar;
+begin
+  GetDownloadsDir := '';
+
+  if SHGetKnownFolderPath(@GUIDDownloads, 0, 0, p) = S_OK then begin
+    GetDownloadsDir := UTF8Encode(UnicodeString(p));
+
+    { The shell allocates the string & it must be freed manually }
+    CoTaskMemFree(p);
+  end;
+end;
+
+procedure SDL2TakeScreenshot;
+var
+  w, h: longint;
+  screenshot: PSDL_Surface;
+  filename, fullpath: AnsiString;
+  msg: AnsiString;
+begin
+  { filename := 'test.png'; }
+  filename := format('%s_%dx.png', [
+    FormatDateTime('yyyy-mm-dd_hh-nn-ss', now),
+    bootConfig.SDLScale
+  ]);
+
+  if bootConfig.ScreenshotsDir <> '' then
+    fullpath := ConcatPaths([bootConfig.ScreenshotsDir, filename])
+  else
+    fullpath := ConcatPaths([GetDownloadsDir, filename]);
+
+  SDL_GetRendererOutputSize(renderer, @w, @h);
+
+  { The pixel format must match vgaTexture }
+  screenshot := SDL_CreateRGBSurfaceWithFormat(0, w, h, 32, SDL_PIXELFORMAT_RGBA32);
+
+  if screenshot = nil then begin
+    WriteWarn('SDL2TakeScreenshot: Unable to create a screenshot');
+    exit
+  end;
+
+  if SDL_RenderReadPixels(
+    renderer, nil, SDL_PIXELFORMAT_RGBA32,
+    screenshot^.pixels, screenshot^.pitch) = 0 then
+  begin
+    if IMG_SavePNG(screenshot, PAnsiChar(fullpath)) = 0 then begin
+      msg := 'Saved as ' + fullpath;
+      {
+      SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION,
+        'Screenshot', PAnsiChar(msg), window);
+      }
+      screenshotHint := msg;
+      screenshotEndTick := GetTimer + 3.0;
+    end;
+  end else
+    WriteWarn('SDL2TakeScreenshot: SavePNG failed: ' + SDL_GetError);
+
+  SDL_FreeSurface(screenshot)
+end;
+{$ENDIF}
+
+procedure TakeScreenshot;
+{$IFDEF P92_WASM}
+var
+  filename: string;
+  msg: string;
+{$ENDIF}
+
+begin
+
+{$IFDEF P92_WASM}
+  JsTakeScreenshot;
+
+  filename := ReadInteropString;
+  msg := 'Saved as ' + filename;
+
+  screenshotHint := msg;
+  screenshotEndTick := GetTimer + 3.0;
+
+  writelog('TakeScreenshot: ' + msg);
+{$ENDIF}
+
+{$IFDEF P92_SDL2}
+  SDL2TakeScreenshot
+{$ENDIF}
+end;
+
 procedure P92Update;
 begin
 {$ifdef P92_WASM}
@@ -382,21 +496,28 @@ begin
 {$else}
     UpdateMouse;
 {$endif}
+  end;
+{$endif}
 
-    if bootConfig.enableScreenshotHotkey then begin
+{$ifdef P92_SDL2}
+  UpdateDeltaTime;
+  IncrementFPS;
+  HandleSDLEvents;
+{$endif}
+
+  if (screenshotHint <> '') and (GetTimer >= screenshotEndTick) then
+    screenshotHint := '';
+
+  if engineRunState = ersReady then begin
+    if bootConfig.EnableScreenshotHotkey then begin
       if lastF2 <> isKeyDown(SC_F2) then begin
         lastF2 := isKeyDown(SC_F2);
 
-        if lastF2 then JsTakeScreenshot;
+        if lastF2 then
+          TakeScreenshot;
       end;
     end;
   end;
-{$endif}
-{$ifdef P92_SDL2}
-  HandleSDLEvents;
-  UpdateDeltaTime;
-  IncrementFPS;
-{$endif}
 end;
 
 procedure DrawMouse;
@@ -425,6 +546,12 @@ begin
 {$ENDIF}
 
 {$IFDEF P92_WASM}
+  if screenshotHint <> '' then
+    PrintWrap(
+      screenshotHint,
+      0, VGAHeight - BootFontGlyphHeight,
+      VGAWidth);
+
 {$IFDEF P92_WEBGL}
   DrawMouse;
 
@@ -445,14 +572,20 @@ begin
 {$ENDIF}
 
 {$IFDEF P92_SDL2}
+  if screenshotHint <> '' then
+    PrintWrap(
+      screenshotHint,
+      0, VGAHeight - BootFontGlyphHeight * 2,
+      VGAWidth);
+
   if bootConfig.EnableDrawFPS then
     DrawFPS;
 
-  VgaUpload;
+  VGAUpload;
 
   { Begin hardware layer }
   DrawMouse;
-  VgaPresent
+  VGAPresent;
 {$ENDIF}
 end;
 
@@ -628,7 +761,9 @@ begin
     DefaultBMFontPath := 'assets\fonts\p92_sans_8_regular.txt';
 
     TargetFPS := 60;
+
     EnableScreenshotHotkey := true;
+    ScreenshotsDir := '';
 
     LoadDefaultCursor := true;
     EnableDrawFPS := false;

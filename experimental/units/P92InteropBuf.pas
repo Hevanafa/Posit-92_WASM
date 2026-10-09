@@ -5,6 +5,8 @@ unit P92InteropBuf;
 
 interface
 
+{$IFDEF P92_WASM}
+
 procedure InitInteropBuffer;
 
 function GetInteropBufPtr: pointer; public name 'GetInteropBufPtr';
@@ -15,8 +17,12 @@ procedure SetInteropBufLen(value: longint); public name 'SetInteropBufLen';
 procedure WriteInteropString(const s: AnsiString);
 function ReadInteropString: AnsiString;
 
+{$ENDIF}
+
 
 implementation
+
+{$IFDEF P92_WASM}
 
 const
   InteropBufCapacity = 1020;
@@ -66,6 +72,8 @@ function ReadInteropString: AnsiString;
 begin
   SetString(ReadInteropString, PAnsiChar(@interopBufArray[0]), interopBufLen)
 end;
+
+{$ENDIF}
 
 end.
 

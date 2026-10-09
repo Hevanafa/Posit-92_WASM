@@ -1,7 +1,6 @@
 {
   Loading unit
   Part of Posit-92 game engine
-  Hevanafa
 }
 
 unit P92Loading;
@@ -11,10 +10,16 @@ unit P92Loading;
 
 interface
 
+{$IFDEF P92_WASM}
+
 procedure RenderLoadingScreen;
+
+{$ENDIF}
 
 
 implementation
+
+{$IFDEF P92_WASM}
 
 uses
   P92Core, P92Conversions, P92AssetRegistry, P92Graphics, P92VGA
@@ -65,5 +70,7 @@ begin
   VGAPresent;
 {$ENDIF}
 end;
+
+{$ENDIF}
 
 end.
