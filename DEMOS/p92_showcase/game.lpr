@@ -338,7 +338,7 @@ var
   frameIdx: smallint;
   colour: longword;
   x, y: smallint;
-  w, h: smallint;
+  w: smallint;
   scale: double;
   perc: double;
 begin
@@ -356,7 +356,7 @@ begin
   y := 100;
 
   w := trunc(GetTexWidth(texSpecimenP92[1]) * scale);
-  h := trunc(GetTexHeight(texSpecimenP92[1]) * scale);
+  { h := trunc(GetTexHeight(texSpecimenP92[1]) * scale); }
 
   frameIdx := U16Iif((trunc(gameTime * 4) and 1) > 0, 1, 0);
 
