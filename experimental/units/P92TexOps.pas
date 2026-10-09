@@ -148,6 +148,7 @@ var
   offset: longword;
 begin
   if not IsTexReady(texHandle) then exit;
+  if oldColour = newColour then exit;
 
   texturePtr := BorrowTexPtr(texHandle);
 
