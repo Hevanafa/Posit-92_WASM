@@ -64,7 +64,7 @@ implementation
 
 uses
   P92Logger, P92Conversions, P92AssetRegistry,
-  P92Maths, P92Panic, P92VGA;
+  P92Colour, P92Maths, P92Panic, P92VGA;
 
 
 procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);

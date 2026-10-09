@@ -54,7 +54,7 @@ procedure RectRound(x0, y0, x1, y1, radius: smallint; const colour: longword);
 
 implementation
 
-uses P92VGA;
+uses P92Colour, P92VGA;
 
 function GetAlpha(const colour: longword): byte;
 begin
@@ -82,14 +82,14 @@ begin
   solid := SolidColour(colour);
 
   while x <= y do begin
-    pset(cx + x, cy + y, solid);
-    pset(cx - x, cy + y, solid);
-    pset(cx + x, cy - y, solid);
-    pset(cx - x, cy - y, solid);
-    pset(cx + y, cy + x, solid);
-    pset(cx - y, cy + x, solid);
-    pset(cx + y, cy - x, solid);
-    pset(cx - y, cy - x, solid);
+    PSet(cx + x, cy + y, solid);
+    PSet(cx - x, cy + y, solid);
+    PSet(cx + x, cy - y, solid);
+    PSet(cx - x, cy - y, solid);
+    PSet(cx + y, cy + x, solid);
+    PSet(cx - y, cy + x, solid);
+    PSet(cx + y, cy - x, solid);
+    PSet(cx - y, cy - x, solid);
 
     if p < 0 then
       p := p+4 * x+6

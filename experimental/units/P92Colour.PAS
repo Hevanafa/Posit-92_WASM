@@ -1,3 +1,8 @@
+{
+  Colour conversion unit
+  Part of Posit-92 game engine
+}
+
 unit P92Colour;
 
 {$Mode ObjFPC}

@@ -76,12 +76,12 @@ implementation
 
 {$ifdef P92_WASM}
 uses
-  P92Logger,
-  P92WasmHeap;
+  P92Logger, P92WasmHeap, P92Colour;
 {$endif}
+
 {$ifdef P92_SDL2}
 uses
-  SDL2, P92Logger, P92CoreSDL2;
+  SDL2, P92Logger, P92CoreSDL2, P92Colour;
 {$endif}
 
 var
