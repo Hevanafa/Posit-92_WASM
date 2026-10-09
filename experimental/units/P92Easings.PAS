@@ -17,18 +17,21 @@ interface
 type
   TEaseFunc = function(perc: double): double;
 
-{ Normalises the easing to 0.0 .. 1.0
+{ Calculates normalised easing progress
   result := (t - startTick) / duration
 
-  startTick: in seconds
+  The result is not clamped to 0.0 .. 1.0
+
+  startTick: start time, in seconds
   duration: in seconds
   t: current time, in seconds
 }
 function GetEasingPerc(startTick, duration, t: double): double;
 
-{ Gets the easing complete condition (if n >= 1.0), obtained from GetEasingPerc
+{ Returns true when the easing progress is >= 1.0
+  The progress is obtained from GetEasingPerc
 
-  startTick: in seconds
+  startTick: start time, in seconds
   duration: in seconds
   t: current time, in seconds
 }
