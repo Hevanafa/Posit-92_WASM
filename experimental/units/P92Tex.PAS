@@ -34,6 +34,16 @@ type
     pixelData: PByte;
   end;
 
+  TSprFlip = (
+    SprFlipHorizontal,
+    SprFlipVertical
+  );
+  TSprFlips = set of TSprFlip;
+
+const
+  SprFlipsNone = [];
+  SprFlipsBoth = [SprFlipHorizontal, SprFlipVertical];
+
 
 function NewTex(const width, height: smallint): TTextureHandle;
 function CloneTex(const texHandle: TTextureHandle): TTextureHandle;

@@ -18,18 +18,7 @@ unit P92TexDraw;
 
 interface
 
-uses P92AssetHandles;
-
-type
-  TSprFlip = (
-    SprFlipHorizontal,
-    SprFlipVertical
-  );
-  TSprFlips = set of TSprFlip;
-
-const
-  SprFlipsNone = [];
-  SprFlipsBoth = [SprFlipHorizontal, SprFlipVertical];
+uses P92AssetHandles, P92Tex;
 
 procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);
 
@@ -75,8 +64,7 @@ implementation
 
 uses
   P92Logger, P92Conversions, P92AssetRegistry,
-  P92Tex, P92Maths,
-  P92Panic, P92VGA;
+  P92Maths, P92Panic, P92VGA;
 
 
 procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);

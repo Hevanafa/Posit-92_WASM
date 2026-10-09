@@ -10,7 +10,7 @@ unit P92TexOps;
 
 interface
 
-uses P92AssetHandles, P92AssetRegistry, P92TexDraw;
+uses P92AssetHandles, P92AssetRegistry, P92Tex;
 
 procedure SprToDest(const src, dest: TTextureHandle; const x, y: smallint);
 
@@ -24,7 +24,7 @@ procedure TexFlip(const texHandle: TTextureHandle; const flip: TSprFlips);
 
 implementation
 
-uses P92Maths, P92Panic, P92Tex;
+uses P92Maths, P92Panic;
 
 procedure SprToDest(const src, dest: TTextureHandle; const x, y: smallint);
 var
