@@ -11,6 +11,8 @@ unit P92Colour;
 
 interface
 
+uses P92Easings;
+
 function ARGBtoRGBA(const colour: longword): longword;
 function ARGBtoABGR(const colour: longword): longword;
 function ABGRtoARGB(const colour: longword): longword;
@@ -22,6 +24,12 @@ function BlendABGR(const srcABGR, destABGR: longword): longword; inline;
 function HSVtoRGB(h, s, v: double): longword;
 
 function MixColours(const colourA, colourB: longword; const perc: double): longword;
+
+function MixColoursEased(
+  const colourA, colourB: longword;
+  const perc: double;
+  const ease: TEaseFunc
+): longword;
 
 
 implementation
@@ -127,6 +135,11 @@ begin
   b := trunc((colourA and $FF) + perc * ((colourB and $FF) - (colourA and $FF)));
 
   MixColours := (a shl 24) or (r shl 16) or (g shl 8) or b
+end;
+
+function MixColoursEased(const colourA, colourB: longword; const perc: double; const ease: TEaseFunc): longword;
+begin
+  MixColoursEased := MixColours(colourA, colourB, ease(perc))
 end;
 
 
