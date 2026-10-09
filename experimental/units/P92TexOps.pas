@@ -143,10 +143,8 @@ end;
 
 procedure ReplaceTexColour(const texHandle: TTextureHandle; oldColour, newColour: longword);
 var
-  a, b: smallint;
   texturePtr: PSoftwareTex;
-  { pixel offset }
-  offset: longword;
+  a: longword;
   px: PLongWord;
 begin
   if not IsTexReady(texHandle) then exit;
@@ -154,14 +152,18 @@ begin
 
   texturePtr := BorrowTexPtr(texHandle);
 
+  if (texturePtr^.width <= 0) or (texturePtr^.height <= 0) then exit;
+
   oldColour := ARGBtoABGR(oldColour);
   newColour := ARGBtoABGR(newColour);
 
-  for offset:=0 to texturePtr^.width * texturePtr^.height - 1 do begin
-    px := PLongWord(@texturePtr^.pixelData[offset * 4]);
+  px := PLongWord(@texturePtr^.pixelData[0]);
 
+  for a:=0 to texturePtr^.width * texturePtr^.height - 1 do begin
     if px^ = oldColour then
       px^ := newColour;
+
+    inc(px)
   end;
 end;
 
