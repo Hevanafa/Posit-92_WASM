@@ -21,6 +21,7 @@ type
   result := (t - startTick) / duration
 
   The result is not clamped to 0.0 .. 1.0
+  Returns 1.0 if duration <= 0.0
 
   startTick: start time, in seconds
   duration: in seconds
@@ -73,7 +74,7 @@ begin
     exit
   end;
 
-  GetEasingPerc := Clamp((t - startTick) / duration, 0.0, 1.0)
+  GetEasingPerc := (t - startTick) / duration
 end;
 
 function IsEasingComplete(const startTick, duration, t: double):boolean;
