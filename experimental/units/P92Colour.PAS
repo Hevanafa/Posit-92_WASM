@@ -21,7 +21,7 @@ function BlendABGR(const srcABGR, destABGR: longword): longword; inline;
 { h, s, v: [0.0, 1.0] }
 function HSVtoRGB(h, s, v: double): longword;
 
-function LerpColour(const colourA, colourB: longword; const perc: double): longword;
+function MixColours(const colourA, colourB: longword; const perc: double): longword;
 
 
 implementation
@@ -116,7 +116,7 @@ begin
   HSVtoRGB := $FF000000 or (r shl 16) or (g shl 8) or b
 end;
 
-function LerpColour(const colourA, colourB: longword; const perc: double): longword;
+function MixColours(const colourA, colourB: longword; const perc: double): longword;
 var
   a, r, g, b: byte;
 begin
@@ -126,7 +126,7 @@ begin
   g := trunc((colourA shr 8 and $FF) + perc * ((colourB shr 8 and $FF) - (colourA shr 8 and $FF)));
   b := trunc((colourA and $FF) + perc * ((colourB and $FF) - (colourA and $FF)));
 
-  lerpColour := (a shl 24) or (r shl 16) or (g shl 8) or b
+  MixColours := (a shl 24) or (r shl 16) or (g shl 8) or b
 end;
 
 
