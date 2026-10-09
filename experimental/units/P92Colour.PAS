@@ -6,6 +6,10 @@ unit P92Colour;
 
 interface
 
+function ARGBtoRGBA(const colour: longword): longword;
+function ARGBtoABGR(const colour: longword): longword;
+function ABGRtoARGB(const colour: longword): longword;
+
 { Source-over blend of ABGR colours }
 function BlendABGR(const srcABGR, destABGR: longword): longword; inline;
 
@@ -18,6 +22,26 @@ function LerpColour(const colourA, colourB: longword; const perc: double): longw
 implementation
 
 uses P92Maths;
+
+function ARGBtoRGBA(const colour: longword): longword; inline;
+begin
+  ARGBtoRGBA := (
+       ((colour and $00FFFFFF) shl 8)
+    or ((colour and $FF000000) shr 24))
+end;
+
+function ARGBtoABGR(const colour: longword): longword; inline;
+begin
+  ARGBtoABGR :=
+    (colour and $FF00FF00)
+    or ((colour and $00FF0000) shr 16)
+    or ((colour and $000000FF) shl 16)
+end;
+
+function ABGRtoARGB(const colour: longword): longword; inline;
+begin
+  ABGRtoARGB := ARGBtoABGR(colour)
+end;
 
 { Returns exactly round(v / 255)
   for v in 0..65025 (i.e. 255 * 255) }

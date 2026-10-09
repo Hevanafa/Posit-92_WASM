@@ -52,9 +52,6 @@ procedure Cls(const colour: longword);
 { colour format: $AARRGGBB }
 procedure ClsBlend(const colour: longword);
 
-function ARGBtoRGBA(const colour: longword): longword;
-function ARGBtoABGR(const colour: longword): longword;
-
 { Returns colour in ABGR }
 function UnsafePGet(const x, y: smallint): longword;
 procedure UnsafePSet(const x, y: smallint; const ABGR: longword);
@@ -142,26 +139,6 @@ end;
 function BorrowSurfacePtr: PByteArray;
 begin
   BorrowSurfacePtr := activeSurface
-end;
-
-function ARGBtoRGBA(const colour: longword): longword; inline;
-begin
-  ARGBtoRGBA := (
-       ((colour and $00FFFFFF) shl 8)
-    or ((colour and $FF000000) shr 24))
-end;
-
-function ARGBtoABGR(const colour: longword): longword; inline;
-begin
-  ARGBtoABGR :=
-    (colour and $FF00FF00)
-    or ((colour and $00FF0000) shr 16)
-    or ((colour and $000000FF) shl 16)
-end;
-
-function ABGRtoARGB(const colour: longword): longword; inline;
-begin
-  ABGRtoARGB := ARGBtoABGR(colour)
 end;
 
 function UnsafePGet(const x, y: smallint): longword; inline;
