@@ -2,7 +2,6 @@
   Texture modification unit
   Part of Posit-92 game engine
 }
-
 unit P92TexOps;
 
 {$Mode ObjFPC}
@@ -107,34 +106,35 @@ begin
   texture := BorrowTexPtr(texHandle);
 
   { Horizontal flip }
+
   if SprFlipHorizontal in flip then begin
     halfW := texture^.width div 2;
 
     for py:=0 to texture^.height - 1 do
-    for px:=0 to halfW - 1 do begin
-      pos1 := (px + py * texture^.width) * 4;
-      pos2 := ((texture^.width - 1 - px) + py * texture^.width) * 4;
+      for px:=0 to halfW - 1 do begin
+        pos1 := (px + py * texture^.width) * 4;
+        pos2 := ((texture^.width - 1 - px) + py * texture^.width) * 4;
 
-      { Swap RGBA }
-      tempColour := PLongword(@texture^.pixelData[pos1])^;
-      PLongword(@texture^.pixelData[pos1])^ := PLongword(@texture^.pixelData[pos2])^;
-      PLongword(@texture^.pixelData[pos2])^ := tempColour
-    end;
+        tempColour := PLongword(@texture^.pixelData[pos1])^;
+        PLongword(@texture^.pixelData[pos1])^ := PLongword(@texture^.pixelData[pos2])^;
+        PLongword(@texture^.pixelData[pos2])^ := tempColour
+      end;
   end;
 
+  { Vertical flip }
+  
   if SprFlipVertical in flip then begin
     halfH := texture^.height div 2;
 
     for py:=0 to halfH - 1 do
-    for px:=0 to texture^.width - 1 do begin
-      pos1 := (px + py * texture^.width) * 4;
-      pos2 := (px + (texture^.height - 1 - py) * texture^.width) * 4;
+      for px:=0 to texture^.width - 1 do begin
+        pos1 := (px + py * texture^.width) * 4;
+        pos2 := (px + (texture^.height - 1 - py) * texture^.width) * 4;
 
-      { Swap RGBA }
-      tempColour := PLongword(@texture^.pixelData[pos1])^;
-      PLongword(@texture^.pixelData[pos1])^ := PLongword(@texture^.pixelData[pos2])^;
-      Plongword(@texture^.pixelData[pos2])^ := tempColour
-    end;
+        tempColour := PLongword(@texture^.pixelData[pos1])^;
+        PLongword(@texture^.pixelData[pos1])^ := PLongword(@texture^.pixelData[pos2])^;
+        Plongword(@texture^.pixelData[pos2])^ := tempColour
+      end;
   end;
 end;
 
