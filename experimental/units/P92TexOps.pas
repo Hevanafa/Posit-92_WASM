@@ -154,20 +154,18 @@ begin
   oldColour := ARGBtoABGR(oldColour);
   newColour := ARGBtoABGR(newColour);
 
-  { Just to suppress the warnings }
-  a:=0; b:=0;
-
-  for b := 0 to texturePtr^.height - 1 do
+  for b := 0 to texturePtr^.height - 1 do begin
     a := 0;
 
     repeat
-      offset := b * texturePtr^.width + a;
+      offset := (b * texturePtr^.width + a) * 4;
 
-      PLongWord(@texturePtr^.pixelData[offset])^ :=
-        newColour;
+      if PLongWord(@texturePtr^.pixelData[offset])^ = oldColour then
+        PLongWord(@texturePtr^.pixelData[offset])^ := newColour;
 
       inc(a)
     until a >= texturePtr^.width;
+  end;
 end;
 
 
