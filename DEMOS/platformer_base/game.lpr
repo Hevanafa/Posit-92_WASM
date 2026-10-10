@@ -12,7 +12,7 @@ library Game;
 
 uses
   SysUtils,
-  P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
+  P92Core, P92Conversions, P92WasmHost, P92Fonts, P92AssetRegistry,
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw, P92Geometry,
   P92Timing, P92Panic, P92VGA,
@@ -20,7 +20,7 @@ uses
   Assets;
 
 const
-  Gravity = 300;
+  Gravity = 50;
   White = $FFFFFFFF;
   Green = $FF008000;
   Red = $FFFF5555;
@@ -150,6 +150,8 @@ begin
 
       if playerBody.vy < 0 then
         playerBody.y := mapObjects[a].zone.y + mapObjects[a].zone.height;
+
+      playerBody.vy := 0;
     end;
   end;
 
@@ -200,6 +202,8 @@ begin
     playerBody.y,
     playerBody.vy
   ]), 10, 10);
+
+  PrintDefault('isGrounded: ' + BoolStr(isGrounded), 10, 20);
 end;
 
 procedure Init;
