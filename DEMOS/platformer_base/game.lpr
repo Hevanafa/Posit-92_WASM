@@ -20,7 +20,8 @@ uses
   Assets;
 
 const
-  Gravity = 50;
+  Gravity = 150;
+  JumpPower = 60;
   White = $FFFFFFFF;
   Green = $FF008000;
   Red = $FFFF5555;
@@ -109,10 +110,11 @@ begin
   fillchar(playerBody, sizeof(TPhysicsBody), 0);
   playerBody.x := 100;
   playerBody.y := 100;
-  playerBody.width := 24;
-  playerBody.height := 32;
+  playerBody.width := 12;
+  playerBody.height := 16;
 
   SpawnMapObject(200, 100, 20, 20);
+  SpawnMapObject(100, VGAHeight - 40, 10, 20);
   SpawnMapObject(0, VGAHeight - 20, VGAWidth, 10);
 end;
 
@@ -128,18 +130,15 @@ begin
   if IsRightPressed then
     playerBody.vx := 60;
 
+  if isGrounded and IsKeyDown(SC_Z) then
+    playerBody.vy := -JumpPower;
+
   { Handle physics }
 
   if not isGrounded then
     playerBody.vy := playerBody.vy + Gravity * DeltaTime;
 
   playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
-
-  playerBody.vx := playerBody.vx * 0.9;
-
-  if abs(playerBody.vx) < 0.1 then playerBody.vx := 0;
-
-  playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
   for a:=0 to high(mapObjects) do begin
     if not mapObjects[a].active then continue;
@@ -152,6 +151,27 @@ begin
         playerBody.y := mapObjects[a].zone.y + mapObjects[a].zone.height;
 
       playerBody.vy := 0;
+    end;
+  end;
+
+
+  playerBody.vx := playerBody.vx * 0.9;
+
+  if abs(playerBody.vx) < 0.1 then playerBody.vx := 0;
+
+  playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
+
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
+      if playerBody.vx > 0 then
+        playerBody.x := mapObjects[a].zone.x - playerBody.width;
+
+      if playerBody.vx < 0 then
+        playerBody.x := mapObjects[a].zone.x + mapObjects[a].zone.width;
+
+      playerBody.vx := 0;
     end;
   end;
 
