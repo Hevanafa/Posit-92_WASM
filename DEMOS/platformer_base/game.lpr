@@ -42,6 +42,9 @@ var
   isGrounded: boolean;
   mapObjects: array[0..9] of TMapObject;
 
+  { Assigned true at the end of Update
+    This is to prevent the player character from falling down
+    to the void when the game is still loading }
   isStageReady: boolean;
 
 
