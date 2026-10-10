@@ -22,6 +22,7 @@ const
   Gravity = 300;
   White = $FFFFFFFF;
   Green = $FF008000;
+  Red = $FFFF5555;
 
 type
   { Always blocking for now }
@@ -35,6 +36,7 @@ var
   gameTime: double;
 
   playerBody: TPhysicsBody;
+  feetZone: TZone;
   isGrounded: boolean;
   mapObjects: array[0..9] of TMapObject;
 
@@ -70,6 +72,14 @@ begin
   mapObjects[idx].zone.y := y;
   mapObjects[idx].zone.width := width;
   mapObjects[idx].zone.height := height;
+end;
+
+procedure UpdateFeetZone;
+begin
+  feetZone.x := playerBody.x;
+  feetZone.y := playerBody.y + playerBody.height;
+  feetZone.width := playerBody.width;
+  feetZone.height := 2;
 end;
 
 { Engine region }
@@ -127,6 +137,8 @@ begin
 
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
+  UpdateFeetZone;
+
   { Other logic }
 
   gameTime := gameTime + DeltaTime
@@ -150,6 +162,7 @@ begin
   end;
 
   DrawPhysicsBody(playerBody, white);
+  DrawZone(feetZone, Red);
 
   PrintDefaultCentred('Platformer base demo', VgaWidth div 2, 120);
 end;
