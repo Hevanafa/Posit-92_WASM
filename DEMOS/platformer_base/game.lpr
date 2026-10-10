@@ -27,6 +27,17 @@ var
 
   playerBody: TPhysicsBody;
 
+
+function IsLeftPressed: boolean;
+begin
+  IsLeftPressed := IsKeyDown(SC_A) or IsKeyDown(SC_LEFT)
+end;
+
+function IsRightPressed: boolean;
+begin
+  IsRightPressed := IsKeyDown(SC_D) or IsKeyDown(SC_RIGHT)
+end;
+
 { Engine region }
 
 { Load game assets here }
@@ -54,10 +65,14 @@ procedure Update;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
-  if IsKeyDown(SC_LEFT) then
+  if IsLeftPressed then
     playerBody.vx := -60;
-  if IsKeyDown(SC_RIGHT) then
+  if IsRightPressed then
     playerBody.vx := 60;
+
+  playerBody.vx := playerBody.vx * 0.9;
+
+  if abs(playerBody.vx) < 0.1 then playerBody.vx := 0;
 
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
