@@ -21,8 +21,10 @@ uses
 const
   Gravity = 300;
   White = $FFFFFFFF;
+  Green = $FF008000;
 
 type
+  { Always blocking for now }
   TMapObject = record
     active: boolean;
     zone: TZone;
@@ -33,6 +35,7 @@ var
   gameTime: double;
 
   playerBody: TPhysicsBody;
+  isGrounded: boolean;
   mapObjects: array[0..9] of TMapObject;
 
 
@@ -46,7 +49,7 @@ begin
   IsRightPressed := IsKeyDown(SC_D) or IsKeyDown(SC_RIGHT)
 end;
 
-procedure SpawnMapObject(const x, y: double);
+procedure SpawnMapObject(const x, y, width, height: double);
 var
   a, idx: smallint;
 begin
@@ -65,8 +68,8 @@ begin
   mapObjects[idx].active := true;
   mapObjects[idx].zone.x := x;
   mapObjects[idx].zone.y := y;
-  mapObjects[idx].zone.width := 20;
-  mapObjects[idx].zone.height := 20;
+  mapObjects[idx].zone.width := width;
+  mapObjects[idx].zone.height := height;
 end;
 
 { Engine region }
@@ -87,6 +90,8 @@ begin
 
   gameTime := 0.0;
 
+  isGrounded := false;
+
   for a:=0 to high(mapObjects) do
     fillchar(mapObjects[a], sizeof(TMapObject), 0);
 
@@ -96,7 +101,8 @@ begin
   playerBody.width := 24;
   playerBody.height := 32;
 
-  SpawnMapObject(200, 100);
+  SpawnMapObject(200, 100, 20, 20);
+  SpawnMapObject(0, VGAHeight - 20, VGAWidth, 10);
 end;
 
 procedure Update;
@@ -108,16 +114,27 @@ begin
   if IsRightPressed then
     playerBody.vx := 60;
 
+  { Handle physics }
+
+  if not isGrounded then
+    playerBody.vy := playerBody.vy + Gravity * DeltaTime;
+
+  playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
+
   playerBody.vx := playerBody.vx * 0.9;
 
   if abs(playerBody.vx) < 0.1 then playerBody.vx := 0;
 
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
+  { Other logic }
+
   gameTime := gameTime + DeltaTime
 end;
 
 procedure Draw;
+var
+  a: smallint;
 begin
   Cls($FF6495ED);
 
@@ -126,9 +143,15 @@ begin
   else
     Spr(texSpecimenP92[0], 148, 84);
 
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    DrawZone(mapObjects[a].zone, green);
+  end;
+
   DrawPhysicsBody(playerBody, white);
 
-  PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
+  PrintDefaultCentred('Platformer base demo', VgaWidth div 2, 120);
 end;
 
 procedure Init;
