@@ -1,0 +1,158 @@
+:root {
+  --posit-92-accent: #ff5555;
+  --posit-92-dark-accent: #aa0000;
+
+  --overlay-width: 640px;
+  --overlay-height: 400px;
+
+  --play-button-width: 192px;
+  --play-button-height: 192px;
+}
+
+body {
+  background: black;
+  margin: 0;
+  padding: 0;
+}
+
+#play-overlay {
+  position: absolute;
+  margin: auto;
+  inset: 0;
+  width: fit-content;
+  height: fit-content;
+}
+
+#play-overlay > button {
+  position: relative;
+
+  font-size: 32px;
+  color: white;
+  cursor: pointer;
+
+  width: var(--play-button-width);
+  height: var(--play-button-height);
+
+  background: transparent;
+  border: none;
+}
+
+#play-overlay > button > .visual {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: linear-gradient(to bottom, #E3E3E3, #717171);
+  /* border: 1px solid var(--posit-92-dark-accent); */
+  box-sizing: border-box;
+}
+
+#play-overlay > button > .visual,
+#play-overlay > button > img {
+  transition:
+    filter 0.2s ease-out,
+    transform 0.2s ease-out;
+}
+
+#play-overlay > button > .visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background: repeating-conic-gradient(
+    from 92deg,
+    #E3E3E3 0deg,
+    #717171 36deg,
+    #E3E3E3 72deg);
+  width: 92%;
+  height: 92%;
+}
+
+#play-overlay > button:hover > .visual {
+  filter: brightness(1.1);
+}
+
+#play-overlay > button:active > .visual {
+  filter: brightness(0.8);
+  transform: scale(0.92);
+}
+
+#play-overlay > button > img {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  
+  pointer-events: none;
+  
+  image-rendering: pixelated;  
+  filter: drop-shadow(0 0 12px #FFFF55);
+  transform: scale(2);
+}
+
+#play-overlay > button:active > img {
+  transform: scale(1.84)
+}
+
+
+
+#game {
+  image-rendering: pixelated;
+  scale: 2;
+  transform-origin: top left;
+  border: none;
+}
+
+#game:focus {
+  outline: none
+}
+
+/* Use this for fullscreen */
+#game.scale-fit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  scale: 1;
+}
+
+#game.scale-stretch {
+  width: 100vw;
+  height: 100vh;
+  object-fit: fill;
+  scale: 1;
+}
+
+
+#loading-overlay {
+  position: absolute;
+  margin: auto;
+  inset: 0;
+  width: var(--overlay-width);
+  height: var(--overlay-height);
+
+  color: white;
+  opacity: 1.0;
+
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#loading-overlay.hidden {
+  opacity: 0.0;
+  pointer-events: none;
+}
+
+#loading-overlay > div {
+  width: fit-content;
+  height: fit-content;
+}
