@@ -20,8 +20,8 @@ uses
   Assets;
 
 const
-  Gravity = 150;
-  JumpPower = 60;
+  Gravity = 100;
+  JumpPower = 30;
   White = $FFFFFFFF;
   Green = $FF008000;
   Red = $FFFF5555;
@@ -41,6 +41,8 @@ var
   feetZone: TZone;
   isGrounded: boolean;
   mapObjects: array[0..9] of TMapObject;
+
+  isStageReady: boolean;
 
 
 function IsLeftPressed: boolean;
@@ -113,6 +115,8 @@ begin
   playerBody.width := 12;
   playerBody.height := 16;
 
+  isStageReady := false;
+
   SpawnMapObject(200, 100, 20, 20);
   SpawnMapObject(100, VGAHeight - 40, 10, 20);
   SpawnMapObject(0, VGAHeight - 20, VGAWidth, 10);
@@ -135,64 +139,69 @@ begin
 
   { Handle physics }
 
-  if not isGrounded then
-    playerBody.vy := playerBody.vy + Gravity * DeltaTime;
+  if isStageReady then begin
+    if not isGrounded then
+      playerBody.vy := playerBody.vy + Gravity * DeltaTime;
 
-  playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
+    playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
 
-  for a:=0 to high(mapObjects) do begin
-    if not mapObjects[a].active then continue;
+    for a:=0 to high(mapObjects) do begin
+      if not mapObjects[a].active then continue;
 
-    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
-      if playerBody.vy > 0 then
-        playerBody.y := mapObjects[a].zone.y - playerBody.height;
+      if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
+        if playerBody.vy > 0 then
+          playerBody.y := mapObjects[a].zone.y - playerBody.height;
 
-      if playerBody.vy < 0 then
-        playerBody.y := mapObjects[a].zone.y + mapObjects[a].zone.height;
+        if playerBody.vy < 0 then
+          playerBody.y := mapObjects[a].zone.y + mapObjects[a].zone.height;
 
-      playerBody.vy := 0;
+        playerBody.vy := 0;
+      end;
     end;
-  end;
 
 
-  playerBody.vx := playerBody.vx * 0.9;
+    playerBody.vx := playerBody.vx * 0.9;
 
-  if abs(playerBody.vx) < 0.1 then playerBody.vx := 0;
+    if abs(playerBody.vx) < 0.1 then playerBody.vx := 0;
 
-  playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
+    playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
-  for a:=0 to high(mapObjects) do begin
-    if not mapObjects[a].active then continue;
+    for a:=0 to high(mapObjects) do begin
+      if not mapObjects[a].active then continue;
 
-    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
-      if playerBody.vx > 0 then
-        playerBody.x := mapObjects[a].zone.x - playerBody.width;
+      if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
+        if playerBody.vx > 0 then
+          playerBody.x := mapObjects[a].zone.x - playerBody.width;
 
-      if playerBody.vx < 0 then
-        playerBody.x := mapObjects[a].zone.x + mapObjects[a].zone.width;
+        if playerBody.vx < 0 then
+          playerBody.x := mapObjects[a].zone.x + mapObjects[a].zone.width;
 
-      playerBody.vx := 0;
+        playerBody.vx := 0;
+      end;
     end;
-  end;
 
-  { Check isGrounded }
-  UpdateFeetZone;
+    { Check isGrounded }
+    UpdateFeetZone;
 
-  isGrounded := false;
+    isGrounded := false;
 
-  for a:=0 to high(mapObjects) do begin
-    if not mapObjects[a].active then continue;
+    for a:=0 to high(mapObjects) do begin
+      if not mapObjects[a].active then continue;
 
-    if ZoneIntersects(feetZone, mapObjects[a].zone) then begin
-      isGrounded := true;
-      break
+      if ZoneIntersects(feetZone, mapObjects[a].zone) then begin
+        isGrounded := true;
+        break
+      end;
     end;
   end;
 
 
   { Other logic }
 
-  gameTime := gameTime + DeltaTime
+  gameTime := gameTime + DeltaTime;
+
+  if not isStageReady then
+    isStageReady := true;
 end;
 
 procedure Draw;
