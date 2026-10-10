@@ -14,18 +14,26 @@ uses
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw, P92Geometry,
-  P92Timing, P92VGA,
+  P92Timing, P92Panic, P92VGA,
+
   Assets;
 
 const
   Gravity = 300;
   White = $FFFFFFFF;
 
+type
+  TMapObject = record
+    active: boolean;
+    zone: TZone;
+  end;
+
 var
   { Game state variables }
   gameTime: double;
 
   playerBody: TPhysicsBody;
+  mapObjects: array[0..9] of TMapObject;
 
 
 function IsLeftPressed: boolean;
@@ -36,6 +44,29 @@ end;
 function IsRightPressed: boolean;
 begin
   IsRightPressed := IsKeyDown(SC_D) or IsKeyDown(SC_RIGHT)
+end;
+
+procedure SpawnMapObject(const x, y: double);
+var
+  a, idx: smallint;
+begin
+  idx := -1;
+
+  for a:=0 to high(mapObjects) do
+    if not mapObjects[a].active then begin
+      idx := a;
+      break
+    end;
+
+  if idx < 0 then PanicHalt('SpawnMapObject: Map object pool is full!');
+
+  fillchar(mapObjects[idx], sizeof(TMapObject), 0);
+
+  mapObjects[idx].active := true;
+  mapObjects[idx].zone.x := x;
+  mapObjects[idx].zone.y := y;
+  mapObjects[idx].zone.width := 20;
+  mapObjects[idx].zone.height := 20;
 end;
 
 { Engine region }
@@ -49,16 +80,23 @@ end;
 
 { Initialise game state here }
 procedure OnReady;
+var
+  a: smallint;
 begin
   HideCursor;
 
   gameTime := 0.0;
+
+  for a:=0 to high(mapObjects) do
+    fillchar(mapObjects[a], sizeof(TMapObject), 0);
 
   playerBody := Default(TPhysicsBody);
   playerBody.x := 100;
   playerBody.y := 100;
   playerBody.width := 24;
   playerBody.height := 32;
+
+  SpawnMapObject(200, 100);
 end;
 
 procedure Update;
