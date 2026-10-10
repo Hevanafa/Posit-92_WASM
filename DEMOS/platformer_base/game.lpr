@@ -20,8 +20,8 @@ uses
   Assets;
 
 const
-  Gravity = 100;
-  JumpPower = 30;
+  Gravity = 300;
+  JumpPower = 120;
   White = $FFFFFFFF;
   Green = $FF008000;
   Red = $FFFF5555;
