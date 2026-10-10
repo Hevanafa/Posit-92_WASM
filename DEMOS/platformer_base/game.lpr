@@ -116,6 +116,8 @@ begin
 end;
 
 procedure Update;
+var
+  a: smallint;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
@@ -138,6 +140,18 @@ begin
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
   UpdateFeetZone;
+
+  isGrounded := false;
+
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(feetZone, mapObjects[a].zone) then begin
+      isGrounded := true;
+      break
+    end;
+  end;
+
 
   { Other logic }
 
