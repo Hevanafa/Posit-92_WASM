@@ -11,6 +11,7 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
+  SysUtils,
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
   P92Keyboard, P92Mouse,
   P92Tex, P92TexDraw, P92Geometry,
@@ -105,7 +106,7 @@ begin
   for a:=0 to high(mapObjects) do
     fillchar(mapObjects[a], sizeof(TMapObject), 0);
 
-  playerBody := Default(TPhysicsBody);
+  fillchar(playerBody, sizeof(TPhysicsBody), 0);
   playerBody.x := 100;
   playerBody.y := 100;
   playerBody.width := 24;
@@ -118,6 +119,7 @@ end;
 procedure Update;
 var
   a: smallint;
+  playerZone: TZone;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
@@ -139,6 +141,19 @@ begin
 
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
+      if playerBody.vy > 0 then
+        playerBody.y := mapObjects[a].zone.y - playerBody.height;
+
+      if playerBody.vy < 0 then
+        playerBody.y := mapObjects[a].zone.y + mapObjects[a].zone.height;
+    end;
+  end;
+
+  { Check isGrounded }
   UpdateFeetZone;
 
   isGrounded := false;
@@ -179,6 +194,12 @@ begin
   DrawZone(feetZone, Red);
 
   PrintDefaultCentred('Platformer base demo', VgaWidth div 2, 120);
+
+  PrintDefault(format('{x: %.2f, y: %.2f, vy: %.2f}', [
+    playerBody.x,
+    playerBody.y,
+    playerBody.vy
+  ]), 10, 10);
 end;
 
 procedure Init;
