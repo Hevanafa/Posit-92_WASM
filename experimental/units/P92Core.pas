@@ -611,7 +611,7 @@ begin
       if Assigned(bootConfig.OnCleanup) then
         bootConfig.OnCleanup;
 
-      JsSignalDone
+      JsDispose
     end;
 
     exit
@@ -630,7 +630,7 @@ begin
 
   if done and Assigned(bootConfig.OnCleanup) then begin
     bootConfig.OnCleanup;
-    JsSignalDone;
+    JsDispose;
   end;
 end;
 
