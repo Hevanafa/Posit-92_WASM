@@ -114,6 +114,7 @@ procedure SetBootFontHandle(const value: TTextureHandle);
 {$ENDIF}
 
 {$IFDEF P92_WASM}
+procedure SignalDone;
 function IsEngineReady: boolean; public name 'IsEngineReady';
 procedure P92PerformLoop; public name 'P92PerformLoop';
 {$ENDIF}
@@ -238,6 +239,11 @@ function IsBootFontLoaded: boolean;
 begin
   IsBootFontLoaded := (
     BorrowTexEntryPtr(BootFontHandle)^.status = AssetStatusReady);
+end;
+
+procedure SignalDone;
+begin
+  { TODO: Call JsSignalDone }
 end;
 
 function IsEngineReady: boolean;
