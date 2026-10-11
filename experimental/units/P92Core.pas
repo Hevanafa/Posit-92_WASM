@@ -725,7 +725,12 @@ begin
 
   { Callbacks }
 
+  newConfig.OnPreload := nil;
   newConfig.DrawLoading := @P92Loading.RenderLoadingScreen;
+  newConfig.OnReady := nil;
+  newConfig.Update := nil;
+  newConfig.Draw := nil;
+  newConfig.OnCleanup := nil;
 
   DefaultP92AppConfig := newConfig;
 end;
