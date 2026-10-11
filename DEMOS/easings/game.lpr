@@ -191,7 +191,7 @@ begin
 
   Line(startX, 100, endX, 100, Cyan);
 
-  perc := GetEasingPerc(startTick, 2.0, gameTime);
+  perc := Clamp(GetEasingPerc(startTick, 2.0, gameTime), 0.0, 1.0);
 
   case actualDemoState of
     DemoStateInQuad:
