@@ -13,27 +13,34 @@ type WasmExports = {
   memory: WebAssembly.Memory,
 
   // Core
+
   IsEngineReady: () => boolean;
   IsBootFontLoaded: () => boolean;
   Init: () => void;
   P92PerformLoop: () => void;
 
   // AssetRegistry
+
   PascalImageLoaded: (texHandle: number, w: number, h: number, pixelDataPtr: number) => void;
   PascalImageFailed: (texHandle: number, errorCode: number) => void;
 
   // InteropBuf
+
   GetInteropBufPtr: () => number,
   GetInteropBufLen: () => number,
   GetInteropBufCapacity: () => number,
   SetInteropBufLen: (value: number) => void,
 
   // Panic
+  
   PascalPanicHaltDisplay: () => void,
 
   // VGA
+
+  /**
+   * used by VGAUpload
+   */
   GetSurfacePtr: () => number,
-  InitVideoMem: (width: number, height: number, startAddr: number) => void,
 
   // WasmHeap
 
