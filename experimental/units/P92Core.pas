@@ -568,7 +568,6 @@ begin
   if bootConfig.EnableDrawFPS then
     DrawFPS;
 
-  VGAUpload;
   WebGLPresent;
 {$ELSE}
   DrawMouse;

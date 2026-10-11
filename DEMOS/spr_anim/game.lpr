@@ -116,15 +116,16 @@ begin
 
   config.LoadDefaultCursor := false;
 
+  config.OnPreload := @OnPreload;
+  config.OnReady := @OnReady;
+  config.Update := @Update;
+  config.Draw := @Draw;
+
   P92Start(config);
 end;
 
 exports
-  Init,
-  OnPreload,
-  OnReady,
-  Update,
-  Draw;
+  Init;
 
 begin
 { Starting point is intentionally left empty }
