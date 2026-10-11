@@ -37,7 +37,7 @@ type WasmExports = {
   // VGA
 
   /**
-   * used by `VGAUpload`
+   * used by `JsBindSurface`
    */
   GetSurfacePtr: () => number,
 
@@ -115,7 +115,7 @@ type WasmImports = {
 
     // VGA
 
-    VGAUpload: () => void,
+    JsBindSurface: () => void,
     VGAPresent: () => void,
   }
 }
@@ -240,7 +240,7 @@ class Posit92 {
 
       // VGA
 
-      VGAUpload: this.#VGAUpload.bind(this),
+      JsBindSurface: this.#BindSurface.bind(this),
       VGAPresent: this.#VGAPresent.bind(this),
     }
   };
@@ -984,23 +984,23 @@ class Posit92 {
 
   // VGA.PAS
 
-  #surface: ImageData | null = null;
+  #surfaceImage: ImageData | null = null;
 
-  #VGAUpload(): void {
+  #BindSurface(): void {
     const surfacePtr = this.#wasm.exports.GetSurfacePtr();
 
-    const imageData = new Uint8ClampedArray(
+    const surfaceView = new Uint8ClampedArray(
       this.#wasm.exports.memory.buffer,
       surfacePtr,
       this.#bufferWidth * this.#bufferHeight * 4
     );
 
-    this.#surface = new ImageData(imageData, this.#bufferWidth, this.#bufferHeight);
+    this.#surfaceImage = new ImageData(surfaceView, this.#bufferWidth, this.#bufferHeight);
   }
 
   #VGAPresent(): void {
-    if (this.#surface != null)
-      this.canvasCtx.putImageData(this.#surface, 0, 0);
+    if (this.#surfaceImage != null)
+      this.canvasCtx.putImageData(this.#surfaceImage, 0, 0);
   }
 
   async Start(): Promise<void> {
