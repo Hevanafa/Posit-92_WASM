@@ -111,15 +111,10 @@ type
 function IsBootFontLoaded: boolean; public name 'IsBootFontLoaded';
 function GetBootFontHandle: TTextureHandle;
 procedure SetBootFontHandle(const value: TTextureHandle);
-
-function IsEngineReady: boolean; public name 'IsEngineReady';
-{
-procedure HostCallOnPreload; external 'env' name 'HostCallOnPreload';
-procedure HostCallOnReady; external 'env' name 'HostCallOnReady';
-}
 {$ENDIF}
 
 {$IFDEF P92_WASM}
+function IsEngineReady: boolean; public name 'IsEngineReady';
 procedure P92PerformLoop; public name 'P92PerformLoop';
 {$ENDIF}
 
