@@ -777,11 +777,14 @@ begin
   done := false;
   bootConfig := appConfig;
 
-  if not Assigned(bootConfig.Update) then
-    PanicHalt('Update callback is required');
+  if Assigned(bootConfig.DrawOnce) then
+  else begin
+    if not Assigned(bootConfig.Update) then
+      PanicHalt('Update callback is required');
 
-  if not Assigned(bootConfig.Draw) then
-    PanicHalt('Draw callback is required');
+    if not Assigned(bootConfig.Draw) then
+      PanicHalt('Draw callback is required');
+  end;
 
   P92Boot
 end;
