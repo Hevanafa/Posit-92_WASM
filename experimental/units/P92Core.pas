@@ -595,6 +595,18 @@ end;
 
 procedure P92PerformLoop;
 begin
+  if Assigned(bootConfig.DrawOnce) then begin
+    if not IsEngineReady then
+      P92Update
+    else begin
+      DrawOnce;
+      P92AfterDraw;
+      SignalDone
+    end;
+
+    exit
+  end;
+
 
 end;
 

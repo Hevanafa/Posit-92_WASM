@@ -18,10 +18,7 @@ type WasmExports = {
   IsEngineReady: () => boolean;
   IsBootFontLoaded: () => boolean;
   Init: () => void;
-  P92Boot: () => void;
-  P92Update: () => void;
-  P92Draw: () => void;
-  P92AfterDraw: () => void;
+  P92PerformLoop: () => void;
 
   // AssetRegistry
   PascalImageLoaded: (texHandle: number, w: number, h: number, pixelDataPtr: number) => void;
@@ -43,26 +40,6 @@ type WasmExports = {
   // WasmHeap
   InitHeapRegion: (startAddr: number, poolSize: number, heapSize: number) => void,
   WasmGetMem: (bytes: number) => number,
-
-  // Events
-
-  /**
-   * Optional
-   */
-  OnPreload: () => void;
-  /**
-   * Optional, triggered after the asset registry reports completion
-   */
-  OnReady: () => void;
-  Update: () => void;
-  Draw: () => void;
-
-  /**
-   * Has a priority over both Update & Draw
-   *
-   * Exits the app after presenting the buffer
-   */
-  DrawOnce: () => void;
 };
 
 /**
@@ -1017,18 +994,18 @@ class Posit92 {
   }
 
   #PerformLoop(): void {
-    if (this.#wasm.exports.DrawOnce != null) {
-      if (!this.#wasm.exports.IsEngineReady()) {
-        this.#wasm.exports.P92Update();
-      } else {
-        this.#wasm.exports.DrawOnce();
-        this.#wasm.exports.P92AfterDraw();
+    // if (this.#wasm.exports.DrawOnce != null) {
+    //   if (!this.#wasm.exports.IsEngineReady()) {
+    //     this.#wasm.exports.P92Update();
+    //   } else {
+    //     this.#wasm.exports.DrawOnce();
+    //     this.#wasm.exports.P92AfterDraw();
 
-        this.#SignalDone();
-      }
+    //     this.#SignalDone();
+    //   }
 
-      return;
-    }
+    //   return;
+    // }
 
     if (!this.#wasm.exports.IsEngineReady()) {
       this.#wasm.exports.P92Update();
