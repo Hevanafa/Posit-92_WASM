@@ -993,42 +993,42 @@ class Posit92 {
     this.#wasm.exports.OnReady?.();
   }
 
-  #PerformLoop(): void {
-    // if (this.#wasm.exports.DrawOnce != null) {
-    //   if (!this.#wasm.exports.IsEngineReady()) {
-    //     this.#wasm.exports.P92Update();
-    //   } else {
-    //     this.#wasm.exports.DrawOnce();
-    //     this.#wasm.exports.P92AfterDraw();
+  // #PerformLoop(): void {
+  //   // if (this.#wasm.exports.DrawOnce != null) {
+  //   //   if (!this.#wasm.exports.IsEngineReady()) {
+  //   //     this.#wasm.exports.P92Update();
+  //   //   } else {
+  //   //     this.#wasm.exports.DrawOnce();
+  //   //     this.#wasm.exports.P92AfterDraw();
 
-    //     this.#SignalDone();
-    //   }
+  //   //     this.#SignalDone();
+  //   //   }
 
-    //   return;
-    // }
+  //   //   return;
+  //   // }
 
-    if (!this.#wasm.exports.IsEngineReady()) {
-      this.#wasm.exports.P92Update();
-      this.#wasm.exports.P92Draw();
-      return;
-    }
+  //   // if (!this.#wasm.exports.IsEngineReady()) {
+  //   //   this.#wasm.exports.P92Update();
+  //   //   this.#wasm.exports.P92Draw();
+  //   //   return;
+  //   // }
 
-    this.#wasm.exports.P92Update();
+  //   this.#wasm.exports.P92Update();
 
-    try {
-      this.#wasm.exports.Update();
-    } catch (error) {
-      console.error("Unhandled exception on Update:", error);
-    }
+  //   try {
+  //     this.#wasm.exports.Update();
+  //   } catch (error) {
+  //     console.error("Unhandled exception on Update:", error);
+  //   }
 
-    try {
-      this.#wasm.exports.Draw();
-    } catch (error) {
-      console.error("Unhandled exception on Draw:", error);
-    }
+  //   try {
+  //     this.#wasm.exports.Draw();
+  //   } catch (error) {
+  //     console.error("Unhandled exception on Draw:", error);
+  //   }
 
-    this.#wasm.exports.P92AfterDraw();
-  }
+  //   this.#wasm.exports.P92AfterDraw();
+  // }
 
   #Loop = (currentTime: number): void => {
     if (this.#done) {

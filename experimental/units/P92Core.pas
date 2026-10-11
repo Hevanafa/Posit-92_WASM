@@ -54,10 +54,16 @@ type
     OnPreload: TCallback;
     DrawLoading: TCallback;
     OnReady: TCallback;
-    Update: TCallback;
-    Draw: TCallback;
-    DrawOnce: TCallback;
     OnCleanup: TCallback;
+
+    { required }
+    Update: TCallback;
+
+    { required }
+    Draw: TCallback;
+
+    { this callback gets the priority before the usual game loop }
+    DrawOnce: TCallback;
   end;
 {$ENDIF}
 
@@ -599,7 +605,7 @@ begin
     if not IsEngineReady then
       P92Update
     else begin
-      DrawOnce;
+      bootConfig.DrawOnce;
       P92AfterDraw;
       SignalDone
     end;
@@ -607,7 +613,16 @@ begin
     exit
   end;
 
+  if not IsEngineReady then begin
+    P92Update;
+    P92Draw;
+    exit
+  end;
 
+  P92Update;
+  bootConfig.Update;
+  bootConfig.Draw;
+  P92AfterDraw;
 end;
 
 { Print procedures using the boot font }
