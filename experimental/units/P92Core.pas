@@ -51,7 +51,12 @@ type
 
     { Callbacks }
 
+    OnPreload: TCallback;
     DrawLoading: TCallback;
+    OnReady: TCallback;
+    Update: TCallback;
+    Draw: TCallback;
+    OnCleanup: TCallback;
   end;
 {$ENDIF}
 
