@@ -2,8 +2,8 @@
 
 "use strict";
 
-var debugEngineCalls = true;
-var debugRequests = true;
+var debugEngineCalls = false;
+var debugRequests = false;
 
 // Used by mixins
 type Constructor<T = {}> = new (...args: any[]) => T;
