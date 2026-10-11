@@ -56,6 +56,7 @@ type
     OnReady: TCallback;
     Update: TCallback;
     Draw: TCallback;
+    DrawOnce: TCallback;
     OnCleanup: TCallback;
   end;
 {$ENDIF}
@@ -730,6 +731,7 @@ begin
   newConfig.OnReady := nil;
   newConfig.Update := nil;
   newConfig.Draw := nil;
+  newConfig.DrawOnce := nil;
   newConfig.OnCleanup := nil;
 
   DefaultP92AppConfig := newConfig;
