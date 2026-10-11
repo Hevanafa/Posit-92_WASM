@@ -258,6 +258,8 @@ class Posit92 {
       from: "posit-92",
       type: "done"
     }, window.location.origin);
+
+    this.#isDisposed = true;
   }
 
   static LogVersion() {
@@ -918,8 +920,7 @@ class Posit92 {
     const buffer = new Uint8Array(this.#wasm.exports.memory.buffer, textPtr, textLen);
     const msg = new TextDecoder().decode(buffer);
 
-    this.#done = true;
-    this.Cleanup();
+    this.Dispose();
 
     throw new Error(`PANIC: ${msg}`);
   }
