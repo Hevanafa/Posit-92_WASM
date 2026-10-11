@@ -110,6 +110,7 @@ procedure P92Boot; public name 'P92Boot';
 procedure P92Update; public name 'P92Update';
 procedure P92Draw; public name 'P92Draw';
 procedure P92AfterDraw; public name 'P92AfterDraw';
+procedure P92PerformLoop; public name 'P92PerformLoop';
 {$ENDIF}
 
 {$IFDEF P92_SDL2}
@@ -588,6 +589,14 @@ begin
   VGAPresent;
 {$ENDIF}
 end;
+
+
+procedure P92PerformLoop;
+begin
+
+end;
+
+{ Print procedures using the boot font }
 
 procedure PrintChar(const c: char; const x, y: smallint);
 var
