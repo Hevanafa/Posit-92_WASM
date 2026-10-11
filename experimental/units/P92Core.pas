@@ -600,7 +600,7 @@ begin
     else begin
       bootConfig.DrawOnce;
       P92AfterDraw;
-      SignalDone
+      JsSignalDone
     end;
 
     exit

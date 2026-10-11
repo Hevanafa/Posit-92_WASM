@@ -60,7 +60,8 @@ type WasmImports = {
     JsRequestImage: (texHandle: number) => Promise<void>,
 
     // WasmHost
-    SignalDone: () => void,
+
+    JsSignalDone: () => void,
 
     ShowCursor: () => void,
     HideCursor: () => void,
@@ -74,30 +75,37 @@ type WasmImports = {
     JsTakeScreenshot: () => void,
 
     // Keyboard
+
     IsKeyDown: (scancode: number) => boolean,
 
     // Logger
+
     WriteLogF32: (value: number) => void,
     WriteLogI32: (value: number) => void,
     FlushLog: () => void,
 
     // Mouse
+
     JsGetMouseX: () => number,
     JsGetMouseY: () => number,
     JsGetMouseButton: () => number,
 
     // Panic
+
     JsPanicHalt: (textPtr: number, textLen: number) => void,
 
     // Timing
+
     GetTimer: () => number,
     GetFullTimer: () => number,
 
     // WasmHeap
+
     JsReportGetMem: (bytes: number) => void,
     JsReportFreeMem: (bytes: number) => void,
 
     // VGA
+    
     VGAUpload: () => void,
     VGAPresent: () => void,
   }
@@ -167,7 +175,7 @@ class Posit92 {
 
       // WasmHost
 
-      SignalDone: this.#SignalDone.bind(this),
+      JsSignalDone: this.#SignalDone.bind(this),
 
       ShowCursor: this.#ShowCursor.bind(this),
       HideCursor: this.#HideCursor.bind(this),

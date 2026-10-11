@@ -19,7 +19,7 @@ procedure JsSetTargetFPS(fps: smallint); external 'env' name 'JsSetTargetFPS';
 procedure SetWindowTitle(const newTitle: string);
 
 { Use this to set `done` to true }
-procedure SignalDone; external 'env' name 'SignalDone';
+procedure JsSignalDone; external 'env' name 'JsSignalDone';
 
 procedure ShowCursor; external 'env' name 'ShowCursor';
 procedure HideCursor; external 'env' name 'HideCursor';
