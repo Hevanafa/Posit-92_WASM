@@ -147,7 +147,7 @@ class Posit92 {
   #bufferWidth: number;
   #bufferHeight: number;
 
-  #canvas: HTMLCanvasElement;
+  #canvas: HTMLCanvasElement = null!;
   canvasCtx: CanvasRenderingContext2D = null!;
 
   /**
@@ -478,11 +478,13 @@ class Posit92 {
 
 
   #ShowCursor(): void {
-    this.#canvas.style.removeProperty("cursor");
+    if (this.#canvas != null)
+      this.#canvas.style.removeProperty("cursor");
   }
 
   #HideCursor(): void {
-    this.#canvas.style.cursor = "none";
+    if (this.#canvas != null)
+      this.#canvas.style.cursor = "none";
   }
 
   #AddResizeListener(): void {
