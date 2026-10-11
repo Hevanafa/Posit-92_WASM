@@ -182,7 +182,7 @@ class Posit92 {
 
       // WasmHost
 
-      JsDispose: this.#Dispose.bind(this),
+      JsDispose: this.Dispose.bind(this),
 
       ShowCursor: this.#ShowCursor.bind(this),
       HideCursor: this.#HideCursor.bind(this),
@@ -243,10 +243,15 @@ class Posit92 {
 
   #HandleHaltProc(exitcode: number): void {
     console.error("Programme halted with code:", exitcode);
-    this.#Dispose();
+    this.Dispose();
   }
 
-  #Dispose(): void {
+  /** 
+   * Public for mixins
+   */
+  Dispose(): void {
+    console.log("Dispose call from Posit92");
+
     this.#ShowCursor();
 
     window.parent.postMessage({
