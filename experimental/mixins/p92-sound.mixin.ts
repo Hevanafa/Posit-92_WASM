@@ -77,9 +77,12 @@ class SoundMixin extends Base {
     return <SoundWasmExports> this.WasmInstance.exports;
   }
 
+  /**
+   * Uses Pascal's destructor pattern
+   */
   Dispose(): void {
     // TODO: Clean up the fields
-    
+
     console.log("Dispose call from SoundMixin");
 
     super.Dispose();

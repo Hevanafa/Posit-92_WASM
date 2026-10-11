@@ -246,7 +246,7 @@ class Posit92 {
     this.Dispose();
   }
 
-  /** 
+  /**
    * Public for mixins
    */
   Dispose(): void {
