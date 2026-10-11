@@ -342,7 +342,8 @@ begin
   if bootConfig.LoadDefaultBMFont then
     LoadDefaultBMFont;
 
-  bootConfig.OnPreload
+  if Assigned(bootConfig.OnPreload) then
+    bootConfig.OnPreload;
 end;
 
 procedure InitReadyState;
@@ -366,7 +367,8 @@ begin
 {$ENDIF}
 {$ENDIF}
 
-  bootConfig.OnReady
+  if Assigned(bootConfig.OnReady) then
+    bootConfig.OnReady;
 end;
 
 {$IFDEF P92_SDL2}
