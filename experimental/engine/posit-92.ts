@@ -73,10 +73,6 @@ type WasmImports = {
 
     JsTakeScreenshot: () => void,
 
-    // P92Core
-    HostCallOnPreload: () => void;
-    HostCallOnReady: () => void;
-
     // Keyboard
     IsKeyDown: (scancode: number) => boolean,
 
@@ -607,7 +603,7 @@ class Posit92 {
     return Math.max(min, Math.min(max, value));
   }
 
-  // KEYBOARD.PAS
+  // Keyboard region
 
   /**
    * JS KeyboardEvent.code to DOS scancode
@@ -743,8 +739,8 @@ class Posit92 {
     return this.#heldScancodes.has(scancode);
   }
 
+  // Mouse region
 
-  // MOUSE.PAS
   #mouseX = 0;
   #mouseY = 0;
   #mouseButton = 0;
@@ -845,7 +841,7 @@ class Posit92 {
       this.#mouseButton = 0;
   }
 
-  // InteropBuf.pas
+  // Interop buffer
 
   WriteInteropBuffer(s: string): void {
     const encoder = new TextEncoder(); // Default: utf-8
@@ -880,7 +876,7 @@ class Posit92 {
   }
 
 
-  // LOGGER.PAS
+  // Logger
 
   #PascalFlushLog(): void {
     const msg = this.ReadInteropBuffer();
@@ -889,7 +885,7 @@ class Posit92 {
   }
 
 
-  // PANIC.PAS
+  // Panic
 
   #PanicHalt(textPtr: number, textLen: number): void {
     const buffer = new Uint8Array(this.#wasm.exports.memory.buffer, textPtr, textLen);
@@ -921,7 +917,8 @@ class Posit92 {
   }
 
 
-  // TIMING.PAS
+  // Timing
+
   #GetTimer(): number {
     return (Date.now() - this.#midnightOffset) / 1000;
   }
@@ -930,7 +927,7 @@ class Posit92 {
     return Date.now() / 1000;
   }
 
-  // WasmHeap.pas
+  // WasmHeap
 
   #ReportGetMem(bytes: number) {
     console.debug("GetMem: " + bytes);
@@ -975,43 +972,6 @@ class Posit92 {
     this.#StartLoop();
   }
 
-  // #PerformLoop(): void {
-  //   // if (this.#wasm.exports.DrawOnce != null) {
-  //   //   if (!this.#wasm.exports.IsEngineReady()) {
-  //   //     this.#wasm.exports.P92Update();
-  //   //   } else {
-  //   //     this.#wasm.exports.DrawOnce();
-  //   //     this.#wasm.exports.P92AfterDraw();
-
-  //   //     this.#SignalDone();
-  //   //   }
-
-  //   //   return;
-  //   // }
-
-  //   // if (!this.#wasm.exports.IsEngineReady()) {
-  //   //   this.#wasm.exports.P92Update();
-  //   //   this.#wasm.exports.P92Draw();
-  //   //   return;
-  //   // }
-
-  //   this.#wasm.exports.P92Update();
-
-  //   try {
-  //     this.#wasm.exports.Update();
-  //   } catch (error) {
-  //     console.error("Unhandled exception on Update:", error);
-  //   }
-
-  //   try {
-  //     this.#wasm.exports.Draw();
-  //   } catch (error) {
-  //     console.error("Unhandled exception on Draw:", error);
-  //   }
-
-  //   this.#wasm.exports.P92AfterDraw();
-  // }
-
   #Loop = (currentTime: number): void => {
     if (this.#done) {
       this.Cleanup();
@@ -1019,7 +979,7 @@ class Posit92 {
     }
 
     if (this.#TargetFPS == 0) {
-      this.#PerformLoop();
+      this.#wasm.exports.P92PerformLoop();
       requestAnimationFrame(this.#Loop);
 
       return;
@@ -1029,8 +989,7 @@ class Posit92 {
 
     if (elapsed >= this.#FrameTime) {
       this.#lastFrameTime = currentTime - (elapsed % this.#FrameTime);  // Carry over extra time
-
-      this.#PerformLoop();
+      this.#wasm.exports.P92PerformLoop();
     }
 
     requestAnimationFrame(this.#Loop);
