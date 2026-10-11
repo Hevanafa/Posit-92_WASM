@@ -36,7 +36,10 @@ type WasmExports = {
   InitVideoMem: (width: number, height: number, startAddr: number) => void,
 
   // WasmHeap
-  InitHeapRegion: (startAddr: number, poolSize: number, heapSize: number) => void,
+
+  /**
+   * used by RequestImage
+   */
   WasmGetMem: (bytes: number) => number,
 };
 
