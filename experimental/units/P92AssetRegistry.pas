@@ -688,6 +688,7 @@ begin
   filename := '';
 
   { Parse BMFont header }
+
   if StartsWith(line, 'info') then begin
     split(line, ' ', kvPairs);
 
@@ -701,7 +702,8 @@ begin
         idx := pos('face', line);
         openQuote := pos('"', line, idx + 1);
         closeQuote := pos('"', line, openQuote + 1);
-        WriteLog('Font name:' + copy(line, openQuote + 1, closeQuote - openQuote - 1));
+
+        { WriteLog('Font name:' + copy(line, openQuote + 1, closeQuote - openQuote - 1)); }
       end
       else if k = 'spacing' then begin
         split(v, ',', pair);
@@ -742,7 +744,8 @@ begin
 
         filename := copy(line, openQuote + 1, closeQuote - openQuote - 1);
 
-        writelog('Filename: ' + filename);
+        { writelog('Filename: ' + filename); }
+
         bmfonts[bmfontHandle].font.texHandle :=
           RequestImage(filename);
       end;
