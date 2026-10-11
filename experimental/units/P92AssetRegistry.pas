@@ -645,7 +645,6 @@ begin
   textures[texHandle].errorCode := 0;
 
   inc(assetReadyCount);
-  WriteLog('Image: inc assetReadyCount');
 end;
 
 procedure PascalImageFailed(texHandle: TTextureHandle; errorCode: smallint);
@@ -799,8 +798,6 @@ begin
   { Apparently SetString does byteIdx heap allocation }
   { SetString(line, PAnsiChar(@bmfontBuffer[0]), bmfontBufferLen); }
 
-  writelog('buffer len: ' + i32str(bmfontBufferLen));
-
   line := '';
   byteIdx := 0;
   lineStart := 0;
@@ -815,8 +812,6 @@ begin
       SetString(line, PAnsiChar(@bmfontBuffer[lineStart]), byteIdx - lineStart);
       ParseBMFontLine(bmfontHandle, line);
 
-      { writelog('lineStart: ' + i32str(lineStart)); }
-
       lineStart := byteIdx + 1
     end;
 
@@ -826,22 +821,12 @@ begin
   if lineStart < bmfontBufferLen then begin
     SetString(line, PAnsiChar(@bmfontBuffer[lineStart]), bmfontBufferLen - lineStart);
 
-    { writelog('(Last line)');
-    writelog('Line start: ' + i32str(lineStart));
-    writelog('Buffer len: ' + i32str(bmfontBufferLen)); }
-
     ParseBMFontLine(bmfontHandle, line);
   end;
 
-  { for debugging }
   { DumpBMFontGlyphs(bmfontHandle); }
 
-  { writelog(
-    'Font ' + i32str(bmfontHandle) + ' texHandle: ' +
-    i32str(bmfonts[bmfontHandle].font.texHandle)); }
-
   inc(assetReadyCount);
-  WriteLog('BMFont: inc assetReadyCount');
 end;
 
 procedure PascalBMFontFailed(bmfontHandle: longint; errorCode: smallint);
@@ -856,7 +841,6 @@ begin
   sounds[sndHandle].errorCode := 0;
 
   inc(assetReadyCount);
-  WriteLog('Sound: inc assetReadyCount');
 end;
 
 procedure PascalSoundFailed(sndHandle: longint; errorCode: smallint);
