@@ -105,7 +105,7 @@ type WasmImports = {
     JsReportFreeMem: (bytes: number) => void,
 
     // VGA
-    
+
     VGAUpload: () => void,
     VGAPresent: () => void,
   }
@@ -124,11 +124,17 @@ class Posit92 {
   #TargetFPS: number;
   #FrameTime: number;
 
+  /**
+   * Assigned in InitRuntime
+   * 
+   * Used by PerformLoop
+   */
+  #isDisposed: boolean;
+
   #bufferWidth: number;
   #bufferHeight: number;
 
   #canvas: HTMLCanvasElement;
-
   canvasCtx: CanvasRenderingContext2D = null!;
 
   /**
@@ -138,6 +144,9 @@ class Posit92 {
 
   #wasm: WebAssemblyInstance = null!;
 
+  /**
+   * Public for mixins
+   */
   get WasmInstance(): WebAssemblyInstance {
     return this.#wasm;
   }
@@ -146,8 +155,6 @@ class Posit92 {
    * Used in `GetTimer`
    */
   #midnightOffset = 0;
-
-  #done = false;
 
   /**
    * in milliseconds
@@ -240,8 +247,7 @@ class Posit92 {
   }
 
   #SignalDone(): void {
-    this.Cleanup();
-    this.#done = true;
+    this.#ShowCursor();
 
     window.parent.postMessage({
       from: "posit-92",
@@ -381,6 +387,7 @@ class Posit92 {
     this.#InitMouse();
 
     Posit92.LogVersion();
+    this.#isDisposed = false;
   }
 
   #AddOutOfFocusFix(): void {
@@ -388,13 +395,6 @@ class Posit92 {
       this.#canvas.tabIndex = 0;
       this.#canvas.focus();
     });
-  }
-
-  /**
-   * Called when `done` is assigned `true`
-   */
-  Cleanup(): void {
-    this.#ShowCursor();
   }
 
 
@@ -925,7 +925,7 @@ class Posit92 {
   PanicHaltDisplay(msg: string): void {
     if (this.#wasm.exports.IsBootFontLoaded()) {
       this.WriteInteropBuffer(msg);
-      this.WasmInstance.exports.PascalPanicHaltDisplay();
+      this.#wasm.exports.PascalPanicHaltDisplay();
     } else {
       const div = document.createElement("div");
       div.style.color = "white";
