@@ -90,7 +90,11 @@ class SoundMixin extends Base {
 
     console.log("Dispose call from SoundMixin");
 
-    this.#audioContext = null;
+    if (this.#audioContext != null) {
+      this.#audioContext.close();
+      this.#audioContext = null;
+    }
+    
     this.#sounds.clear();
     this.#musicPlayer = null;
     this.#musicGainNode = null;
