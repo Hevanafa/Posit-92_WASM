@@ -1,9 +1,10 @@
 globalThis.GamepadMixin = <T extends Constructor<Posit92>>(Base: T) =>
 class GamepadMixin extends Base {
-  #debug = true;
+  readonly #debug = false;
+  
   #gamepadIndex = -1;
 
-  SetupImportObject(): void {
+  override SetupImportObject(): void {
     super.SetupImportObject();
     
     const { env } = super.WasmImportObject;
@@ -67,7 +68,7 @@ class GamepadMixin extends Base {
     return gamepad.axes[axis];
   }
 
-  async InitRuntime(): Promise<void> {
+  override async InitRuntime(): Promise<void> {
     this.#InitGamepad();
     await super.InitRuntime();
   }
