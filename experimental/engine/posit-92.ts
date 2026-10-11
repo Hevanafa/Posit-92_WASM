@@ -37,14 +37,14 @@ type WasmExports = {
   // VGA
 
   /**
-   * used by VGAUpload
+   * used by `VGAUpload`
    */
   GetSurfacePtr: () => number,
 
   // WasmHeap
 
   /**
-   * used by RequestImage
+   * used by `RequestImage`
    */
   WasmGetMem: (bytes: number) => number,
 };
@@ -59,16 +59,18 @@ type WasmImports = {
     _haltproc: (n: number) => void,
 
     JsInitWasmMemory: (requiredSize: number) => void,
+    JsDispose: () => void,
+
     JsSetTitle: () => void,
     JsCreateCanvas: (width: number, height: number) => void,
     JsInitCanvasCtx: () => void,
     JsSetTargetFPS: (fps: number) => void,
 
+    // AssetRegistry
+
     JsRequestImage: (texHandle: number) => Promise<void>,
 
     // WasmHost
-
-    JsDispose: () => void,
 
     ShowCursor: () => void,
     HideCursor: () => void,
@@ -651,7 +653,7 @@ class Posit92 {
   /**
    * JS KeyboardEvent.code to DOS scancode
    */
-  ScancodeMap: Record<string, number> = {
+  readonly #ScancodeMap: Record<string, number> = {
     "Escape": 0x01,
     "Digit1": 0x02,
     "Digit2": 0x03,
@@ -757,7 +759,7 @@ class Posit92 {
   #heldScancodes = new Set();
 
   #InitKeyboard(): void {
-    if (this.ScancodeMap == null) {
+    if (this.#ScancodeMap == null) {
       console.warn("Missing ScancodeMap in " + this.constructor.name);
       return;
     }
@@ -765,7 +767,7 @@ class Posit92 {
     window.addEventListener("keydown", e => {
       if (e.repeat) return;
 
-      const scancode = this.ScancodeMap[e.code];
+      const scancode = this.#ScancodeMap[e.code];
       if (scancode) {
         this.#heldScancodes.add(scancode);
         e.preventDefault();
@@ -773,7 +775,7 @@ class Posit92 {
     });
 
     window.addEventListener("keyup", e => {
-      const scancode = this.ScancodeMap[e.code];
+      const scancode = this.#ScancodeMap[e.code];
       if (scancode) this.#heldScancodes.delete(scancode);
     });
   }
