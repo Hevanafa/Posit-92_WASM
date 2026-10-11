@@ -272,6 +272,7 @@ begin
 
   WriteInteropString(bootConfig.Renderer);
   JsInitCanvasCtx;
+  JsBindSurface;
 
   JsSetTargetFPS(bootConfig.TargetFPS);
 end;
@@ -575,7 +576,6 @@ begin
   if bootConfig.EnableDrawFPS then
     DrawFPS;
 
-  VGAUpload;
   VGAPresent;
 {$ENDIF}
 {$ENDIF}

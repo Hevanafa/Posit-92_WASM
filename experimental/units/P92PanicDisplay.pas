@@ -44,7 +44,6 @@ begin
 
   Print('Check Console for details', 8, VGAHeight - 16);
 
-  VGAUpload;
 {$ifdef P92_WEBGL}
   WebGLPresent;
 {$else}

@@ -27,7 +27,7 @@ type
   TByteArray = array[0..0] of byte;
 
 {$ifdef P92_WASM}
-procedure VGAUpload; external 'env' name 'VGAUpload';
+procedure JsBindSurface; external 'env' name 'JsBindSurface';
 procedure VGAPresent; external 'env' name 'VGAPresent';
 {$endif}
 

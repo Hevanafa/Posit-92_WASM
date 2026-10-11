@@ -62,8 +62,6 @@ begin
       $FFFFFFFF);
   end;
 
-  VGAUpload;
-
 {$IFDEF P92_WEBGL}
   WebGLPresent;
 {$ELSE}
