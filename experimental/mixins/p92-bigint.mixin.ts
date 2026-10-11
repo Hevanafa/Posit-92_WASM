@@ -6,7 +6,7 @@ type BigIntWasmExports = WasmExports & {
 
 globalThis.BigIntMixin = <T extends Constructor<Posit92>>(Base: T) =>
 class BigIntMixin extends Base {
-  SetupImportObject(): void {
+  override SetupImportObject(): void {
     super.SetupImportObject();
     
     const { env } = super.WasmImportObject;

@@ -21,10 +21,7 @@ class WebGLMixin extends Base {
   #uniformLocations: Map<number, WebGLUniformLocation> = new Map();
   #nextUniformId = 1;
 
-  /**
-   * @override
-   */
-  SetupImportObject(): void {
+  override SetupImportObject(): void {
     super.SetupImportObject();
 
     const { env } = this.WasmImportObject;

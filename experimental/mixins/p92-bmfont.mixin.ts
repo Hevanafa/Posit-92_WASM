@@ -1,15 +1,3 @@
-type TBMFontGlyph = {
-  id: number,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  xoffset: number,
-  yoffset: number,
-  xadvance: number,
-  lineHeight: number
-}
-
 type BMFontWasmExports = WasmExports & {
   // AssetRegistry
   PascalBMFontLoaded: (bmfontHandle: number) => void;
@@ -23,10 +11,7 @@ type BMFontWasmExports = WasmExports & {
 
 globalThis.BMFontMixin = <T extends Constructor<Posit92>>(Base: T) =>
 class BMFontMixin extends Base {
-  /**
-   * @override
-   */
-  SetupImportObject(): void {
+  override SetupImportObject(): void {
     super.SetupImportObject();
     
     const { env } = super.WasmImportObject;

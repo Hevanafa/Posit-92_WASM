@@ -43,21 +43,26 @@ class SoundMixin extends Base {
    */
   #musicBuffer: AudioBuffer | null = null;
 
-  SetupImportObject(): void {
+  override SetupImportObject(): void {
     super.SetupImportObject();
 
     const { env } = this.WasmImportObject;
 
     Object.assign(env, {
       // AssetRegistry
+
       JsRequestSound: this.#RequestSound.bind(this),
 
-      // Sounds
+      // Lifecycle
+
       JsInitAudio: this.#InitAudio.bind(this),
-      
+
+      // Sound playback
+
       JsPlaySound: this.#PlaySound.bind(this),
 
       // Music playback
+
       JsStartMusicPlayer: this.#StartMusicPlayer.bind(this),
       JsSetMusicBuffer: this.#SetMusicBuffer.bind(this),
       JsUnsetMusicBuffer: this.#UnsetMusicBuffer.bind(this),
@@ -80,7 +85,7 @@ class SoundMixin extends Base {
   /**
    * Uses Pascal's destructor pattern
    */
-  Dispose(): void {
+  override Dispose(): void {
     if (this.IsDisposed) return;
 
     console.log("Dispose call from SoundMixin");
