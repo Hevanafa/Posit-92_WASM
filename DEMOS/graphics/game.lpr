@@ -103,11 +103,15 @@ var
 begin
   config := DefaultP92AppConfig;
 
+  config.OnReady := @OnReady;
+  config.Update := @Update;
+  config.Draw := @Draw;
+
   P92Start(config);
 end;
 
 exports
-  Init, OnReady, Update, Draw;
+  Init;
 
 begin
 { Starting point is intentionally left empty }

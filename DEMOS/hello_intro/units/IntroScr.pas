@@ -49,8 +49,7 @@ begin
     end;
   end;
 
-  VgaUpload;
-  VgaPresent
+  VGAPresent
 end;
 
 procedure UnloadIntro;
