@@ -1,4 +1,4 @@
-type Posit92ClassFactory = <T extends Constructor<Posit92>>(Base: T) => Constructor & T;  // was Constructor<IBigInt> & T
+type Constructor<T = {}> = new (...args: any[]) => T;
 
 var BMFontMixin: Posit92ClassFactory;
 var BigIntMixin: Posit92ClassFactory;

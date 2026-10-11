@@ -5,9 +5,6 @@
 var debugEngineCalls = false;
 var debugRequests = false;
 
-// Used by mixins
-type Constructor<T = {}> = new (...args: any[]) => T;
-
 /**
  * The type definitions here are copied from Pascal except for `memory`
  */
