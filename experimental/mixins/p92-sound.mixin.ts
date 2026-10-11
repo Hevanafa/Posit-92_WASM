@@ -81,6 +81,8 @@ class SoundMixin extends Base {
    * Uses Pascal's destructor pattern
    */
   Dispose(): void {
+    if (this.IsDisposed) return;
+    
     // TODO: Clean up the fields
 
     console.log("Dispose call from SoundMixin");

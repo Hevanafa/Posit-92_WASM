@@ -131,6 +131,10 @@ class Posit92 {
    */
   #isDisposed: boolean;
 
+  get IsDisposed(): boolean {
+    return this.#isDisposed
+  }
+
   #bufferWidth: number;
   #bufferHeight: number;
 
@@ -250,6 +254,10 @@ class Posit92 {
    * Public for mixins
    */
   Dispose(): void {
+    if (this.#isDisposed) return;
+
+    this.#isDisposed = true;
+
     console.log("Dispose call from Posit92");
 
     this.#ShowCursor();
@@ -258,8 +266,6 @@ class Posit92 {
       from: "posit-92",
       type: "done"
     }, window.location.origin);
-
-    this.#isDisposed = true;
   }
 
   static LogVersion() {
