@@ -994,15 +994,13 @@ class Posit92 {
     this.#StartLoop();
   }
 
-  #Loop = (currentTime: number): void => {
-    if (this.#done) {
-      this.Cleanup();
+  #PerformLoop = (currentTime: number): void => {
+    if (this.#isDisposed)
       return;
-    }
 
     if (this.#TargetFPS == 0) {
       this.#wasm.exports.P92PerformLoop();
-      requestAnimationFrame(this.#Loop);
+      requestAnimationFrame(this.#PerformLoop);
 
       return;
     }
@@ -1014,10 +1012,10 @@ class Posit92 {
       this.#wasm.exports.P92PerformLoop();
     }
 
-    requestAnimationFrame(this.#Loop);
+    requestAnimationFrame(this.#PerformLoop);
   };
 
   #StartLoop(): void {
-    requestAnimationFrame(this.#Loop);
+    requestAnimationFrame(this.#PerformLoop);
   }
 }
