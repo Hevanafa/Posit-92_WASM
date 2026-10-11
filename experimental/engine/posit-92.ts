@@ -995,9 +995,6 @@ class Posit92 {
       this.#bufferWidth * this.#bufferHeight * 4
     );
 
-    if (this.#surface != null)
-      this.#surface = null;
-
     this.#surface = new ImageData(imageData, this.#bufferWidth, this.#bufferHeight);
   }
 
