@@ -90,7 +90,8 @@ class SoundMixin extends Base {
   override Dispose(): void {
     if (this.IsDisposed) return;
 
-    console.log("Dispose call from SoundMixin");
+    if (debugDisposeCalls)
+      console.log("Dispose call from SoundMixin");
 
     if (this.#audioContext != null) {
       this.#audioContext.close();

@@ -4,6 +4,7 @@
 
 var debugEngineCalls = false;
 var debugRequests = false;
+var debugDisposeCalls = false;
 
 /**
  * The type definitions here are copied from Pascal except for `memory`
@@ -255,7 +256,8 @@ class Posit92 {
 
     this.#isDisposed = true;
 
-    console.log("Dispose call from Posit92");
+    if (debugDisposeCalls)
+      console.log("Dispose call from Posit92");
 
     this.#ShowCursor();
 
