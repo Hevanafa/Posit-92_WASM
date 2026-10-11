@@ -6,6 +6,7 @@
     "lib": ["DOM", "ESNext"],
     "removeComments": true,
     "noImplicitReturns": true,
+    "noImplicitOverride": true,
     "outDir": ".",
     "rootDir": "./",
     "sourceMap": false,
