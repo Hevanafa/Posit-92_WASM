@@ -200,6 +200,7 @@ const
 
 
 var
+  done: boolean;
   bootConfig: TP92AppConfig;
   engineRunState: TEngineRunStates;
 
@@ -243,7 +244,7 @@ end;
 
 procedure SignalDone;
 begin
-  { TODO: Call JsSignalDone }
+  done := true
 end;
 
 function IsEngineReady: boolean;
@@ -606,6 +607,10 @@ begin
     else begin
       bootConfig.DrawOnce;
       P92AfterDraw;
+
+      if Assigned(bootConfig.OnCleanup) then
+        bootConfig.OnCleanup;
+
       JsSignalDone
     end;
 
@@ -622,6 +627,11 @@ begin
   bootConfig.Update;
   bootConfig.Draw;
   P92AfterDraw;
+
+  if done and Assigned(bootConfig.OnCleanup) then begin
+    bootConfig.OnCleanup;
+    JsSignalDone;
+  end;
 end;
 
 { Print procedures using the boot font }
@@ -765,6 +775,7 @@ end;
 
 procedure P92Start(const appConfig: TP92AppConfig);
 begin
+  done := false;
   bootConfig := appConfig;
 
   if not Assigned(bootConfig.Update) then
