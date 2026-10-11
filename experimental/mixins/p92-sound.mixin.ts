@@ -82,10 +82,14 @@ class SoundMixin extends Base {
    */
   Dispose(): void {
     if (this.IsDisposed) return;
-    
-    // TODO: Clean up the fields
 
     console.log("Dispose call from SoundMixin");
+
+    this.#audioContext = null;
+    this.#sounds.clear();
+    this.#musicPlayer = null;
+    this.#musicGainNode = null;
+    this.#musicBuffer = null;
 
     super.Dispose();
   }
