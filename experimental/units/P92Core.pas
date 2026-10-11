@@ -153,7 +153,7 @@ uses
 
 {$ifdef P92_WASM}
   P92Fonts, P92AssetRegistry, P92WasmHeap, P92Conversions,
-  P92FPS, P92Logger, P92Timing,
+  P92FPS, P92Logger, P92Panic, P92Timing,
 {$ifdef P92_ENABLE_SOUNDS}
   P92Sounds,
 {$endif}
@@ -738,6 +738,13 @@ end;
 procedure P92Start(const appConfig: TP92AppConfig);
 begin
   bootConfig := appConfig;
+
+  if not Assigned(bootConfig.Update) then
+    PanicHalt('Update callback is required');
+
+  if not Assigned(bootConfig.Draw) then
+    PanicHalt('Draw callback is required');
+
   P92Boot
 end;
 {$ENDIF}
