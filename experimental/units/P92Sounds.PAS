@@ -110,8 +110,6 @@ function JsGetMusicDuration: double; external 'env' name 'JsGetMusicDuration';
 procedure InitSounds;
 begin
 {$ifdef P92_WASM}
-  writelog('InitSounds call');
-
   soundsInitialised := false;
 
   currentMusicHandle := 0;
