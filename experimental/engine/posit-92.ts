@@ -61,7 +61,7 @@ type WasmImports = {
 
     // WasmHost
 
-    JsSignalDone: () => void,
+    JsDispose: () => void,
 
     ShowCursor: () => void,
     HideCursor: () => void,
@@ -182,7 +182,7 @@ class Posit92 {
 
       // WasmHost
 
-      JsSignalDone: this.#SignalDone.bind(this),
+      JsDispose: this.#Dispose.bind(this),
 
       ShowCursor: this.#ShowCursor.bind(this),
       HideCursor: this.#HideCursor.bind(this),
@@ -243,10 +243,10 @@ class Posit92 {
 
   #HandleHaltProc(exitcode: number): void {
     console.error("Programme halted with code:", exitcode);
-    this.#SignalDone();
+    this.#Dispose();
   }
 
-  #SignalDone(): void {
+  #Dispose(): void {
     this.#ShowCursor();
 
     window.parent.postMessage({
