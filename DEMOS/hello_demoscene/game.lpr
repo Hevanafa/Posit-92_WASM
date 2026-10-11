@@ -34,6 +34,13 @@ begin
   gameTime := 0.0
 end;
 
+{ Free resources here }
+procedure OnCleanup;
+begin
+  FreeTex(texSpecimenP92[0]);
+  FreeTex(texSpecimenP92[1]);
+end;
+
 procedure Update;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
@@ -59,15 +66,17 @@ var
 begin
   config := DefaultP92AppConfig;
 
+  config.OnPreload := @OnPreload;
+  config.OnReady := @OnReady;
+  config.Update := @Update;
+  config.Draw := @Draw;
+  config.OnCleanup := @OnCleanup;
+
   P92Start(config);
 end;
 
 exports
-  Init,
-  OnPreload,
-  OnReady,
-  Update,
-  Draw;
+  Init;
 
 begin
   { Starting point is intentionally left empty }
