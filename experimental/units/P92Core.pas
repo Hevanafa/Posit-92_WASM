@@ -106,10 +106,6 @@ procedure HostCallOnReady; external 'env' name 'HostCallOnReady';
 {$ENDIF}
 
 {$IFDEF P92_WASM}
-procedure P92Boot; public name 'P92Boot';
-procedure P92Update; public name 'P92Update';
-procedure P92Draw; public name 'P92Draw';
-procedure P92AfterDraw; public name 'P92AfterDraw';
 procedure P92PerformLoop; public name 'P92PerformLoop';
 {$ENDIF}
 
