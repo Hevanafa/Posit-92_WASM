@@ -44,14 +44,15 @@ var
 begin
   config := DefaultP92AppConfig;
 
+  config.OnPreload := @OnPreload;
+  config.OnReady := @OnReady;
+  config.DrawOnce := @DrawOnce;
+
   P92Start(config);
 end;
 
 exports
-  Init,
-  OnPreload,
-  OnReady,
-  DrawOnce;
+  Init;
 
 begin
 { Starting point is intentionally left empty }
