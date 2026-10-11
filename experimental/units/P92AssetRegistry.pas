@@ -9,6 +9,8 @@ unit P92AssetRegistry;
 {$H-}  { Use ShortStrings }
 {$J-}  { Don't allow assignments to typed consts }
 
+{Define DEBUG_ASSET_HANDLES}
+
 interface
 
 {$ifdef P92_WASM}
@@ -259,10 +261,16 @@ begin
   inc(assetTotalCount);
 
   texHandle := FindUnusedTextureHandle;
+
+  if texHandle < 0 then
+    PanicHalt('RequestImage: Texture asset pool is full!');
+
   textures[texHandle] := default(TSoftwareTexEntry);
   textures[texHandle].status := AssetStatusLoading;
 
+{$ifdef DEBUG_ASSET_HANDLES}
   WriteLog('RequestImage handle: ' + i32str(texHandle));
+{$endif}
 
   WriteInteropString(path);
   JsRequestImage(texHandle);
@@ -373,15 +381,18 @@ var
   sndHandle: longint;
 begin
   inc(assetTotalCount);
-  WriteLog('RequestSound: inc assetTotalCount');
 
   sndHandle := FindUnusedSoundHandle;
 
   if sndHandle < 0 then
-    PanicHalt('RequestSound: Sound handles are full!');
+    PanicHalt('RequestSound: Sound asset pool is full!');
 
   sounds[sndHandle].status := AssetStatusLoading;
   sounds[sndHandle].errorCode := 0;
+
+{$ifdef DEBUG_ASSET_HANDLES}
+  WriteLog('RequestSound handle: ' + i32str(sndHandle));
+{$endif}
 
   WriteInteropString(path);
   JsRequestSound(sndHandle);
