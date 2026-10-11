@@ -14,7 +14,6 @@ type WasmExports = {
 
   // Core
 
-  IsEngineReady: () => boolean;
   IsBootFontLoaded: () => boolean;
   Init: () => void;
   P92PerformLoop: () => void;
@@ -32,7 +31,7 @@ type WasmExports = {
   SetInteropBufLen: (value: number) => void,
 
   // Panic
-  
+
   PascalPanicHaltDisplay: () => void,
 
   // VGA
