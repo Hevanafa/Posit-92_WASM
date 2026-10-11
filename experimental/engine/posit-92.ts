@@ -231,7 +231,11 @@ class Posit92 {
       from: "posit-92",
       type: "done"
     }, window.location.origin);
-  }  
+  }
+
+  static LogVersion() {
+    console.log("Posit-92 WASM v" + Posit92.Version);
+  }
 
   constructor() {
   }
@@ -359,6 +363,8 @@ class Posit92 {
 
     this.#InitKeyboard();
     this.#InitMouse();
+
+    Posit92.LogVersion();
   }
 
   #AddOutOfFocusFix(): void {
