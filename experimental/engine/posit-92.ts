@@ -167,8 +167,6 @@ class Posit92 {
       JsSetTargetFPS: this.#SetTargetFPS.bind(this),
 
       JsRequestImage: this.RequestImage.bind(this),
-      HostCallOnPreload: this.#OnPreload.bind(this),
-      HostCallOnReady: this.#OnReady.bind(this),
 
       // WasmHost
       SignalDone: this.#SignalDone.bind(this),
@@ -975,22 +973,6 @@ class Posit92 {
     this.#AddResizeListener();
 
     this.#StartLoop();
-  }
-
-  #OnPreload(): void {
-    if (debugEngineCalls)
-      if (!Object.hasOwn(this.#wasm.exports, "OnPreload"))
-        console.warn("OnPreload is not available");
-
-    this.#wasm.exports.OnPreload?.();
-  }
-
-  #OnReady(): void {
-    if (debugEngineCalls)
-      if (!Object.hasOwn(this.#wasm.exports, "OnReady"))
-        console.warn("OnReady is not available");
-
-    this.#wasm.exports.OnReady?.();
   }
 
   // #PerformLoop(): void {

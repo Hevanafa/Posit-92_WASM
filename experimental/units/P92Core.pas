@@ -113,8 +113,10 @@ function GetBootFontHandle: TTextureHandle;
 procedure SetBootFontHandle(const value: TTextureHandle);
 
 function IsEngineReady: boolean; public name 'IsEngineReady';
+{
 procedure HostCallOnPreload; external 'env' name 'HostCallOnPreload';
 procedure HostCallOnReady; external 'env' name 'HostCallOnReady';
+}
 {$ENDIF}
 
 {$IFDEF P92_WASM}
@@ -344,12 +346,8 @@ begin
 
   if bootConfig.LoadDefaultBMFont then
     LoadDefaultBMFont;
-  { else
-    WriteLog('InitPreloadState: Skipped loading the default BMFont'); }
 
-{$ifdef P92_WASM}
-  HostCallOnPreload
-{$endif}
+  bootConfig.OnPreload
 end;
 
 procedure InitReadyState;
@@ -373,9 +371,7 @@ begin
 {$ENDIF}
 {$ENDIF}
 
-{$ifdef P92_WASM}
-  HostCallOnReady
-{$endif}
+  bootConfig.OnReady
 end;
 
 {$IFDEF P92_SDL2}
