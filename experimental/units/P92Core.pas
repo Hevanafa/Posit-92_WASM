@@ -115,7 +115,7 @@ procedure SetBootFontHandle(const value: TTextureHandle);
 
 {$IFDEF P92_WASM}
 procedure SignalDone;
-function IsEngineReady: boolean; public name 'IsEngineReady';
+function IsEngineReady: boolean;
 procedure P92PerformLoop; public name 'P92PerformLoop';
 {$ENDIF}
 
