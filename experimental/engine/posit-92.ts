@@ -156,6 +156,7 @@ class Posit92 {
       _haltproc: this.#HandleHaltProc.bind(this),
 
       // P92Core
+
       JsInitWasmMemory: this.#InitWasmMemory.bind(this),
       JsSetTitle: this.#SetTitle.bind(this),
       JsCreateCanvas: this.#CreateCanvas.bind(this),
@@ -165,6 +166,7 @@ class Posit92 {
       JsRequestImage: this.RequestImage.bind(this),
 
       // WasmHost
+
       SignalDone: this.#SignalDone.bind(this),
 
       ShowCursor: this.#ShowCursor.bind(this),
@@ -179,30 +181,37 @@ class Posit92 {
       JsTakeScreenshot: this.#TakeScreenshot.bind(this),
 
       // Keyboard
+
       IsKeyDown: this.#IsKeyDown.bind(this),
 
       // Logger
+
       WriteLogF32: value => console.log("Pascal (f32):", value),
       WriteLogI32: value => console.log("Pascal (i32):", value),
       FlushLog: this.#PascalFlushLog.bind(this),
 
       // Mouse
+
       JsGetMouseX: this.#GetMouseX.bind(this),
       JsGetMouseY: this.#GetMouseY.bind(this),
       JsGetMouseButton: this.#GetMouseButton.bind(this),
 
       // Panic
+
       JsPanicHalt: this.#PanicHalt.bind(this),
 
       // Timing
+
       GetTimer: this.#GetTimer.bind(this),
       GetFullTimer: this.#GetFullTimer.bind(this),
 
       // WasmHeap
+
       JsReportGetMem: this.#ReportGetMem.bind(this),
       JsReportFreeMem: this.#ReportFreeMem.bind(this),
 
       // VGA
+
       VGAUpload: this.#VGAUpload.bind(this),
       VGAPresent: this.#VGAPresent.bind(this),
     }
@@ -218,9 +227,8 @@ class Posit92 {
   }
 
   #HandleHaltProc(exitcode: number): void {
-    console.log("Programme halted with code:", exitcode);
-    this.Cleanup();
-    this.#done = true;
+    console.error("Programme halted with code:", exitcode);
+    this.#SignalDone();
   }
 
   #SignalDone(): void {
