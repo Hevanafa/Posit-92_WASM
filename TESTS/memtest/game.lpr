@@ -36,9 +36,11 @@ var
   { clicks: smallint; }
 
   hasPerformedScan: boolean;
+
   totalSlots,
   badSlots,
-  freeBuckets: array[0..high(BucketSizes)] of longword;
+  freeBuckets,
+  slackBytes: array[0..high(BucketSizes)] of longword;
 
 procedure TestBasicAllocFree;
 var
@@ -238,8 +240,6 @@ begin
   gameTime := 0.0;
   hasPerformedScan := false;
 
-  FillChar(freeBuckets, sizeof(freeBuckets), 0);
-
   { DoTests; }
 
   actualMode := MemTestGlobal;
@@ -266,14 +266,12 @@ begin
   if not hasPerformedScan then begin
     hasPerformedScan := true;
 
-    for a:=0 to high(BucketSizes) do
+    for a:=0 to high(BucketSizes) do begin
       totalSlots[a] := GetBucketTotalSlots(a);
-
-    for a:=0 to high(BucketSizes) do
       badSlots[a] := GetBucketBadSlots(a);
-
-    for a:=0 to high(BucketSizes) do
       freeBuckets[a] := GetBucketFreeSlots(a);
+      slackBytes[a] := GetBucketSlackBytes(a);
+    end;
   end;
 
   if (trunc(gameTime * 4) and 1) > 0 then
@@ -321,6 +319,7 @@ begin
       PrintDefault('Free', 50, tableRowTop);
       PrintDefault('Total slots', 90, tableRowTop);
       PrintDefault('Bad slots', 140, tableRowTop);
+      PrintDefault('Slack bytes', 190, tableRowTop);
 
       for a:=0 to high(BucketWeights) do begin
         tableRowTop := ViewTop + 30 + a * 10;
@@ -336,8 +335,8 @@ begin
 
         { Total slots }
         PrintDefault(I32Str(totalSlots[a]), 90, tableRowTop);
-
         PrintDefault(I32Str(badSlots[a]), 140, tableRowTop);
+        PrintDefault(I32Str(slackBytes[a]), 190, tableRowTop);
       end;
     end;
 
