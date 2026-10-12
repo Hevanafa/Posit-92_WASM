@@ -14,15 +14,15 @@ library Game;
 
 uses
   P92Core, P92Conversions, P92Fonts, P92WasmHost, P92AssetRegistry,
-  P92Logger,
-  P92Keyboard, P92Mouse,
-  P92TexDraw, P92Timing, P92FPS, P92VGA,
-  P92WasmHeap,
+  P92Logger, P92Keyboard, P92Mouse,
+  P92TexDraw, P92IMGUI,
+  P92Timing, P92FPS, P92VGA, P92WasmHeap,
   Assets, ObjectTests;
 
 var
   { Game state variables }
   gameTime: double;
+  clicks: smallint;
 
 procedure TestBasicAllocFree;
 var
@@ -163,6 +163,8 @@ begin
   gameTime := 0.0;
 
   { DoTests; }
+
+  clicks := 0;
 end;
 
 procedure Update;
@@ -180,6 +182,9 @@ begin
     Spr(texSpecimenP92[1], 148, 84)
   else
     Spr(texSpecimenP92[0], 148, 84);
+
+  if button('Clicks: ' + I32Str(clicks), 10, 10) then
+    inc(clicks);
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
