@@ -33,9 +33,8 @@ var
   { Game state variables }
   gameTime: double;
   actualMode: TMemTestTab;
-  { clicks: smallint; }
 
-  hasPerformedScan: boolean;
+  nextScanTick: double;
 
   totalSlots,
   badSlots,
@@ -238,7 +237,7 @@ begin
 
   { Initialise game state here }
   gameTime := 0.0;
-  hasPerformedScan := false;
+  nextScanTick := GetTimer;
 
   { DoTests; }
 
@@ -259,12 +258,14 @@ var
   a: smallint;
   s: string;
   tableRowTop: smallint;
-  regionSize, slotCount: smallint;
+  now: double;
 begin
   Cls($FF6495ED);
 
-  if not hasPerformedScan then begin
-    hasPerformedScan := true;
+  now := GetTimer;
+
+  if now >= nextScanTick then begin
+    nextScanTick := now + 2.0;
 
     for a:=0 to high(BucketSizes) do begin
       totalSlots[a] := GetBucketTotalSlots(a);
