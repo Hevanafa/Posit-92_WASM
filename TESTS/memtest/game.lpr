@@ -15,14 +15,22 @@ library Game;
 uses
   P92Core, P92Conversions, P92Fonts, P92WasmHost, P92AssetRegistry,
   P92Logger, P92Keyboard, P92Mouse,
-  P92TexDraw, P92IMGUI,
+  P92TexDraw, P92IMGUI, P92Geometry, P92Graphics,
   P92Timing, P92FPS, P92VGA, P92WasmHeap,
   Assets, ObjectTests;
+
+type
+  TMemTestTab = (
+    MemTestGlobal,
+    MemTestBucket,
+    MemTestLinkedList
+  );
 
 var
   { Game state variables }
   gameTime: double;
-  clicks: smallint;
+  actualMode: TMemTestTab;
+  { clicks: smallint; }
 
 procedure TestBasicAllocFree;
 var
@@ -131,14 +139,6 @@ begin
   writelog('End of TestCrossTierRealloc');
 end;
 
-procedure OnPreload;
-begin
-  texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
-  texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
-
-  texTest := RequestImage('assets/fonts/p92_sans_8_regular.png');
-end;
-
 procedure DoTests;
 begin
   { Regular tests: }
@@ -155,6 +155,73 @@ begin
   TestObjectList;
 end;
 
+function ButtonColoured(
+  const caption: string;
+  const x, y, width, height: smallint;
+  const colour: longword
+): boolean;
+const
+  Padding = 4;
+var
+  zone: TZone;
+  thisWidgetID: smallint;
+  { buttonColour: longword; }
+begin
+  GUIAssertFontSet;
+
+  zone.x := x;
+  zone.y := y;
+  zone.width := width;
+  zone.height := height;
+
+  { Update logic }
+
+  thisWidgetID := AcquireNextWidgetID;
+
+  if PointInZone(GetMousePoint, zone) then begin
+    SetHotWidget(thisWidgetID);
+
+    if GetMouseJustPressed then SetActiveWidget(thisWidgetID);
+  end;
+
+  { Render logic }
+
+  {
+  if GetActiveWidget = thisWidgetID then
+    buttonColour := AccentDark
+  else if GetHotWidget = thisWidgetID then
+    buttonColour := AccentPale
+  else
+    buttonColour := AccentNormal;
+  }
+
+  RectFill(
+    x, y,
+    x + width - 1, y + height - 1,
+    colour);
+
+  Rect(
+    x, y,
+    x + width - 1, y + height - 1,
+    $FF000000);
+
+  TextLabel(caption, x + Padding, y + Padding);
+
+  if GetMouseJustReleased and (GetHotWidget = thisWidgetID) and (GetActiveWidget = thisWidgetID) then
+    { activeWidget = -1 }  { Index reset is handled at the end of draw }
+    ButtonColoured := true
+  else
+    ButtonColoured := false;
+end;
+
+procedure OnPreload;
+begin
+  texSpecimenP92[0] := RequestImage('assets/images/specimen_p-92_1.png');
+  texSpecimenP92[1] := RequestImage('assets/images/specimen_p-92_2.png');
+
+  texTest := RequestImage('assets/fonts/p92_sans_8_regular.png');
+end;
+
 procedure OnReady;
 begin
   HideCursor;
@@ -164,7 +231,7 @@ begin
 
   { DoTests; }
 
-  clicks := 0;
+  actualMode := MemTestGlobal;
 end;
 
 procedure Update;
@@ -183,8 +250,8 @@ begin
   else
     Spr(texSpecimenP92[0], 148, 84);
 
-  if button('Clicks: ' + I32Str(clicks), 10, 10) then
-    inc(clicks);
+  if ButtonColoured('Global', 10, 10, 64, 18, $FF5555FF) then
+    ;
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
