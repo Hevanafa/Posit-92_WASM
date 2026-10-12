@@ -2,11 +2,11 @@
   Low-level memory allocator unit
   Part of Posit-92 game engine
 
-  Memory layout (2 MB default)
-  - Pascal stack	(320KB)
+  Memory layout (2 MB default, see WasmMemorySize)
+  - Pascal stack	(384K, see StackSize)
   - Video memory	(320x200x4 bytes, depending on bufferWidth and bufferHeight)
-  - Bucket pool region	(128KB, two-tier tier 1)
-  - Free list / two-directional linked list region	(two-tier tier 2)
+  - Bucket pool region	(128K, 2-tier tier 1, see PoolSize)
+  - Free list / two-directional freely linked list region	(2-tier tier 2)
 }
 
 unit P92WasmHeap;
@@ -96,7 +96,8 @@ implementation
 uses P92Logger, P92Conversions, P92Panic;
 
 type
-  { Small heap: bucket allocator }
+  { Small heap }
+
   PPoolSlot = ^TPoolSlot;
   TPoolSlot = record
     next: PPoolSlot;
@@ -109,7 +110,8 @@ type
     regionEnd: pbyte;
   end;
 
-  { Large heap: Free list }
+  { Large heap }
+
   PBlockHeader = ^TBlockHeader;
   TBlockHeader = record
     size: longword;
