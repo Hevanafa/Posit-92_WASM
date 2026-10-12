@@ -156,16 +156,17 @@ var
   b: smallint; { bucket index }
   rollingPtr: PByte;
   regionStart: PByte;  { bucket region start }
-  slotCount: longword;
-  regionSize: longword;
+  rawSize, slotCount, regionSize: longword;
   i: smallint;
 begin
   rollingPtr := bucketAllocStart;
 
-  for b:=0 to BucketCount-1 do begin
-    regionSize := (PoolSize * BucketWeights[b]) div TotalWeights;
+  for b:=0 to BucketCount - 1 do begin
+    rawSize := (PoolSize * BucketWeights[b]) div TotalWeights;
+    slotCount := rawSize div BucketSizes[b];
+    regionSize := slotCount * BucketSizes[b];
+
     regionStart := rollingPtr;
-    slotCount := regionSize div BucketSizes[b];
 
     buckets[b].slotSize := BucketSizes[b];
     buckets[b].freeHead := PPoolSlot(regionStart);
