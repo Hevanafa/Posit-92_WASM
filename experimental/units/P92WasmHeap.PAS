@@ -23,9 +23,48 @@ interface
 {$IFDEF P92_WASM}
 
 const
+
+{ Allocator configuration constants
+  Exposed for diagnostics & capacity reporting
+  Callers must not assume these values are configurable at runtime }
+
   WasmMemorySize = 2 * 1048576;  { 2 MB }
   StackSize = 384 * 1024;
   PoolSize = 128 * 1024;
+
+{ Bucket / Pool Allocator }
+
+{ Fixed slot sizes for tier 1 pool buckets, in bytes
+
+  Covers typical small FPC allocations:
+  * 16: object headers, VMT pointers
+  * 32: typical AnsiString headers & small list nodes
+  * 64: small class instances or short string buffers
+  * 128: medium objects
+  * 256: larger objects
+}
+  BucketSizes: array[0..4] of longword = (16, 32, 64, 128, 256);
+  BucketCount = 5;
+
+
+{ Allocations at or below this size go to tier 1 pool
+
+  Anything above this goes to tier 2 free-list heap
+
+  This must match the largest value in BucketSizes
+}
+  PoolSizeClassMax = 256;
+
+
+{ Weight distribution across buckets
+
+  Weighted toward smaller buckets since the engine profile is
+  many of small objects rather than few large ones
+
+  The sum must match to TotalWeights }
+  BucketWeights: array[0..4] of longword = (30, 25, 20, 15, 10);
+  TotalWeights = 100;
+
 
 procedure InitHeapRegion(const startAddr: pointer);
 
@@ -88,37 +127,6 @@ type
 
 { Small heap }
 
-const
-{ Fixed slot sizes for tier 1 pool buckets, in bytes
-
-  Covers typical small FPC allocations:
-  * 16: object headers, VMT pointers
-  * 32: typical AnsiString headers & small list nodes
-  * 64: small class instances or short string buffers
-  * 128: medium objects
-  * 256: larger objects
-}
-  BucketSizes: array[0..4] of longword = (16, 32, 64, 128, 256);
-  BucketCount = 5;
-
-
-{ Allocations at or below this size go to tier 1 pool
-
-  Anything above this goes to tier 2 free-list heap
-
-  This must match the largest value in BucketSizes }
-  PoolSizeClassMax = 256;
-
-
-{ Weight distribution across buckets
-
-  Weighted toward smaller buckets since the engine profile is
-  many of small objects rather than few large ones
-
-  The sum must match to TotalWeights }
-  BucketWeights: array[0..4] of longword = (30, 25, 20, 15, 10);
-  TotalWeights = 100;
-
 var
   heapRegionStart: pointer;
 
@@ -135,8 +143,6 @@ var
 
   freeListStart, freeListEnd: PByte;
   freeListHead: PBlockHeader;
-
-{ Slab allocation }
 
 procedure InitPoolAlloc;
 var
