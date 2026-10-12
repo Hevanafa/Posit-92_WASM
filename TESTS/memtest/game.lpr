@@ -139,13 +139,8 @@ begin
   texTest := RequestImage('assets/fonts/p92_sans_8_regular.png');
 end;
 
-procedure OnReady;
+procedure DoTests;
 begin
-  HideCursor;
-
-  { Initialise game state here }
-  gameTime := 0.0;
-
   { Regular tests: }
   TestBasicAllocFree;
   TestSplitNoOverlap;
@@ -158,6 +153,16 @@ begin
   { Object instance tests: }
   TestSingleInstance;
   TestObjectList;
+end;
+
+procedure OnReady;
+begin
+  HideCursor;
+
+  { Initialise game state here }
+  gameTime := 0.0;
+
+  { DoTests; }
 end;
 
 procedure Update;
