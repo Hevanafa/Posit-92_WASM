@@ -15,7 +15,7 @@ library Game;
 uses
   P92Core, P92Conversions, P92Fonts, P92WasmHost, P92AssetRegistry,
   P92Logger, P92Keyboard, P92Mouse,
-  P92TexDraw, P92IMGUI, P92Geometry, P92Graphics,
+  P92TexDraw, P92IMGUI, P92Geometry, P92Graphics, P92Iif,
   P92Timing, P92FPS, P92VGA, P92WasmHeap,
   Assets, ObjectTests;
 
@@ -25,6 +25,9 @@ type
     MemTestBucket,
     MemTestLinkedList
   );
+
+const
+  Black = $FF000000;
 
 var
   { Game state variables }
@@ -250,8 +253,23 @@ begin
   else
     Spr(texSpecimenP92[0], 148, 84);
 
-  if ButtonColoured('Global', 10, 10, 64, 18, $FF5555FF) then
-    ;
+  if ButtonColoured(
+    'Global',
+    10, 10, 48, 18,
+    U32Iif(actualMode = MemTestGlobal, $FF5555FF, Black)) then
+      actualMode := MemTestGlobal;
+
+  if ButtonColoured(
+    'Bucket',
+    60, 10, 48, 18,
+    U32Iif(actualMode = MemTestBucket, $FF5555FF, Black)) then
+      actualMode := MemTestBucket;
+
+  if ButtonColoured(
+    'Linked list',
+    110, 10, 64, 18,
+    U32Iif(actualMode = MemTestLinkedList, $FF5555FF, Black)) then
+      actualMode := MemTestLinkedList;
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
