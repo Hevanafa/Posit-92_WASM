@@ -250,6 +250,7 @@ const
 var
   a: smallint;
   s: string;
+  regionSize, slotCount: longword;
 begin
   Cls($FF6495ED);
 
@@ -290,6 +291,19 @@ begin
         s := s + I32Str(BucketSizes[a]) + StringIif(a < high(BucketSizes), ', ', '');
 
       PrintDefault('Bucket sizes: ' + s, 10, ViewTop);
+
+      { TODO: Bucket weights }
+
+      for a:=0 to high(BucketWeights) do begin
+        regionSize := (PoolSize * BucketWeights[a]) div TotalWeights;
+        slotCount := regionSize div BucketSizes[a];
+
+        { Left column }
+        PrintDefault(I32Str(BucketSizes[a]), 10, 60 + a * 10);
+
+        { Total column }
+        PrintDefault('?/' + I32Str(slotCount), 50, 60 + a * 10);
+      end;
     end;
     MemTestLinkedList: ;
   end;
