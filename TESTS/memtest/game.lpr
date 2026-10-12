@@ -276,9 +276,11 @@ begin
   end;
 
   if (trunc(gameTime * 4) and 1) > 0 then
-    Spr(texSpecimenP92[1], 148, 84)
+    Spr(texSpecimenP92[1], 148, 124)
   else
-    Spr(texSpecimenP92[0], 148, 84);
+    Spr(texSpecimenP92[0], 148, 124);
+
+  PrintDefaultCentred('Hello world!', VgaWidth div 2, 160);
 
   if ButtonColoured(
     'Global',
@@ -343,8 +345,6 @@ begin
 
     MemTestLinkedList: ;
   end;
-
-  PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
 
 procedure Init;
