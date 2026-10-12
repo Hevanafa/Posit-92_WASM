@@ -34,7 +34,9 @@ var
   gameTime: double;
   actualMode: TMemTestTab;
   { clicks: smallint; }
+
   hasPerformedScan: boolean;
+  totalSlots: array[0..high(BucketSizes)] of longword;
   freeBuckets: array[0..high(BucketSizes)] of longword;
 
 procedure TestBasicAllocFree;
@@ -264,6 +266,9 @@ begin
 
     for a:=0 to high(BucketSizes) do
       freeBuckets[a] := GetBucketFreeSlots(a);
+
+    for a:=0 to high(BucketSizes) do
+      totalSlots[a] := GetBucketTotalSlots(a);
   end;
 
   if (trunc(gameTime * 4) and 1) > 0 then
@@ -310,9 +315,6 @@ begin
       PrintDefault('Total slots', 90, ViewTop + 20);
 
       for a:=0 to high(BucketWeights) do begin
-        regionSize := (PoolSize * BucketWeights[a]) div TotalWeights;
-        slotCount := regionSize div BucketSizes[a];
-
         { Bucket size }
         PrintDefault(I32Str(BucketSizes[a]) + ' B', 10, ViewTop + 30 + a * 10);
 
@@ -323,7 +325,7 @@ begin
         { PrintDefault('?', 50, ViewTop + 30 + a * 10); }
 
         { Total slots }
-        PrintDefault(I32Str(slotCount), 90, ViewTop + 30 + a * 10);
+        PrintDefault(I32Str(totalSlots[a]), 90, ViewTop + 30 + a * 10);
       end;
     end;
     MemTestLinkedList: ;

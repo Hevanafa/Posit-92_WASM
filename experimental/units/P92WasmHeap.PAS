@@ -82,7 +82,9 @@ procedure JsReportFreeMem(bytes: longint); external 'env' name 'JsReportFreeMem'
 
 function BorrowBucketAllocRegionStart: pointer;
 function BorrowBucketAllocRegionEnd: pointer;
+
 function GetBucketFreeSlots(bucketIdx: longword): longword;
+function GetBucketTotalSlots(bucketIdx: longword): longword;
 
 function BorrowFreeListRegionStart: pointer;
 function BorrowFreeListRegionEnd: pointer;
@@ -586,6 +588,12 @@ begin
   end;
 end;
 
+function GetBucketTotalSlots(bucketIdx: longword): longword;
+begin
+  GetBucketTotalSlots :=
+    (PLongWord(buckets[bucketIdx].regionEnd) - PLongWord(buckets[bucketIdx].regionStart))
+    div buckets[bucketIdx].slotSize;
+end;
 
 function BorrowFreeListRegionStart: pointer;
 begin
