@@ -34,6 +34,8 @@ var
   gameTime: double;
   actualMode: TMemTestTab;
   { clicks: smallint; }
+  hasPerformedScan: boolean;
+  freeBuckets: array[0..high(BucketSizes)] of longword;
 
 procedure TestBasicAllocFree;
 var
@@ -231,6 +233,9 @@ begin
 
   { Initialise game state here }
   gameTime := 0.0;
+  hasPerformedScan := false;
+
+  FillChar(freeBuckets, sizeof(freeBuckets), 0);
 
   { DoTests; }
 
@@ -253,6 +258,13 @@ var
   regionSize, slotCount: longword;
 begin
   Cls($FF6495ED);
+
+  if not hasPerformedScan then begin
+    hasPerformedScan := true;
+
+    for a:=0 to high(BucketSizes) do
+      freeBuckets[a] := GetBucketFreeSlots(a);
+  end;
 
   if (trunc(gameTime * 4) and 1) > 0 then
     Spr(texSpecimenP92[1], 148, 84)
@@ -294,7 +306,7 @@ begin
 
       { Header row }
       PrintDefault('Bucket', 10, ViewTop + 20);
-      PrintDefault('Used', 50, ViewTop + 20);
+      PrintDefault('Free', 50, ViewTop + 20);
       PrintDefault('Total slots', 90, ViewTop + 20);
 
       for a:=0 to high(BucketWeights) do begin
@@ -304,8 +316,11 @@ begin
         { Bucket size }
         PrintDefault(I32Str(BucketSizes[a]) + ' B', 10, ViewTop + 30 + a * 10);
 
+        { Free }
+        PrintDefault(i32str(freeBuckets[a]), 50, ViewTop + 30 + a * 10);
+
         { Used }
-        PrintDefault('?', 50, ViewTop + 30 + a * 10);
+        { PrintDefault('?', 50, ViewTop + 30 + a * 10); }
 
         { Total slots }
         PrintDefault(I32Str(slotCount), 90, ViewTop + 30 + a * 10);
