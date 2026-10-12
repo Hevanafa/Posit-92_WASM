@@ -265,10 +265,10 @@ begin
     hasPerformedScan := true;
 
     for a:=0 to high(BucketSizes) do
-      freeBuckets[a] := GetBucketFreeSlots(a);
+      totalSlots[a] := GetBucketTotalSlots(a);
 
     for a:=0 to high(BucketSizes) do
-      totalSlots[a] := GetBucketTotalSlots(a);
+      freeBuckets[a] := GetBucketFreeSlots(a);
   end;
 
   if (trunc(gameTime * 4) and 1) > 0 then
@@ -301,6 +301,7 @@ begin
         + i32str(WasmMemorySize - longword(BorrowHeapRegionStart)),
         10, ViewTop);
     end;
+
     MemTestBucket: begin
       s := '';
 
@@ -328,6 +329,7 @@ begin
         PrintDefault(I32Str(totalSlots[a]), 90, ViewTop + 30 + a * 10);
       end;
     end;
+
     MemTestLinkedList: ;
   end;
 

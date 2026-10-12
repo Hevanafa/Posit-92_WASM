@@ -591,7 +591,7 @@ end;
 function GetBucketTotalSlots(bucketIdx: longword): longword;
 begin
   GetBucketTotalSlots :=
-    (PLongWord(buckets[bucketIdx].regionEnd) - PLongWord(buckets[bucketIdx].regionStart))
+    (longword(buckets[bucketIdx].regionEnd) - longword(buckets[bucketIdx].regionStart))
     div buckets[bucketIdx].slotSize;
 end;
 
