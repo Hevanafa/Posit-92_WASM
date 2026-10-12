@@ -258,7 +258,8 @@ const
 var
   a: smallint;
   s: string;
-  regionSize, slotCount: longword;
+  tableRowTop: smallint;
+  regionSize, slotCount: smallint;
 begin
   Cls($FF6495ED);
 
@@ -315,25 +316,28 @@ begin
       PrintDefault('Bucket sizes: ' + s, 10, ViewTop);
 
       { Header row }
-      PrintDefault('Bucket', 10, ViewTop + 20);
-      PrintDefault('Free', 50, ViewTop + 20);
-      PrintDefault('Total slots', 90, ViewTop + 20);
-      PrintDefault('Bad slots', 140, ViewTop + 20);
+      tableRowTop := ViewTop + 20;
+      PrintDefault('Bucket', 10, tableRowTop);
+      PrintDefault('Free', 50, tableRowTop);
+      PrintDefault('Total slots', 90, tableRowTop);
+      PrintDefault('Bad slots', 140, tableRowTop);
 
       for a:=0 to high(BucketWeights) do begin
+        tableRowTop := ViewTop + 30 + a * 10;
+
         { Bucket size }
-        PrintDefault(I32Str(BucketSizes[a]) + ' B', 10, ViewTop + 30 + a * 10);
+        PrintDefault(I32Str(BucketSizes[a]) + ' B', 10, tableRowTop);
 
         { Free }
-        PrintDefault(i32str(freeBuckets[a]), 50, ViewTop + 30 + a * 10);
+        PrintDefault(i32str(freeBuckets[a]), 50, tableRowTop);
 
         { Used }
         { PrintDefault('?', 50, ViewTop + 30 + a * 10); }
 
         { Total slots }
-        PrintDefault(I32Str(totalSlots[a]), 90, ViewTop + 30 + a * 10);
+        PrintDefault(I32Str(totalSlots[a]), 90, tableRowTop);
 
-        PrintDefault(I32Str(badSlots[a]), 140, ViewTop + 30 + a * 10);
+        PrintDefault(I32Str(badSlots[a]), 140, tableRowTop);
       end;
     end;
 
