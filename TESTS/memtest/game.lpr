@@ -245,6 +245,11 @@ begin
 end;
 
 procedure Draw;
+const
+  ViewTop = 40;
+var
+  a: smallint;
+  s: string;
 begin
   Cls($FF6495ED);
 
@@ -270,6 +275,24 @@ begin
     110, 10, 64, 18,
     U32Iif(actualMode = MemTestLinkedList, $FF5555FF, Black)) then
       actualMode := MemTestLinkedList;
+
+  case actualMode of
+    MemTestGlobal: begin
+      PrintDefault(
+        'Total heap size: '
+        + i32str(WasmMemorySize - longword(BorrowHeapRegionStart)),
+        10, ViewTop);
+    end;
+    MemTestBucket: begin
+      s := '';
+
+      for a:=0 to high(BucketSizes) do
+        s := s + I32Str(BucketSizes[a]) + StringIif(a < high(BucketSizes), ', ', '');
+
+      PrintDefault('Bucket sizes: ' + s, 10, ViewTop);
+    end;
+    MemTestLinkedList: ;
+  end;
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
