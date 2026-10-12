@@ -36,7 +36,8 @@ var
   { clicks: smallint; }
 
   hasPerformedScan: boolean;
-  totalSlots: array[0..high(BucketSizes)] of longword;
+  totalSlots,
+  badSlots,
   freeBuckets: array[0..high(BucketSizes)] of longword;
 
 procedure TestBasicAllocFree;
@@ -268,6 +269,9 @@ begin
       totalSlots[a] := GetBucketTotalSlots(a);
 
     for a:=0 to high(BucketSizes) do
+      badSlots[a] := GetBucketBadSlots(a);
+
+    for a:=0 to high(BucketSizes) do
       freeBuckets[a] := GetBucketFreeSlots(a);
   end;
 
@@ -314,6 +318,7 @@ begin
       PrintDefault('Bucket', 10, ViewTop + 20);
       PrintDefault('Free', 50, ViewTop + 20);
       PrintDefault('Total slots', 90, ViewTop + 20);
+      PrintDefault('Bad slots', 140, ViewTop + 20);
 
       for a:=0 to high(BucketWeights) do begin
         { Bucket size }
@@ -327,6 +332,8 @@ begin
 
         { Total slots }
         PrintDefault(I32Str(totalSlots[a]), 90, ViewTop + 30 + a * 10);
+
+        PrintDefault(I32Str(badSlots[a]), 140, ViewTop + 30 + a * 10);
       end;
     end;
 

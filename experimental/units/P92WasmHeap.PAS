@@ -84,6 +84,7 @@ function BorrowBucketAllocRegionStart: pointer;
 function BorrowBucketAllocRegionEnd: pointer;
 
 function GetBucketFreeSlots(bucketIdx: longword): longword;
+function GetBucketBadSlots(bucketIdx: longword): longword;
 function GetBucketTotalSlots(bucketIdx: longword): longword;
 
 function BorrowFreeListRegionStart: pointer;
@@ -585,6 +586,25 @@ begin
   while slot <> nil do begin
     inc(GetBucketFreeSlots);
     slot := slot^.next
+  end;
+end;
+
+function GetBucketBadSlots(bucketIdx: longword): longword;
+var
+  slot: PPoolSlot;
+  b: ^TBucket;
+begin
+  GetBucketBadSlots := 0;
+  b := @buckets[bucketIdx];
+  slot := b^.freeHead;
+
+  while slot <> nil do begin
+    if (PByte(slot) < b^.regionStart)
+      or (PByte(slot) + b^.slotSize > b^.regionEnd)
+      or ((longword(slot) - longword(b^.regionStart)) mod b^.slotSize <> 0) then
+        inc(GetBucketBadSlots);
+
+    slot := slot^.next;
   end;
 end;
 
