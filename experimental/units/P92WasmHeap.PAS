@@ -86,6 +86,7 @@ function BorrowBucketAllocRegionEnd: pointer;
 function GetBucketFreeSlots(bucketIdx: longword): longword;
 function GetBucketBadSlots(bucketIdx: longword): longword;
 function GetBucketTotalSlots(bucketIdx: longword): longword;
+function GetBucketSlackBytes(bucketIdx: longword): longword;
 
 function BorrowFreeListRegionStart: pointer;
 function BorrowFreeListRegionEnd: pointer;
@@ -614,6 +615,15 @@ begin
     (longword(buckets[bucketIdx].regionEnd) - longword(buckets[bucketIdx].regionStart))
     div buckets[bucketIdx].slotSize;
 end;
+
+{ Similar to GetBucketTotalSlots but gets the remainder bytes }
+function GetBucketSlackBytes(bucketIdx: longword): longword;
+begin
+  GetBucketSlackBytes :=
+    (longword(buckets[bucketIdx].regionEnd) - longword(buckets[bucketIdx].regionStart))
+    mod buckets[bucketIdx].slotSize;
+end;
+
 
 function BorrowFreeListRegionStart: pointer;
 begin
