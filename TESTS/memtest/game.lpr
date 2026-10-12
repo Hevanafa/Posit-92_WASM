@@ -292,17 +292,23 @@ begin
 
       PrintDefault('Bucket sizes: ' + s, 10, ViewTop);
 
-      { TODO: Bucket weights }
+      { Header row }
+      PrintDefault('Bucket', 10, ViewTop + 20);
+      PrintDefault('Used', 50, ViewTop + 20);
+      PrintDefault('Total slots', 90, ViewTop + 20);
 
       for a:=0 to high(BucketWeights) do begin
         regionSize := (PoolSize * BucketWeights[a]) div TotalWeights;
         slotCount := regionSize div BucketSizes[a];
 
-        { Left column }
-        PrintDefault(I32Str(BucketSizes[a]), 10, 60 + a * 10);
+        { Bucket size }
+        PrintDefault(I32Str(BucketSizes[a]) + ' B', 10, ViewTop + 30 + a * 10);
 
-        { Total column }
-        PrintDefault('?/' + I32Str(slotCount), 50, 60 + a * 10);
+        { Used }
+        PrintDefault('?', 50, ViewTop + 30 + a * 10);
+
+        { Total slots }
+        PrintDefault(I32Str(slotCount), 90, ViewTop + 30 + a * 10);
       end;
     end;
     MemTestLinkedList: ;
