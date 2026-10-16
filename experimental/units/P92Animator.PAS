@@ -92,8 +92,6 @@ begin
   anim.frameHeight := frameHeight;
   anim.interval := interval;
   anim.looping := true;
-
-  { TODO: Sanity checks }
 end;
 
 procedure UpdateSprAnim(
@@ -104,13 +102,11 @@ procedure UpdateSprAnim(
 );
 begin
   if t >= startTick + anim.interval then begin
-    if frameIdx < anim.frameCount - 1 then begin
-      inc(frameIdx);
-      startTick := startTick + anim.interval
-    end else if anim.looping then begin
+    inc(frameIdx);
+    startTick := startTick + anim.interval;
+
+    if anim.looping then
       frameIdx := 0;
-      startTick := startTick + anim.interval
-    end;
   end;
 end;
 
