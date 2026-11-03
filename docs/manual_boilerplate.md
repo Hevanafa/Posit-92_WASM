@@ -63,15 +63,7 @@ Simply by using **Run menu > Compile** (`Ctrl+F9`), it can already output `game.
 
 ## Running
 
-You can use this command:
-
-```
-npx http-server -c-1 .
-```
-
-or if you use Bun, you can use the provided `server.ts` in the `scripts` folder
-
-or just use your own HTTP serve, as long as `index.html` is accessible because it is the engine's entry point
+Refer to [local_server.md](./local_server.md) to start a local server
 
 ## Required assets
 
@@ -87,3 +79,8 @@ All the default assets are located in the `assets` directory
   - default cursor
   - Specimen P-92 (2 frames) - Posit-92's slime girl mascot head
 
+## Remove from the copy
+
+The "copy" here refers to your copy of `hello_demoscene` that you can use to build your project on
+
+(TODO: Expand on this)
