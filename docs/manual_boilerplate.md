@@ -27,9 +27,7 @@ This document is more of a guideline on how to get started with the statically l
 - Press OK
 - After that, save your project options from the Project menu, then click **Save Project**
 
-## Building
-
-### Path setup using Lazarus
+## Path setup using Lazarus
 
 - Open `project.lpi` with Lazarus IDE
 - Double check your compiler settings in **Tools menu > Options**
@@ -52,13 +50,16 @@ E:\fpc-wasm\fpcsrc
 
 As far as I know, there's no build & run option by default, since the project type is a `library` anyway
 
-### Compiling to WASM
+## Compiling to WASM
 
-There are a few options to compile the `game.wasm`:
+### Using Lazarus
+
+Simply by using **Run menu > Compile** (`Ctrl+F9`), it can already output `game.wasm`
+
+### Command line using Perl
 
 - `make_demo.pl` for demo projects,
-- `make.pl` for your own standalone project, or
-- if you use Lazarus: `Ctrl+F9`
+- `make.pl` for your own standalone project
 
 ## Running
 
