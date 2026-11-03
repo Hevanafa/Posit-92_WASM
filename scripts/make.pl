@@ -9,9 +9,10 @@ my $output_file = "game.wasm";
 my @args = (
   "-Pwasm32",
   "-Tembedded",
+  "-Fuengine",
   "-Fuunits",
-  "-Fushared",
   "-dP92_WASM",
+  "-dP92_ENABLE_SOUNDS",  # turn this off if your demo/project doesn't use sounds
   "-o$output_file",
   $primary_unit
 );
