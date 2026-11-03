@@ -8,14 +8,17 @@ This document is more of a guideline on how to get started with the statically l
 
 - Create a new folder for your project
   - For example: `Posit-92_hello_world`
+- Copy the content of `hello_demoscene` to your project directory
+
+### Second pass
+
 - Enter `experimental` then run `tsc` once
   - This step is to transpile the engine's glue code
-- Copy the content of `hello_demoscene` to your project directory
 - Copy these files to your project's root:
   - `experimental\engine\posit-92.js` - this is the engine's main glue code
   - `experimental\mixins\` then pick your mixin files, typically `p92-bmfont.mixin.js` and `p92-sound.mixin.js`
 
-### Second pass
+### Third pass
 
 - Copy `experimental\units` to your project root, then rename it as `engine`
 - Create a new folder named `units` at your project root
@@ -78,9 +81,3 @@ All the default assets are located in the `assets` directory
 - `images\`:
   - default cursor
   - Specimen P-92 (2 frames) - Posit-92's slime girl mascot head
-
-## Remove from the copy
-
-The "copy" here refers to your copy of `hello_demoscene` that you can use to build your project on
-
-(TODO: Expand on this)
