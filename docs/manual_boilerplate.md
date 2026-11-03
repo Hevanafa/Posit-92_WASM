@@ -29,7 +29,9 @@ This document is more of a guideline on how to get started with the statically l
 
 ## Building
 
-- Open `game.lpi` with Lazarus
+### Path setup using Lazarus
+
+- Open `project.lpi` with Lazarus IDE
 - Double check your compiler settings in **Tools menu > Options**
 
 The compiler executable and FPC source directory must match the target `wasm32-embedded`
@@ -50,7 +52,13 @@ E:\fpc-wasm\fpcsrc
 
 As far as I know, there's no build & run option by default, since the project type is a `library` anyway
 
-- Compile `game.wasm` or if you use Lazarus: `Ctrl+F9`
+### Compiling to WASM
+
+There are a few options to compile the `game.wasm`:
+
+- `make_demo.pl` for demo projects,
+- `make.pl` for your own standalone project, or
+- if you use Lazarus: `Ctrl+F9`
 
 ## Running
 
