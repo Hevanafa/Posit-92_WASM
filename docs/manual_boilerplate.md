@@ -10,6 +10,27 @@ This document is more of a guideline on how to get started with the statically l
   - For example: `Posit-92_hello_world`
 - Copy the content of `hello_demoscene` to your project directory
 
+#### What to copy exactly?
+
+- `game.lpr`, `assets.pas`, `project.lpi` - The Pascal entry point along with the Lazarus project information
+- `index.html`, `game.js`, `posit-92.css` - The webpage & JS entry point
+
+The thing about `assets.pas` is that you can place it in `units` or at the root project, as long as the compiler can find it
+
+#### Required assets
+
+All the default assets are located in the `assets` directory
+
+- `fonts\`:
+  - P92 Sans BMFont images & font definitions
+  - P92 Boot font
+  - Font licence
+- `btn_play.png` - Posit-92 logo used by the play button
+- `posit-92_64px.png` - required by the loading screen before WASM initialisation
+- `images\`:
+  - default cursor
+  - Specimen P-92 (2 frames) - Posit-92's slime girl mascot head
+
 ### Second pass
 
 - Enter `experimental` then run `tsc` once
@@ -67,17 +88,3 @@ Simply by using **Run menu > Compile** (`Ctrl+F9`), it can already output `game.
 ## Running
 
 Refer to [local_server.md](./local_server.md) to start a local server
-
-## Required assets
-
-All the default assets are located in the `assets` directory
-
-- `fonts\`:
-  - P92 Sans BMFont images & font definitions
-  - P92 Boot font
-  - Font licence
-- `btn_play.png` - Posit-92 logo used by the play button
-- `posit-92_64px.png` - required by the loading screen before WASM initialisation
-- `images\`:
-  - default cursor
-  - Specimen P-92 (2 frames) - Posit-92's slime girl mascot head
