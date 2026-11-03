@@ -20,7 +20,7 @@ This document is more of a guideline on how to get started with the statically l
 - Copy `experimental\units` to your project root, then rename it as `engine`
 - Create a new folder named `units` at your project root
   - This is where your custom units will live
-- Open `game.lpi` with Lazarus
+- Open `project.lpi` with Lazarus
 - Edit the unit paths in **Project menu > Project options**, then scroll down to **Compiler Options**
 - Click **Paths**
 - Then, change **Other unit files (-Fu)** to `engine;units`
