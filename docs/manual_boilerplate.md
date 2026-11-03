@@ -75,13 +75,15 @@ or just use your own HTTP serve, as long as `index.html` is accessible because i
 
 ## Required assets
 
-- `assets\fonts`:
+All the default assets are located in the `assets` directory
+
+- `fonts\`:
   - P92 Sans BMFont images & font definitions
   - P92 Boot font
   - Font licence
-- `assets\btn_play.png` - Posit-92 logo used by the play button
-- `assets\posit-92_64px.png` - required by the loading screen before WASM initialisation
-- `assets\images`:
+- `btn_play.png` - Posit-92 logo used by the play button
+- `posit-92_64px.png` - required by the loading screen before WASM initialisation
+- `images\`:
   - default cursor
-  - Specimen P-92 - Posit-92's slime girl mascot head
+  - Specimen P-92 (2 frames) - Posit-92's slime girl mascot head
 
