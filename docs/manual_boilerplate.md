@@ -4,6 +4,12 @@ This document is more of a guideline on how to get started with the statically l
 
 ## Preparation
 
+
+
+The project structure should look more or less like this when you're done:
+
+![boilerplate_prep_expectation.png](./boilerplate_prep_expectation.png)
+
 ### First pass
 
 - Create a new folder for your project
@@ -13,7 +19,7 @@ This document is more of a guideline on how to get started with the statically l
 #### What to copy exactly?
 
 - `game.lpr`, `assets.pas`, `project.lpi` - The Pascal entry point along with the Lazarus project information
-- `index.html`, `game.js`, `posit-92.css` - The webpage & JS entry point
+- `index.html`, `favicon.ico`, `game.js`, `posit-92.css` - The webpage & JS entry point
 
 The thing about `assets.pas` is that you can place it in `units` or at the root project, as long as the compiler can find it
 
@@ -42,6 +48,7 @@ All the default assets are located in the `assets` directory
 ### Third pass
 
 - Copy `experimental\units` to your project root, then rename it as `engine`
+  - This is to differentiate with Posit-92's built-in unit files
 - Create a new folder named `units` at your project root
   - This is where your custom units will live
 - Open `project.lpi` with Lazarus
