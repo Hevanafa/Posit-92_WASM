@@ -13,6 +13,7 @@ my @args = (
   "-Tembedded",
   "-Fu../../experimental/units",
   "-dP92_WASM",
+  "-dP92_ENABLE_SOUNDS",  # turn this off if your demo/project doesn't use sounds
   "-o$output_file",
   $primary_unit
 );
