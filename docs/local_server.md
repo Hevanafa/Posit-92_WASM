@@ -33,13 +33,11 @@ npx http-server -p 8008 -c-1
 
 **Perl http_this**
 
-This requires the `App::HTTPThis` module.  Install it with:
+This requires the `App::HTTPThis` module; tested with Perl v5.38.2.  Install it with:
 
 ```powershell
 cpanm App::HTTPThis
 ```
-
-Tested with Perl v5.38.2
 
 Then, after the installation is complete, use this command:
 
