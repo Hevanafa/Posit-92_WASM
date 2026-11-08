@@ -105,23 +105,21 @@ procedure CircFill(const cx, cy, radius: smallint; const colour: longword);
 var
   x, y, p: smallint;
   a: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
+  if GetAlpha(colour) < 255 then exit;
 
   x := 0;
   y := radius;
   p := 3 - 2 * radius;
-  solid := SolidColour(colour);
 
   while x <= y do begin
     for a:=cx-x to cx+x do begin
-      pset(a, cy + y, solid);
-      pset(a, cy - y, solid)
+      pset(a, cy + y, colour);
+      pset(a, cy - y, colour)
     end;
     for a:=cx-y to cx+y do begin
-      pset(a, cy + x, solid);
-      pset(a, cy - x, solid)
+      pset(a, cy + x, colour);
+      pset(a, cy - x, colour)
     end;
 
     if p < 0 then

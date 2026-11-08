@@ -62,11 +62,18 @@ begin
       Random(VGAHeight + 20) - 10,
       $FF000000 or random($1000000)); }
 
-  for a:=1 to OpCount do
+  { for a:=1 to OpCount do
     VLine(
       Random(VGAWidth + 20) - 10,
       Random(VGAHeight + 20) + 10,
       Random(VGAHeight + 20) - 10,
+      $FF000000 or random($1000000)); }
+
+  for a:=1 to OpCount do
+    CircFill(
+      Random(VGAWidth + 20) - 10,
+      random(VGAHeight + 20) - 10,
+      5 + random(6),
       $FF000000 or random($1000000));
 
   endTick := GetTimer;
