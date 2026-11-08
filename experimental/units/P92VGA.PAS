@@ -175,7 +175,7 @@ begin
 
   { Render logic }
 
-  for b := startY to startY do begin
+  for b := startY to endY do begin
     for a := startX to endX do begin
       offsetPtr := PLongWord(@activeSurface^[(b * _vgaWidth + a) * 4]);
 
@@ -183,9 +183,7 @@ begin
 
       offsetPtr^ :=
         (ABGR and $FF000000)
-        or (ABGR shr 16 and $FF shr 1 shl 16)
-        or (ABGR shr 8 and $FF shr 1 shl 8)
-        or (ABGR and $FF shr 1);
+        or (ABGR shr 1 and $007F7F7F);
     end;
   end;
 end;
