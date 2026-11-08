@@ -44,6 +44,7 @@ procedure Arc(
   const cx, cy, radius: smallint;
   const startRad, endRad: double;
   const colour: longword);
+
 procedure Pie(
   const cx, cy, radius: smallint;
   const startRad, endRad: double;
@@ -440,10 +441,8 @@ var
   temp, minY, maxY, y: smallint;
   xa, xb: single;
   dxa, dxb: single;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   { Handle bubble sort }
 
@@ -474,7 +473,7 @@ begin
     dxb := (x2 - x1) / (y2 - y1);  { short edge }
 
     for y:=y1 to y2 - 1 do begin
-      HLine(round(xa), round(xb), y, solid);
+      HLine(round(xa), round(xb), y, colour);
       xa := xa + dxa;
       xb := xb + dxb
     end;
@@ -490,7 +489,7 @@ begin
     dxb := (x3 - x2) / (y3 - y2);
 
     for y:=y2 to y3 do begin
-      HLine(round(xa), round(xb), y, solid);
+      HLine(round(xa), round(xb), y, colour);
       xa := xa + dxa;
       xb := xb + dxb
     end;
