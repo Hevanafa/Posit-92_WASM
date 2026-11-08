@@ -66,7 +66,7 @@ end;
 
 procedure DrawOnce;
 const
-  OpCount = 1000;
+  OpCount = 50000;
 var
   a: word;
   startTick, endTick: double;
@@ -84,7 +84,7 @@ begin
 
   endTick := GetTimer;
 
-  PrintDefault(format('%.4f s', [endTick - startTick]), 0, 0);
+  PrintDefault(format('%d ops done in %.4f s', [OpCount, endTick - startTick]), 0, 0);
 end;
 
 procedure Init;

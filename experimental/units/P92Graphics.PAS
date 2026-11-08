@@ -164,7 +164,7 @@ end;
 
 procedure HLine(const x0, x1, y: smallint; const colour: longword);
 var
-  x, startX, endX: smallint;
+  startX, endX: smallint;
   ABGR: longword;
 begin
   if GetAlpha(colour) < 255 then exit;
@@ -188,10 +188,12 @@ begin
 
   { Render logic }
 
-  ABGR := ARGBtoABGR(solid);
+  ABGR := ARGBtoABGR(colour);
 
-  for x:=startX to endX do
-    UnsafePSet(x, y, ABGR);
+  FillDWord(
+    BorrowSurfacePtr^[(y * VGAWidth + startX) * 4],
+    endX - startX + 1,
+    ABGR);
 end;
 
 procedure VLine(const x, y0, y1: smallint; const colour: longword);
