@@ -197,7 +197,7 @@ end;
 procedure VLine(const x, y0, y1: smallint; const colour: longword);
 var
   y, startY, endY: smallint;
-
+  offsetPtr: PLongWord;
   ABGR: longword;
 begin
   if GetAlpha(colour) < 255 then exit;
@@ -221,8 +221,12 @@ begin
 
   ABGR := ARGBtoABGR(colour);
 
-  for y := startY to endY do
-    PLongWord(@BorrowSurfacePtr[(y * VGAWidth + x) * 4])^ := ABGR;
+  offsetPtr := PLongWord(@BorrowSurfacePtr[(startY * VGAWidth + x) * 4]);
+
+  for y := startY to endY do begin
+    offsetPtr^ := ABGR;
+    inc(offsetPtr, VGAWidth)
+  end;
 end;
 
 
