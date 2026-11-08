@@ -75,10 +75,17 @@ begin
 
   startTick := GetTimer;
 
-  for a:=1 to OpCount do
+  { for a:=1 to OpCount do
     HLine(
       Random(VGAWidth + 20) - 10,
       Random(VGAWidth + 20) + 10,
+      Random(VGAHeight + 20) - 10,
+      $FF000000 or random($1000000)); }
+
+  for a:=1 to OpCount do
+    VLine(
+      Random(VGAWidth + 20) - 10,
+      Random(VGAHeight + 20) + 10,
       Random(VGAHeight + 20) - 10,
       $FF000000 or random($1000000));
 
