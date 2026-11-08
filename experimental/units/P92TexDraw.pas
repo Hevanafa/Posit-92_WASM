@@ -72,10 +72,10 @@ var
   texture: PSoftwareTex;
   startX, endX, startY, endY: smallint;
 
-  destRowBase, destStride: longword;
-
   srcOffsetPtr, destOffsetPtr: PLongWord;
-  srcRowBasePtr: PLongWord;
+
+  { skipped pixels after x increment }
+  srcSkip, destSkip: longword;
 
   px, py: smallint;
   alpha: byte;
@@ -96,22 +96,29 @@ begin
 
   { Render logic }
 
-  destStride := VGAWidth * 4;
+  srcOffsetPtr := PLongWord(@texture^.pixelData[
+    (startY * texture^.width + startX) * 4]);
+
+  destOffsetPtr := PLongWord(@BorrowSurfacePtr^[
+    ((y + startY) * VGAWidth + (x + startX)) * 4]);
+
+  srcSkip := texture^.width - (endX - startX + 1);
+  destSkip := VGAWidth - (endX - startX + 1);
 
   for py := startY to endY do begin
-    srcRowBasePtr := PLongWord(@texture^.pixelData[py * texture^.width * 4]);
-
-    destRowBase := (y + py) * destStride;
-
     for px := startX to endX do begin
-      srcOffsetPtr := srcRowBasePtr + px;
       alpha := PByte(srcOffsetPtr)[3];
 
-      if alpha < 255 then continue;
+      if alpha = 255 then
+        destOffsetPtr^ := srcOffsetPtr^;
 
-      destOffsetPtr := PLongWord(@BorrowSurfacePtr^[destRowBase + (x + px) * 4]);
-      destOffsetPtr^ := srcOffsetPtr^
+      { These are incremented by elements, not by byte }
+      inc(srcOffsetPtr);
+      inc(destOffsetPtr)
     end;
+
+    inc(srcOffsetPtr, srcSkip);
+    inc(destOffsetPtr, destSkip)
   end;
 end;
 
