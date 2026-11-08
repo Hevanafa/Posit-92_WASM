@@ -10,10 +10,9 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
-  SysUtils,
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
   P92Keyboard, P92Mouse,
-  P92Graphics, P92Tex, P92TexDraw, P92Timing, P92VGA,
+  P92Tex, P92TexDraw, P92Timing, P92VGA,
   Assets;
 
 var
@@ -44,7 +43,7 @@ begin
   FreeTex(texSpecimenP92[1]);
 end;
 
-{ procedure Update;
+procedure Update;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
@@ -62,30 +61,7 @@ begin
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
-}
 
-procedure DrawOnce;
-const
-  OpCount = 50000;
-var
-  a: word;
-  startTick, endTick: double;
-begin
-  cls($ff6495ed);
-
-  startTick := GetTimer;
-
-  for a:=1 to OpCount do
-    HLine(
-      Random(VGAWidth + 20) - 10,
-      Random(VGAWidth + 20) + 10,
-      Random(VGAHeight + 20) - 10,
-      $FF000000 or random($1000000));
-
-  endTick := GetTimer;
-
-  PrintDefault(format('%d ops done in %.4f s', [OpCount, endTick - startTick]), 0, 0);
-end;
 
 procedure Init;
 var
@@ -95,11 +71,9 @@ begin
 
   config.OnPreload := @OnPreload;
   config.OnReady := @OnReady;
-  { config.Update := @Update;
-  config.Draw := @Draw; }
-  config.DrawOnce := @DrawOnce;
+  config.Update := @Update;
+  config.Draw := @Draw;
   config.OnCleanup := @OnCleanup;
-  config.LoadDefaultCursor := false;
 
   P92Start(config);
 end;
