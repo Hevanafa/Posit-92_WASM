@@ -147,9 +147,27 @@ end;
 procedure RectDarken(const x0, y0, x1, y1: smallint);
 var
   a, b: smallint;
+  startX, endX, startY, endY: smallint;
   offsetPtr: PLongWord;
   ABGR: longword;
 begin
+  { Handle clipping }
+
+  startX := x0;  endX := x1;
+
+  if startX > endX then begin
+    startX := x1;  endX := x0
+  end;
+
+  if startX < _clipX1 then startX := _clipX1;
+  if endX > _clipX2   then endX := _clipX2;
+
+  { TODO: Handle Y clipping }
+
+  if (startX > endX) or (startY > endY) then exit;
+
+  { Render logic }
+
   for b:=y0 to y1 do begin
     for a:=x0 to x1 do begin
       offsetPtr := PLongWord(@activeSurface^[(b * _vgaWidth + a) * 4]);
