@@ -52,6 +52,9 @@ procedure Cls(const colour: longword);
 { colour format: $AARRGGBB }
 procedure ClsBlend(const colour: longword);
 
+{ Unsafe: No bounds checking }
+procedure RectDarken(const x0, y0, x1, y1: smallint);
+
 { Returns colour in ABGR }
 function UnsafePGet(const x, y: smallint): longword;
 procedure UnsafePSet(const x, y: smallint; const ABGR: longword);
@@ -139,6 +142,24 @@ end;
 function BorrowSurfacePtr: PByteArray;
 begin
   BorrowSurfacePtr := activeSurface
+end;
+
+procedure RectDarken(const x0, y0, x1, y1: smallint);
+var
+  a, b: smallint;
+  ABGR: longword;
+begin
+  for b:=y0 to y1 do begin
+    for a:=x0 to x1 do begin
+      ABGR := UnsafePGet(a, b);
+
+      PLongWord(@activeSurface^[b * VGAWidth + a])^ :=
+        (ABGR and $FF000000)
+        or (ABGR and $FF0000 shr 1)
+        or (ABGR and $FF00 shr 1)
+        or (ABGR and $FF shr 1);
+    end;
+  end;
 end;
 
 function UnsafePGet(const x, y: smallint): longword; inline;
