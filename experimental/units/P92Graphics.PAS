@@ -146,10 +146,8 @@ end;
 procedure RectFill(x0, y0, x1, y1: smallint; const colour: longword);
 var
   b, temp: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   if x0 > x1 then begin
     temp := x0; x0 := x1; x1 := temp
@@ -158,8 +156,8 @@ begin
     temp := y0; y0 := y1; y1 := temp
   end;
 
-  for b:=y0 to y1 do
-    HLine(x0, x1, b, solid);
+  for b := y0 to y1 do
+    HLine(x0, x1, b, colour);
 end;
 
 procedure HLine(const x0, x1, y: smallint; const colour: longword);
