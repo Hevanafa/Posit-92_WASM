@@ -16,8 +16,11 @@ uses
   Assets;
 
 var
+  lastT: boolean;
+
   { Game state variables }
   gameTime: double;
+  isDarken: boolean;
 
 { Load game assets here }
 procedure OnPreload;
@@ -31,7 +34,9 @@ procedure OnReady;
 begin
   HideCursor;
 
-  gameTime := 0.0
+  gameTime := 0.0;
+  lastT := false;
+  isDarken := false;
 end;
 
 { Free resources here }
@@ -45,6 +50,13 @@ procedure Update;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
+  if lastT <> IsKeyDown(SC_T) then begin
+    lastT := IsKeyDown(SC_T);
+
+    if lastT then
+      isDarken := not isDarken;
+  end;
+
   gameTime := gameTime + DeltaTime
 end;
 
@@ -56,6 +68,8 @@ begin
     Spr(texSpecimenP92[1], 148, 84)
   else
     Spr(texSpecimenP92[0], 148, 84);
+
+  if isDarken then RectDarken(100, 100, 129, 119);
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
