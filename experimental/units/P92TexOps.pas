@@ -11,8 +11,7 @@ interface
 
 uses P92AssetHandles, P92AssetRegistry, P92Tex;
 
-{ This procedure is destructive }
-procedure SprErase(const texHandle: TTextureHandle; const colour: longword);
+procedure TexErase(const texHandle: TTextureHandle; const colour: longword);
 
 procedure SprToDest(const src, dest: TTextureHandle; const x, y: smallint);
 
@@ -31,7 +30,7 @@ implementation
 
 uses P92Maths, P92Panic, P92Colour, P92VGA;
 
-procedure SprErase(const texHandle: TTextureHandle; const colour: longword);
+procedure TexErase(const texHandle: TTextureHandle; const colour: longword);
 var
   texture: PSoftwareTex;
   px, py: smallint;
