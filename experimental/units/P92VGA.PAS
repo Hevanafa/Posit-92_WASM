@@ -158,8 +158,8 @@ begin
 
       offsetPtr^ :=
         (ABGR and $FF000000)
-        or (ABGR and $FF0000 shr 1)
-        or (ABGR and $FF00 shr 1)
+        or (ABGR shr 16 and $FF shr 1 shl 16)
+        or (ABGR shr 8 and $FF shr 1 shl 8)
         or (ABGR and $FF shr 1);
     end;
   end;
