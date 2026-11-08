@@ -197,9 +197,9 @@ end;
 procedure VLine(const x, y0, y1: smallint; const colour: longword);
 var
   y, startY, endY: smallint;
-  solid, ABGR: longword;
+  ABGR: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
+  if GetAlpha(colour) < 255 then exit;
 
   { Handle edge cases }
 
@@ -215,12 +215,12 @@ begin
 
   if startY < clipY1 then startY := clipY1;
   if endY > clipY2 then endY := clipY2;
+
   if startY > endY then exit;
 
   { Render logic }
 
-  solid := SolidColour(colour);
-  ABGR := ARGBtoABGR(solid);
+  ABGR := ARGBtoABGR(colour);
 
   for y := startY to endY do
     UnsafePSet(x, y, ABGR);
@@ -233,6 +233,7 @@ var
   solid: longword;
 begin
   if GetAlpha(colour) = 0 then exit;
+
   solid := SolidColour(colour);
 
   if x0 = x1 then begin
