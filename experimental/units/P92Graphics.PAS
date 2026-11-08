@@ -197,6 +197,7 @@ end;
 procedure VLine(const x, y0, y1: smallint; const colour: longword);
 var
   y, startY, endY: smallint;
+
   ABGR: longword;
 begin
   if GetAlpha(colour) < 255 then exit;
@@ -206,11 +207,9 @@ begin
   if (x < ClipX1) or (x > ClipX2) then exit;
 
   if y1 < y0 then begin
-    startY := y1;
-    endY := y0
+    startY := y1;  endY := y0
   end else begin
-    startY := y0;
-    endY := y1
+    startY := y0;  endY := y1
   end;
 
   if startY < clipY1 then startY := clipY1;
@@ -223,7 +222,7 @@ begin
   ABGR := ARGBtoABGR(colour);
 
   for y := startY to endY do
-    UnsafePSet(x, y, ABGR);
+    PLongWord(@BorrowSurfacePtr[(y * VGAWidth + x) * 4])^ := ABGR;
 end;
 
 
