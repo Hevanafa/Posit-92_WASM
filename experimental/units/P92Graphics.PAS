@@ -72,24 +72,22 @@ end;
 procedure Circ(const cx, cy, radius: smallint; const colour: longword);
 var
   x, y, p: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
+  if GetAlpha(colour) < 255 then exit;
 
   x := 0;
   y := radius;
   p := 3 - 2 * radius;
-  solid := SolidColour(colour);
 
   while x <= y do begin
-    PSet(cx + x, cy + y, solid);
-    PSet(cx - x, cy + y, solid);
-    PSet(cx + x, cy - y, solid);
-    PSet(cx - x, cy - y, solid);
-    PSet(cx + y, cy + x, solid);
-    PSet(cx - y, cy + x, solid);
-    PSet(cx + y, cy - x, solid);
-    PSet(cx - y, cy - x, solid);
+    PSet(cx + x, cy + y, colour);
+    PSet(cx - x, cy + y, colour);
+    PSet(cx + x, cy - y, colour);
+    PSet(cx - x, cy - y, colour);
+    PSet(cx + y, cy + x, colour);
+    PSet(cx - y, cy + x, colour);
+    PSet(cx + y, cy - x, colour);
+    PSet(cx - y, cy - x, colour);
 
     if p < 0 then
       p := p+4 * x+6
