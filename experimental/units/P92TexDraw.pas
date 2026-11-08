@@ -72,11 +72,12 @@ var
   texture: PSoftwareTex;
   startX, endX, startY, endY: smallint;
 
-  srcRowBase, srcStride: longword;
   destRowBase, destStride: longword;
 
-  px, py: smallint;
   srcOffsetPtr, destOffsetPtr: PLongWord;
+  srcRowBasePtr: PLongWord;
+
+  px, py: smallint;
   alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
@@ -95,15 +96,15 @@ begin
 
   { Render logic }
 
-  srcStride := texture^.width * 4;
   destStride := VGAWidth * 4;
 
   for py := startY to endY do begin
-    srcRowBase := py * srcStride;
+    srcRowBasePtr := PLongWord(@texture^.pixelData[py * texture^.width * 4]);
+
     destRowBase := (y + py) * destStride;
 
     for px := startX to endX do begin
-      srcOffsetPtr := PLongWord(@texture^.pixelData[srcRowBase + px * 4]);
+      srcOffsetPtr := srcRowBasePtr + px;
       alpha := PByte(srcOffsetPtr)[3];
 
       if alpha < 255 then continue;
