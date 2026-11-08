@@ -76,8 +76,7 @@ var
   destRowBase, destStride: longword;
 
   px, py: smallint;
-  { offset to the pixel data }
-  offset: longword;
+  srcOffsetPtr, destOffsetPtr: PLongWord;
   alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
@@ -104,13 +103,13 @@ begin
     destRowBase := (y + py) * destStride;
 
     for px := startX to endX do begin
-      offset := srcRowBase + px * 4;
-      alpha := texture^.pixelData[offset + 3];
+      srcOffsetPtr := PLongWord(@texture^.pixelData[srcRowBase + px * 4]);
+      alpha := PByte(srcOffsetPtr)[3];
 
       if alpha < 255 then continue;
 
-      PLongWord(@BorrowSurfacePtr^[destRowBase + (x + px) * 4])^ :=
-        PLongWord(@texture^.pixelData[offset])^
+      destOffsetPtr := PLongWord(@BorrowSurfacePtr^[destRowBase + (x + px) * 4]);
+      destOffsetPtr^ := srcOffsetPtr^
     end;
   end;
 end;
