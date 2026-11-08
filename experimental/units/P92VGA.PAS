@@ -162,14 +162,21 @@ begin
   if startX < _clipX1 then startX := _clipX1;
   if endX > _clipX2   then endX := _clipX2;
 
-  { TODO: Handle Y clipping }
+  startY := y0;  endY := y1;
+
+  if startY > endY then begin
+    startY := y1;  endY := y0;
+  end;
+
+  if startY < _clipY1 then startY := _clipY1;
+  if endY > _clipY2   then endY := _clipY2;
 
   if (startX > endX) or (startY > endY) then exit;
 
   { Render logic }
 
-  for b:=y0 to y1 do begin
-    for a:=x0 to x1 do begin
+  for b := startY to startY do begin
+    for a := startX to endX do begin
       offsetPtr := PLongWord(@activeSurface^[(b * _vgaWidth + a) * 4]);
 
       ABGR := offsetPtr^;

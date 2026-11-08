@@ -69,7 +69,7 @@ begin
   else
     Spr(texSpecimenP92[0], 148, 84);
 
-  if isDarken then RectDarken(100, 100, 129, 119);
+  if isDarken then RectDarken(100, 100, 179, 119);
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
