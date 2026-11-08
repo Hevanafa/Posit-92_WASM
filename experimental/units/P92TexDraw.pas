@@ -71,7 +71,8 @@ procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);
 var
   texture: PSoftwareTex;
   startX, endX, startY, endY: smallint;
-  rowBase, stride: longword;
+
+  srcRowBase, srcStride: longword;
   destRowBase, destStride: longword;
 
   px, py: smallint;
@@ -95,15 +96,15 @@ begin
 
   { Render logic }
 
-  stride := texture^.width * 4;
+  srcStride := texture^.width * 4;
   destStride := VGAWidth * 4;
 
   for py := startY to endY do begin
-    rowBase := py * stride;
+    srcRowBase := py * srcStride;
     destRowBase := (y + py) * destStride;
 
     for px := startX to endX do begin
-      offset := rowBase + px * 4;
+      offset := srcRowBase + px * 4;
       alpha := texture^.pixelData[offset + 3];
 
       if alpha < 255 then continue;
