@@ -10,17 +10,15 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
+  SysUtils,
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
   P92Keyboard, P92Mouse,
-  P92Tex, P92TexDraw, P92Timing, P92VGA,
+  P92Graphics, P92Tex, P92TexDraw, P92Timing, P92VGA,
   Assets;
 
 var
-  lastT: boolean;
-
   { Game state variables }
   gameTime: double;
-  isDarken: boolean;
 
 { Load game assets here }
 procedure OnPreload;
@@ -34,9 +32,9 @@ procedure OnReady;
 begin
   HideCursor;
 
+  RandSeed := 255;
+
   gameTime := 0.0;
-  lastT := false;
-  isDarken := false;
 end;
 
 { Free resources here }
@@ -46,16 +44,9 @@ begin
   FreeTex(texSpecimenP92[1]);
 end;
 
-procedure Update;
+{ procedure Update;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
-
-  if lastT <> IsKeyDown(SC_T) then begin
-    lastT := IsKeyDown(SC_T);
-
-    if lastT then
-      isDarken := not isDarken;
-  end;
 
   gameTime := gameTime + DeltaTime
 end;
@@ -69,9 +60,31 @@ begin
   else
     Spr(texSpecimenP92[0], 148, 84);
 
-  if isDarken then RectDarken(100, 100, 179, 119);
-
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
+end;
+}
+
+procedure DrawOnce;
+const
+  OpCount = 1000;
+var
+  a: word;
+  startTick, endTick: double;
+begin
+  cls($ff6495ed);
+
+  startTick := GetTimer;
+
+  for a:=1 to OpCount do
+    HLine(
+      Random(VGAWidth + 20) - 10,
+      Random(VGAWidth + 20) + 10,
+      Random(VGAHeight + 20) - 10,
+      $FF000000 or random($1000000));
+
+  endTick := GetTimer;
+
+  PrintDefault(format('%.4f s', [endTick - startTick]), 0, 0);
 end;
 
 procedure Init;
@@ -82,9 +95,11 @@ begin
 
   config.OnPreload := @OnPreload;
   config.OnReady := @OnReady;
-  config.Update := @Update;
-  config.Draw := @Draw;
+  { config.Update := @Update;
+  config.Draw := @Draw; }
+  config.DrawOnce := @DrawOnce;
   config.OnCleanup := @OnCleanup;
+  config.LoadDefaultCursor := false;
 
   P92Start(config);
 end;
