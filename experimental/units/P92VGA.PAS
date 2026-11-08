@@ -148,7 +148,7 @@ procedure RectDarken(const x0, y0, x1, y1: smallint);
 var
   a, b: smallint;
   startX, endX, startY, endY: smallint;
-  offsetPtr: PLongWord;
+  rowBasePtr: PLongWord;
   ABGR: longword;
 begin
   { Handle clipping }
@@ -175,16 +175,20 @@ begin
 
   { Render logic }
 
+  rowBasePtr := PLongWord(@activeSurface^[startY * _vgaWidth * 4]);
+
   for b := startY to endY do begin
     for a := startX to endX do begin
-      offsetPtr := PLongWord(@activeSurface^[(b * _vgaWidth + a) * 4]);
+      ABGR := rowBasePtr[a];
 
-      ABGR := offsetPtr^;
+      { The trailing $00 of $007F7F7F is obligatory }
 
-      offsetPtr^ :=
+      rowBasePtr[a] :=
         (ABGR and $FF000000)
         or (ABGR shr 1 and $007F7F7F);
     end;
+
+    inc(rowBasePtr, _vgaWidth)
   end;
 end;
 
