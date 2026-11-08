@@ -24,9 +24,6 @@ procedure Spr(const texHandle: TTextureHandle; const x, y: smallint);
 
 procedure SprTint(const texHandle: TTextureHandle; const x, y: smallint; const colour: longword);
 
-{ This procedure is destructive }
-procedure SprClear(const texHandle: TTextureHandle; const colour: longword);
-
 procedure SprRegion(
   const texHandle: TTextureHandle;
   const srcX, srcY, srcW, srcH: smallint;
@@ -217,22 +214,6 @@ begin
         ABGR;
     end;
   end;
-end;
-
-procedure SprClear(const texHandle: TTextureHandle; const colour: longword);
-var
-  texture: PSoftwareTex;
-  px, py: smallint;
-  ABGR: longword;
-begin
-  if not IsTexReady(texHandle) then exit;
-
-  texture := BorrowTexPtr(texHandle);
-  ABGR := ARGBtoABGR(colour);
-
-  for py:=0 to texture^.height - 1 do
-    for px:=0 to texture^.width - 1 do
-      UnsafeTexPSet(texture, px, py, ABGR);
 end;
 
 {

@@ -11,6 +11,9 @@ interface
 
 uses P92AssetHandles, P92AssetRegistry, P92Tex;
 
+{ This procedure is destructive }
+procedure SprClear(const texHandle: TTextureHandle; const colour: longword);
+
 procedure SprToDest(const src, dest: TTextureHandle; const x, y: smallint);
 
 procedure SprRegionToDest(
@@ -27,6 +30,22 @@ procedure ReplaceTexColour(const texHandle: TTextureHandle; oldColour, newColour
 implementation
 
 uses P92Maths, P92Panic, P92Colour, P92VGA;
+
+procedure SprClear(const texHandle: TTextureHandle; const colour: longword);
+var
+  texture: PSoftwareTex;
+  px, py: smallint;
+  ABGR: longword;
+begin
+  if not IsTexReady(texHandle) then exit;
+
+  texture := BorrowTexPtr(texHandle);
+  ABGR := ARGBtoABGR(colour);
+
+  for py:=0 to texture^.height - 1 do
+    for px:=0 to texture^.width - 1 do
+      UnsafeTexPSet(texture, px, py, ABGR);
+end;
 
 procedure SprToDest(const src, dest: TTextureHandle; const x, y: smallint);
 var
