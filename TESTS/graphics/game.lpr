@@ -44,26 +44,6 @@ begin
   FreeTex(texSpecimenP92[1]);
 end;
 
-{ procedure Update;
-begin
-  if IsKeyDown(SC_ESCAPE) then SignalDone;
-
-  gameTime := gameTime + DeltaTime
-end;
-
-procedure Draw;
-begin
-  Cls($FF6495ED);
-
-  if (trunc(gameTime * 4) and 1) > 0 then
-    Spr(texSpecimenP92[1], 148, 84)
-  else
-    Spr(texSpecimenP92[0], 148, 84);
-
-  PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
-end;
-}
-
 procedure DrawOnce;
 const
   OpCount = 50000;
@@ -102,8 +82,6 @@ begin
 
   config.OnPreload := @OnPreload;
   config.OnReady := @OnReady;
-  { config.Update := @Update;
-  config.Draw := @Draw; }
   config.DrawOnce := @DrawOnce;
   config.OnCleanup := @OnCleanup;
   config.LoadDefaultCursor := false;
