@@ -165,11 +165,11 @@ end;
 procedure HLine(const x0, x1, y: smallint; const colour: longword);
 var
   x, startX, endX: smallint;
-  solid, ABGR: longword;
+  ABGR: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
+  if GetAlpha(colour) < 255 then exit;
 
-  { Handle edge cases }
+  { Handle clipping }
 
   if (y < ClipY1) or (y > ClipY2) then exit;
 
@@ -183,11 +183,11 @@ begin
 
   if startX < ClipX1 then startX := ClipX1;
   if endX > ClipX2 then endX := ClipX2;
+
   if startX > endX then exit;
 
   { Render logic }
 
-  solid := SolidColour(colour);
   ABGR := ARGBtoABGR(solid);
 
   for x:=startX to endX do
