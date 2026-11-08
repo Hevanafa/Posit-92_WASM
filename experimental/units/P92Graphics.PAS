@@ -34,7 +34,7 @@ procedure LineThick(x0, y0, x1, y1, thickness: smallint; const colour: longword)
 procedure Ellipse(const cx, cy, rx, ry: smallint; const colour: longword);
 procedure Ellipsefill(const cx, cy, rx, ry: smallint; const colour: longword);
 
-procedure Tri(x0, y0, x1, y1, x2, y2: smallint; const colour: longword);
+procedure Tri(const x0, y0, x1, y1, x2, y2: smallint; const colour: longword);
 procedure TriFill(x1, y1, x2, y2, x3, y3: smallint; const colour: longword);
 
 procedure Polygon(points: array of TPoint; const colour: longword);
@@ -405,7 +405,7 @@ begin
     inc(x)
   end;
 
-  { Handle slope >= -1}
+  { Handle slope >= -1 }
   p := round(
     ry2 * (x + 0.5) * (x + 0.5)
     + rx2 * (y - 1) * (y - 1)
@@ -426,16 +426,13 @@ begin
   end;
 end;
 
-procedure Tri(x0, y0, x1, y1, x2, y2: smallint; const colour: longword);
-var
-  solid: longword;
+procedure Tri(const x0, y0, x1, y1, x2, y2: smallint; const colour: longword);
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
-  Line(x0, y0, x1, y1, solid);
-  Line(x1, y1, x2, y2, solid);
-  Line(x0, y0, x2, y2, solid)
+  Line(x0, y0, x1, y1, colour);
+  Line(x1, y1, x2, y2, colour);
+  Line(x0, y0, x2, y2, colour)
 end;
 
 procedure TriFill(x1, y1, x2, y2, x3, y3: smallint; const colour: longword);
@@ -449,6 +446,7 @@ begin
   solid := SolidColour(colour);
 
   { Handle bubble sort }
+
   if y1 > y2 then begin
     temp := y1; y1 := y2; y2 := temp;
     temp := x1; x1 := x2; x2 := temp;
@@ -465,9 +463,11 @@ begin
   MinY := y1; maxY := y3;
 
   { Handle flat triangle / degenerate }
+
   if minY = maxY then exit;
 
   { Draw top half }
+
   if y2 > y1 then begin
     xa:=x1; xb:=x1;
     dxa := (x3 - x1) / (y3 - y1);  { long edge }
@@ -481,6 +481,7 @@ begin
   end;
 
   { Draw bottom half }
+
   if y3 > y2 then begin
     { Continue long edge }
     xa := x1 + (x3 - x1) * ((y2 - y1) / (y3 - y1));
