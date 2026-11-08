@@ -180,7 +180,8 @@ begin
     for a := startX to endX do begin
       ABGR := rowBasePtr[a];
 
-      { The trailing $00 of $007F7F7F is obligatory }
+      { The high byte $00 of $007F7F7F is obligatory,
+        it clears whatever alpha value after shr 1 }
 
       rowBasePtr[a] :=
         (ABGR and $FF000000)
