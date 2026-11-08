@@ -168,15 +168,16 @@ procedure SprTint(const texHandle: TTextureHandle; const x, y: smallint; const c
 var
   texture: PSoftwareTex;
   startX, endX, startY, endY: smallint;
-  rowBase, stride: longword;
-  destRowBase, destStride: longword;
 
-  px, py: smallint;
-  { offset to the pixel data }
-  offset: longword;
-  alpha: byte;
+  srcOffsetPtr, destOffsetPtr: PLongWord;
+
+  { skipped pixels after x increment }
+  srcSkip, destSkip: longword;
+
+  spanWidth, rows, cols: smallint;
 
   ABGR: longword;
+  alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
 
@@ -194,26 +195,43 @@ begin
 
   { Render logic }
 
-  stride := texture^.width * 4;
-  destStride := VGAWidth * 4;
+  srcOffsetPtr := PLongWord(@texture^.pixelData[
+    (startY * texture^.width + startX) * 4]);
+
+  destOffsetPtr := PLongWord(@BorrowSurfacePtr^[
+    ((y + startY) * VGAWidth + (x + startX)) * 4]);
+
+  spanWidth := endX - startX + 1;
+  rows := endY - startY + 1;
+
+  srcSkip := texture^.width - spanWidth;
+  destSkip := VGAWidth - spanWidth;
 
   ABGR := ARGBtoABGR(colour);
 
-  for py := startY to endY do begin
-    rowBase := py * stride;
-    destRowBase := (y + py) * destStride;
+  { Uses the rep stosb pattern }
 
-    for px := startX to endX do begin
-      offset := rowBase + px * 4;
-      alpha := texture^.pixelData[offset + 3];
+  repeat
+    cols := spanWidth;
 
-      if alpha < 255 then continue;
+    repeat
+      alpha := PByte(srcOffsetPtr)[3];
 
-      PLongWord(@BorrowSurfacePtr^[destRowBase + (x + px) * 4])^ :=
-        { PLongWord(@texture^.pixelData[offset])^ }
-        ABGR;
-    end;
-  end;
+      if alpha = 255 then
+        destOffsetPtr^ := ABGR;
+
+      { These are incremented by elements, not by byte }
+      inc(srcOffsetPtr);
+      inc(destOffsetPtr);
+
+      dec(cols)
+    until cols = 0;
+
+    inc(srcOffsetPtr, srcSkip);
+    inc(destOffsetPtr, destSkip);
+
+    dec(rows)
+  until rows = 0;
 end;
 
 {

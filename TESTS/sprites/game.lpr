@@ -15,7 +15,7 @@ uses
   P92Core, P92Fonts, P92WasmHost, P92AssetRegistry,
   P92Logger, P92Conversions,
   P92Graphics, P92Keyboard, P92Mouse, P92Sounds,
-  P92Tex, P92TexDraw, P92TexComp, P92TexEffects,
+  P92Tex, P92TexDraw, P92TexOps, P92TexComp, P92TexEffects,
   P92Timing, P92FPS, P92VGA,
   Assets;
 
@@ -44,10 +44,15 @@ begin
     After using RGBA on the hot path: 0.0600s
     After clipping: 0.0270s }
   for a:=1 to opCount do
-    Spr(
+    { Spr(
       texSpecimenP92[0],
       Random(VgaWidth + 24) - 12,
-      Random(VgaHeight + 24) - 12);
+      Random(VgaHeight + 24) - 12); }
+    SprTint(
+      texSpecimenP92[0],
+      Random(VgaWidth + 24) - 12,
+      Random(VgaHeight + 24) - 12,
+      $FF000000 or Random($1000000));
 
   { Original 5000 ops: 0.1350s
     After row stride opt: 0.1300s
