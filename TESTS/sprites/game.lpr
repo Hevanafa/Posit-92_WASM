@@ -43,8 +43,11 @@ begin
     After using inline: 0.0630s
     After using RGBA on the hot path: 0.0600s
     After clipping: 0.0270s }
-  { for a:=1 to 1000 do
-    Spr(texSpecimenP92[0], random(VgaWidth) - 12, Random(VgaHeight) - 12); }
+  for a:=1 to opCount do
+    Spr(
+      texSpecimenP92[0],
+      Random(VgaWidth + 24) - 12,
+      Random(VgaHeight + 24) - 12);
 
   { Original 5000 ops: 0.1350s
     After row stride opt: 0.1300s
@@ -92,11 +95,13 @@ begin
     After clipping: 0.2330s
     After row stride: 0.2440s
     After inlined blending: 0.1260s }
+  {
   for a:=1 to opCount do begin
     SprAlpha(
       texSpecimenP92[0],
       random(VGAWidth) - 12, random(VGAHeight) - 12, random);
   end;
+  }
 
   endTick := GetTimer;
 
@@ -105,7 +110,7 @@ end;
 
 procedure DrawOnce;
 const
-  OpCount = 5000;
+  OpCount = 10000;
 var
   t: double;
   s: string;
