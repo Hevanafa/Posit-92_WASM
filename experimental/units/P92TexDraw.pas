@@ -77,7 +77,7 @@ var
   { skipped pixels after x increment }
   srcSkip, destSkip: longword;
 
-  px, py: smallint;
+  spanWidth, rows, cols: smallint;
   alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
@@ -102,11 +102,18 @@ begin
   destOffsetPtr := PLongWord(@BorrowSurfacePtr^[
     ((y + startY) * VGAWidth + (x + startX)) * 4]);
 
-  srcSkip := texture^.width - (endX - startX + 1);
-  destSkip := VGAWidth - (endX - startX + 1);
+  spanWidth := endX - startX + 1;
+  rows := endY - startY + 1;
 
-  for py := startY to endY do begin
-    for px := startX to endX do begin
+  srcSkip := texture^.width - spanWidth;
+  destSkip := VGAWidth - spanWidth;
+
+  { Uses the rep stosb pattern }
+
+  repeat
+    cols := spanWidth;
+
+    repeat
       alpha := PByte(srcOffsetPtr)[3];
 
       if alpha = 255 then
@@ -114,12 +121,16 @@ begin
 
       { These are incremented by elements, not by byte }
       inc(srcOffsetPtr);
-      inc(destOffsetPtr)
-    end;
+      inc(destOffsetPtr);
+
+      dec(cols)
+    until cols = 0;
 
     inc(srcOffsetPtr, srcSkip);
-    inc(destOffsetPtr, destSkip)
-  end;
+    inc(destOffsetPtr, destSkip);
+
+    dec(rows)
+  until rows = 0;
 end;
 
 {
