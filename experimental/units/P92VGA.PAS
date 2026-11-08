@@ -52,7 +52,6 @@ procedure Cls(const colour: longword);
 { colour format: $AARRGGBB }
 procedure ClsBlend(const colour: longword);
 
-{ Unsafe: No bounds checking }
 procedure RectDarken(const x0, y0, x1, y1: smallint);
 
 { Returns colour in ABGR }
@@ -188,6 +187,7 @@ begin
         or (ABGR shr 1 and $007F7F7F);
     end;
 
+    { rowBasePtr is incremented in elements, not bytes }
     inc(rowBasePtr, _vgaWidth)
   end;
 end;
