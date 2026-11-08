@@ -113,14 +113,25 @@ begin
   p := 3 - 2 * radius;
 
   while x <= y do begin
+    HLine(cx - x, cx + x, cy + y, colour);
+    HLine(cx - x, cx + x, cy - y, colour);
+
+    {
     for a:=cx-x to cx+x do begin
       pset(a, cy + y, colour);
       pset(a, cy - y, colour)
     end;
+    }
+
+    HLine(cx - y, cx + y, cy + x, colour);
+    HLine(cx - y, cx + y, cy - x, colour);
+
+    {
     for a:=cx-y to cx+y do begin
       pset(a, cy + x, colour);
       pset(a, cy - x, colour)
     end;
+    }
 
     if p < 0 then
       p := p+4 * x+6
