@@ -147,13 +147,16 @@ end;
 procedure RectDarken(const x0, y0, x1, y1: smallint);
 var
   a, b: smallint;
+  offsetPtr: PLongWord;
   ABGR: longword;
 begin
   for b:=y0 to y1 do begin
     for a:=x0 to x1 do begin
-      ABGR := UnsafePGet(a, b);
+      offsetPtr := PLongWord(@activeSurface^[(b * _vgaWidth + a) * 4]);
 
-      PLongWord(@activeSurface^[b * VGAWidth + a])^ :=
+      ABGR := offsetPtr^;
+
+      offsetPtr^ :=
         (ABGR and $FF000000)
         or (ABGR and $FF0000 shr 1)
         or (ABGR and $FF00 shr 1)
