@@ -105,7 +105,7 @@ begin
     inc(frameIdx);
     startTick := startTick + anim.interval;
 
-    if anim.looping then
+    if anim.looping and (frameIdx >= anim.frameCount) then
       frameIdx := 0;
   end;
 end;
