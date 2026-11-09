@@ -58,7 +58,7 @@ end;
 
 procedure DrawOnce;
 const
-  OpCount = 5000;
+  OpCount = 10000;
 var
   a: word;
   startTick, endTick: double;
@@ -79,7 +79,10 @@ begin
     After using pointer arithmetics: 0.0330s, 0.0280s
   }
   for a:=1 to OpCount do
-    PrintDefault('Hello world!', random(VgaWidth) - 30, random(VgaHeight + 10) - 20);
+    PrintDefault(
+      'Hello world!',
+      random(VgaWidth + 10) - 20,
+      random(VgaHeight + 10) - 20);
 
   endTick := GetTimer;
 
@@ -120,8 +123,14 @@ begin
 
   config.OnPreload := @OnPreload;
   config.OnReady := @OnReady;
+  {
   config.Update := @Update;
   config.Draw := @Draw;
+  }
+  config.DrawOnce := @DrawOnce;
+
+  config.LoadDefaultCursor := false;
+
 
   P92Start(config);
 end;
