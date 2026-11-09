@@ -522,7 +522,7 @@ var
   a: smallint;
   p: PPoint;
 begin
-  if GetAlpha(colour) = 0 then exit;
+  if GetAlpha(colour) < 255 then exit;
 
   { Skip if it doesn't form at least a line }
   if count < 2 then exit;
@@ -559,7 +559,7 @@ var
   x, y, prevX, prevY: smallint;
   first: boolean;
 begin
-  if GetAlpha(colour) = 0 then exit;
+  if GetAlpha(colour) < 255 then exit;
 
   if radius <= 0 then exit;
 
@@ -597,15 +597,14 @@ end;
 procedure Pie(
   const cx, cy, radius: smallint;
   const startRad, endRad: double;
-  const colour: longword);
+  const colour: longword
+);
 var
   angle, step: double;
   x, y, prevX, prevY: smallint;
   first: boolean;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   if radius <= 0 then exit;
 
@@ -624,7 +623,7 @@ begin
     y := cy + round(sin(angle) * radius);
 
     if not first then
-      TriFill(cx, cy, prevX, prevY, x, y, solid)
+      TriFill(cx, cy, prevX, prevY, x, y, colour)
     else
       first := false;
 
@@ -637,17 +636,15 @@ begin
   y := cy + round(sin(endRad) * radius);
 
   if not first then
-    TriFill(cx, cy, prevX, prevY, x, y, solid);
+    TriFill(cx, cy, prevX, prevY, x, y, colour);
 end;
 
 
 procedure RectRound(x0, y0, x1, y1, radius: smallint; const colour: longword);
 var
   temp, maxRadius: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   { Sort coordinates }
   if x1 < x0 then begin
@@ -671,17 +668,17 @@ begin
   end;
 
   { Handle edges }
-  HLine(x0 + radius, x1 - radius, y0, solid);
-  HLine(x0 + radius, x1 - radius, y1, solid);
+  HLine(x0 + radius, x1 - radius, y0, colour);
+  HLine(x0 + radius, x1 - radius, y1, colour);
 
-  VLine(x0, y0 + radius, y1 - radius, solid);
-  VLine(x1, y0 + radius, y1 - radius, solid);
+  VLine(x0, y0 + radius, y1 - radius, colour);
+  VLine(x1, y0 + radius, y1 - radius, colour);
 
   { Handle corners }
-  Arc(x0 + radius, y0 + radius, radius, pi, 3 / 2 * pi, solid);
-  Arc(x1 - radius, y0 + radius, radius, 3 / 2 * pi, 2 * pi, solid);
-  Arc(x0 + radius, y1 - radius, radius, pi / 2, pi, solid);
-  Arc(x1 - radius, y1 - radius, radius, 0, pi / 2, solid);
+  Arc(x0 + radius, y0 + radius, radius, pi, 3 / 2 * pi, colour);
+  Arc(x1 - radius, y0 + radius, radius, 3 / 2 * pi, 2 * pi, colour);
+  Arc(x0 + radius, y1 - radius, radius, pi / 2, pi, colour);
+  Arc(x1 - radius, y1 - radius, radius, 0, pi / 2, colour);
 end;
 
 
