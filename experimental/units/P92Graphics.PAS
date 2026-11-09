@@ -32,7 +32,7 @@ procedure Line(x0, y0, x1, y1: smallint; const colour: longword);
 procedure LineThick(x0, y0, x1, y1, thickness: smallint; const colour: longword);
 
 procedure Ellipse(const cx, cy, rx, ry: smallint; const colour: longword);
-procedure Ellipsefill(const cx, cy, rx, ry: smallint; const colour: longword);
+procedure EllipseFill(const cx, cy, rx, ry: smallint; const colour: longword);
 
 procedure Tri(const x0, y0, x1, y1, x2, y2: smallint; const colour: longword);
 procedure TriFill(x1, y1, x2, y2, x3, y3: smallint; const colour: longword);
@@ -368,15 +368,13 @@ begin
 end;
 
 
-procedure Ellipsefill(const cx, cy, rx, ry: smallint; const colour: longword);
+procedure EllipseFill(const cx, cy, rx, ry: smallint; const colour: longword);
 var
   x, y: smallint;
   rx2, ry2, tworx2, twory2: smallint;
   p: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   x := 0; y := ry;
   rx2 := rx * rx;
@@ -388,8 +386,8 @@ begin
   p := round(ry2 - (rx2 * ry) + (rx2 / 4));
   
   while (twory2 * x) <= (tworx2 * y) do begin
-    HLine(cx - x, cx + x, cy + y, solid);
-    HLine(cx - x, cx + x, cy - y, solid);
+    HLine(cx - x, cx + x, cy + y, colour);
+    HLine(cx - x, cx + x, cy - y, colour);
 
     if p < 0 then
       p := p + twory2 * x + ry2
@@ -408,8 +406,8 @@ begin
     - rx2 * ry2);
 
   while y >= 0 do begin
-    HLine(cx - x, cx + x, cy + y, solid);
-    HLine(cx - x, cx + x, cy - y, solid);
+    HLine(cx - x, cx + x, cy + y, colour);
+    HLine(cx - x, cx + x, cy - y, colour);
 
     if p > 0 then
       p := p - tworx2 * y + rx2
@@ -495,21 +493,28 @@ end;
 procedure Polygon(points: array of TPoint; const colour: longword);
 var
   a, last: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   { Skip if it doesn't form at least a line }
   if length(points) < 2 then exit;
 
   last := high(points);
-  for a:=0 to last - 1 do
-    Line(round(points[a].x), round(points[a].y),
-      round(points[a + 1].x), round(points[a + 1].y), solid);
 
-  Line(round(points[last].x), round(points[last].y),
-    round(points[0].x), round(points[0].y), solid);
+  for a:=0 to last - 1 do
+    Line(
+      round(points[a].x),
+      round(points[a].y),
+      round(points[a + 1].x),
+      round(points[a + 1].y),
+      colour);
+
+  Line(
+    round(points[last].x),
+    round(points[last].y),
+    round(points[0].x),
+    round(points[0].y),
+    colour);
 end;
 
 procedure PolygonPtr(points: PPoint; const count: smallint; const colour: longword);
