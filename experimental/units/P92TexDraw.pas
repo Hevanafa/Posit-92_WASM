@@ -281,13 +281,12 @@ var
   surface: PByteArray;
 
   startX, endX, startY, endY: smallint;
-  srcRowBase, texWidth4: longword;
-  destRowBase, vgaWidth4: longword;
+
+  srcRowPtr, destRowPtr: PLongWord;
+  srcOffsetPtr, destOffsetPtr: PLongWord;
+  srcStride, destStride: longword;
 
   a, b: smallint;
-  srcOffset: longword;
-  srcOffsetPtr: PLongWord;
-  alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
 
@@ -314,23 +313,31 @@ begin
   { Render logic }
 
   texture := BorrowTexPtr(texHandle);
-  texWidth4 := texture^.width * 4;
-
   surface := BorrowSurfacePtr;
-  vgaWidth4 := VGAWidth * 4;
+
+  srcStride := texture^.width;
+  destStride := VGAWidth;
+
+  srcRowPtr := PLongWord(@texture^.pixelData[0]);
+  inc(srcRowPtr, (srcY + startY) * srcStride + (srcX + startX));
+
+  destRowPtr := PLongWord(@surface^[0]);
+  inc(destRowPtr, (destY + startY) * destStride + (destX + startX));
 
   for b := startY to endY do begin
-    srcRowBase := (srcY + b) * texWidth4 + srcX * 4;
-    destRowBase := (destY + b) * vgaWidth4 + destX * 4;
+    srcOffsetPtr := srcRowPtr;
+    destOffsetPtr := destRowPtr;
 
     for a := startX to endX do begin
-      srcOffsetPtr := PLongWord(@texture^.pixelData[srcRowBase + a * 4]);
-      alpha := PByte(srcOffsetPtr)[3];
+      if PByte(srcOffsetPtr)[3] = 255 then
+        destOffsetPtr^ := srcOffsetPtr^;
 
-      if alpha = 255 then
-        PLongWord(@surface^[destRowBase + a * 4])^ :=
-          srcOffsetPtr^;
+      inc(srcOffsetPtr);
+      inc(destOffsetPtr)
     end;
+
+    inc(srcRowPtr, srcStride);
+    inc(destRowPtr, destStride)
   end;
 end;
 
