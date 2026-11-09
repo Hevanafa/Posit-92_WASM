@@ -520,25 +520,33 @@ end;
 procedure PolygonPtr(points: PPoint; const count: smallint; const colour: longword);
 var
   a: smallint;
-  solid: longword;
   p: PPoint;
 begin
   if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
 
   { Skip if it doesn't form at least a line }
   if count < 2 then exit;
 
   p := points;
+
   for a:=0 to count - 2 do begin
-    line(round(p^.x), round(p^.y),
-      round((p + 1)^.x), round((p + 1)^.y), solid);
+    Line(
+      round(p^.x),
+      round(p^.y),
+      round((p + 1)^.x),
+      round((p + 1)^.y),
+      colour);
+
     inc(p)
   end;
 
   { Close the Polygon }
-  Line(round(p^.x), round(p^.y),
-    round(points^.x), round(points^.y), solid);
+  Line(
+    round(p^.x),
+    round(p^.y),
+    round(points^.x),
+    round(points^.y),
+    colour);
 end;
 
 
@@ -550,10 +558,8 @@ var
   angle, step: double;
   x, y, prevX, prevY: smallint;
   first: boolean;
-  solid: longword;
 begin
   if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
 
   if radius <= 0 then exit;
 
@@ -572,7 +578,7 @@ begin
     y := cy + round(sin(angle) * radius);
 
     if not first then
-      Line(prevX, prevY, x, y, solid)
+      Line(prevX, prevY, x, y, colour)
     else
       first := false;
 
@@ -585,7 +591,7 @@ begin
   y := cy + round(sin(endRad) * radius);
 
   if not first then
-    Line(prevX, prevY, x, y, solid);
+    Line(prevX, prevY, x, y, colour);
 end;
 
 procedure Pie(
