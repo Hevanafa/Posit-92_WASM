@@ -286,6 +286,7 @@ var
 
   a, b: smallint;
   srcOffset: longword;
+  srcOffsetPtr: PLongWord;
   alpha: byte;
 begin
   if not IsTexReady(texHandle) then exit;
@@ -323,13 +324,12 @@ begin
     destRowBase := (destY + b) * vgaWidth4 + destX * 4;
 
     for a := startX to endX do begin
-      srcOffset := srcRowBase + a * 4;
+      srcOffsetPtr := PLongWord(@texture^.pixelData[srcRowBase + a * 4]);
+      alpha := PByte(srcOffsetPtr)[3];
 
-      alpha := texture^.pixelData[srcOffset + 3];
-      if alpha < 255 then continue;
-
-      PLongWord(@surface^[destRowBase + a * 4])^ :=
-        PLongWord(@texture^.pixelData[srcOffset])^;
+      if alpha = 255 then
+        PLongWord(@surface^[destRowBase + a * 4])^ :=
+          srcOffsetPtr^;
     end;
   end;
 end;
