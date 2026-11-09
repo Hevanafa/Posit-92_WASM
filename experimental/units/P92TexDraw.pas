@@ -285,8 +285,7 @@ var
   srcRowPtr, destRowPtr: PLongWord;
   srcOffsetPtr, destOffsetPtr: PLongWord;
   srcStride, destStride: longword;
-
-  a, b: smallint;
+  rows, cols, colCount: smallint;
 begin
   if not IsTexReady(texHandle) then exit;
 
@@ -324,21 +323,29 @@ begin
   destRowPtr := PLongWord(@surface^[0]);
   inc(destRowPtr, (destY + startY) * destStride + (destX + startX));
 
-  for b := startY to endY do begin
+  { Using the "rep stosb" and "cx" register pair pattern }
+
+  rows := endY - startY + 1;
+  colCount := endX - startX + 1;
+
+  repeat
     srcOffsetPtr := srcRowPtr;
     destOffsetPtr := destRowPtr;
+    cols := colCount;
 
-    for a := startX to endX do begin
+    repeat
       if PByte(srcOffsetPtr)[3] = 255 then
         destOffsetPtr^ := srcOffsetPtr^;
 
       inc(srcOffsetPtr);
-      inc(destOffsetPtr)
-    end;
+      inc(destOffsetPtr);
+      dec(cols)
+    until cols = 0;
 
     inc(srcRowPtr, srcStride);
-    inc(destRowPtr, destStride)
-  end;
+    inc(destRowPtr, destStride);
+    dec(rows)
+  until rows = 0;
 end;
 
 
