@@ -226,19 +226,16 @@ end;
 procedure Line(x0, y0, x1, y1: smallint; const colour: longword);
 var
   dx, dy, sx, sy, err, e2: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   if x0 = x1 then begin
-    VLine(x0, y0, y1, solid);
+    VLine(x0, y0, y1, colour);
     exit
   end;
 
   if y0 = y1 then begin
-    HLine(x0, x1, y0, solid);
+    HLine(x0, x1, y0, colour);
     exit
   end;
 
@@ -251,7 +248,7 @@ begin
   err := dx - dy;
 
   while (x0 <> x1) or (y0 <> y1) do begin
-    pset(x0, y0, solid);
+    PSet(x0, y0, colour);
     e2 := 2 * err;
 
     if e2 > -dy then begin
@@ -265,7 +262,7 @@ begin
     end;
   end;
 
-  pset(x0, y0, solid)
+  PSet(x0, y0, colour)
 end;
 
 procedure LineThick(x0, y0, x1, y1, thickness: smallint; const colour: longword);
