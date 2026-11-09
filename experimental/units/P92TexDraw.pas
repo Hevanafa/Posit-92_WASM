@@ -460,6 +460,7 @@ begin
   end;
 end;
 
+{ Based on SprRegion but with its own ABGR colour }
 procedure SprRegionTint(
   const texHandle: TTextureHandle;
   const srcX, srcY, srcW, srcH: smallint;
@@ -468,31 +469,76 @@ procedure SprRegionTint(
 );
 var
   texture: PSoftwareTex;
-  a, b: smallint;
-  sx, sy: smallint;
-  srcPos: longword;
-  alpha: byte;
+  surface: PByteArray;
   ABGR: longword;
+
+  startX, endX, startY, endY: smallint;
+
+  srcRowPtr, destRowPtr: PLongWord;
+  srcOffsetPtr, destOffsetPtr: PLongWord;
+  srcStride, destStride: longword;
+  rows, cols, colCount: smallint;
 begin
   if not IsTexReady(texHandle) then exit;
 
+  { Handle clipping }
+
+  startY := 0;
+  endY := srcH - 1;
+
+  if destY + startY < ClipY1 then
+    startY := ClipY1 - destY;
+  if destY + endY > ClipY2 then
+    endY := ClipY2 - destY;
+
+  startX := 0;
+  endX := srcW - 1;
+
+  if destX + startX < ClipX1 then
+    startX := ClipX1 - destX;
+  if destX + endX > ClipX2 then
+    endX := ClipX2 - destX;
+
+  if (startX > endX) or (startY > endY) then exit;
+
+  { Render logic }
+
   texture := BorrowTexPtr(texHandle);
+  surface := BorrowSurfacePtr;
   ABGR := ARGBtoABGR(colour);
 
-  for b:=0 to srcH - 1 do
-  for a:=0 to srcW - 1 do begin
-    if (destX + a > ClipX2) or (destX + a < ClipX1)
-      or (destY + b > ClipY2) or (destY + b < ClipY1) then continue;
+  srcStride := texture^.width;
+  destStride := VGAWidth;
 
-    sx := srcX + a;
-    sy := srcY + b;
-    srcPos := (sx + sy * texture^.width) * 4;
+  srcRowPtr := PLongWord(@texture^.pixelData[0]);
+  inc(srcRowPtr, (srcY + startY) * srcStride + (srcX + startX));
 
-    alpha := texture^.pixelData[srcPos + 3];
-    if alpha < 255 then continue;
+  destRowPtr := PLongWord(@surface^[0]);
+  inc(destRowPtr, (destY + startY) * destStride + (destX + startX));
 
-    UnsafePSet(destX + a, destY + b, ABGR);
-  end;
+  { Using the "rep stosb" and "cx" register pair pattern }
+
+  rows := endY - startY + 1;
+  colCount := endX - startX + 1;
+
+  repeat
+    srcOffsetPtr := srcRowPtr;
+    destOffsetPtr := destRowPtr;
+    cols := colCount;
+
+    repeat
+      if PByte(srcOffsetPtr)[3] = 255 then
+        destOffsetPtr^ := ABGR;
+
+      inc(srcOffsetPtr);
+      inc(destOffsetPtr);
+      dec(cols)
+    until cols = 0;
+
+    inc(srcRowPtr, srcStride);
+    inc(destRowPtr, destStride);
+    dec(rows)
+  until rows = 0;
 end;
 
 procedure SprFlipped(
