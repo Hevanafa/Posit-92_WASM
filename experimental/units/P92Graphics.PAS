@@ -271,14 +271,13 @@ var
   perpX, perpY: double;  { perpendicular }
   offset: double;
   a, halfThick: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   if thickness <= 0 then exit;
+
   if thickness = 1 then begin
-    Line(x0, y0, x1, y1, solid);
+    Line(x0, y0, x1, y1, colour);
     exit
   end;
 
@@ -298,6 +297,7 @@ begin
     if ((thickness and 1) = 0) and (a = 0) then continue;
 
     offset := a;
+
     if ((thickness and 1) = 0) and (a > 0) then offset := a - 0.5;
     if ((thickness and 1) = 0) and (a < 0) then offset := a + 0.5;
 
@@ -306,7 +306,7 @@ begin
       round(y0 + perpY * offset),
       round(x1 + perpX * offset),
       round(y1 + perpY * offset),
-      solid)
+      colour)
   end;
 end;
 
@@ -316,10 +316,8 @@ var
   x, y: smallint;
   rx2, ry2, tworx2, twory2: smallint;
   p: smallint;
-  solid: longword;
 begin
-  if GetAlpha(colour) = 0 then exit;
-  solid := SolidColour(colour);
+  if GetAlpha(colour) < 255 then exit;
 
   x := 0; y := ry;
   rx2 := rx * rx;
@@ -331,10 +329,10 @@ begin
   p := round(ry2 - (rx2 * ry) + (rx2 / 4));
   
   while (twory2 * x) <= (tworx2 * y) do begin
-    pset(cx + x, cy + y, solid);
-    pset(cx - x, cy + y, solid);
-    pset(cx + x, cy - y, solid);
-    pset(cx - x, cy - y, solid);
+    PSet(cx + x, cy + y, colour);
+    PSet(cx - x, cy + y, colour);
+    PSet(cx + x, cy - y, colour);
+    PSet(cx - x, cy - y, colour);
 
     if p < 0 then
       p := p + twory2 * x + ry2
@@ -353,10 +351,10 @@ begin
     - rx2 * ry2);
 
   while y >= 0 do begin
-    pset(cx + x, cy + y, solid);
-    pset(cx - x, cy + y, solid);
-    pset(cx + x, cy - y, solid);
-    pset(cx - x, cy - y, solid);
+    PSet(cx + x, cy + y, colour);
+    PSet(cx - x, cy + y, colour);
+    PSet(cx + x, cy - y, colour);
+    PSet(cx - x, cy - y, colour);
 
     if p > 0 then
       p := p - tworx2 * y + rx2
