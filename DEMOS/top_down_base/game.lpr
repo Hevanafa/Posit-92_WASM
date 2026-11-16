@@ -1,5 +1,5 @@
 {
-  Default boilerplate
+  Top-down base
   Mixins: bmfont, sound
 }
 
@@ -10,10 +10,11 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
-  P92Core, P92WasmHost, P92Fonts, P92AssetRegistry, P92AssetHandles,
+  P92Core, P92WasmHost, P92Fonts, P92Conversions,
+  P92AssetRegistry, P92AssetHandles,
   P92Keyboard, P92Mouse, P92Panic,
   P92Geometry, P92Graphics, P92Tex, P92TexDraw, P92Timing, P92VGA,
-  Assets;
+  Assets, MapItem;
 
 const
   { pixels per second }
@@ -22,12 +23,12 @@ const
   Red = $FFFF5555;
 
 type
-  TMapItem = record
+  TMapObject = record
     active: boolean;
     zone: TZone;
     texHandle: TTextureHandle;
-    offsetY: double;
   end;
+
 
 var
   { Game state variables }
@@ -35,7 +36,6 @@ var
 
   coins: smallint;
   playerZone: TZone;
-
   mapItems: array[0..9] of TMapItem;
 
 
@@ -56,7 +56,7 @@ begin
   FillChar(mapItems[idx], sizeof(TMapItem), 0);
 
   mapItems[idx].active := true;
-  mapItems[idx].offsetY := -10;
+  mapItems[idx].offsetY := -25;
   mapItems[idx].texHandle := texCoin;
 
   mapItems[idx].zone.x := x;
@@ -171,7 +171,9 @@ begin
 
   { DrawZone(playerZone, red); }
 
-  PrintDefaultCentred('Coins: ' + i32str(coins), VgaWidth div 2, 120);
+  PrintDefaultCentred(
+    'Coins: ' + i32str(coins),
+    VGAWidth shr 1, 120);
 end;
 
 
