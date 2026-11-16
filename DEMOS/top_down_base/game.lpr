@@ -43,6 +43,7 @@ begin
 
   texSlime := RequestImage('assets/images/basic_slime.png');
   texShadow := RequestImage('assets/images/shadow.png');
+  texCoin := RequestImage('assets/images/coin.png');
 end;
 
 { Initialise game state here }
@@ -60,6 +61,7 @@ begin
   playerZone.width := 16;
 
   FillChar(mapItems, SizeOf(TMapItem), 0);
+
 end;
 
 { Free resources here }
