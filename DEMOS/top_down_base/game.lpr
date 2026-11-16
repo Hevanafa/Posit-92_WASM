@@ -12,12 +12,14 @@ library Game;
 uses
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry, P92AssetHandles,
   P92Keyboard, P92Mouse, P92Panic,
-  P92Geometry, P92Tex, P92TexDraw, P92Timing, P92VGA,
+  P92Geometry, P92Graphics, P92Tex, P92TexDraw, P92Timing, P92VGA,
   Assets;
 
 const
   { pixels per second }
   Velocity = 100;
+
+  Red = $FFFF5555;
 
 type
   TMapItem = record
@@ -87,7 +89,7 @@ begin
   playerZone.x := VGAWidth div 2;
   playerZone.y := VGAHeight div 2;
   playerZone.width := 32;
-  playerZone.width := 16;
+  playerZone.height := 16;
 
   FillChar(mapItems, SizeOf(TMapItem), 0);
 
@@ -152,6 +154,8 @@ begin
       mapItems[a].texHandle,
       trunc(mapItems[a].zone.x),
       trunc(mapItems[a].zone.y + mapItems[a].offsetY));
+
+    DrawZone(mapItems[a].zone, red);
   end;
 
   spr(texShadow, trunc(playerZone.x), trunc(playerZone.y));
@@ -159,6 +163,8 @@ begin
   spr(texSlime,
     trunc(playerZone.x),
     trunc(playerZone.y + playerZone.height / 2 - GetTexHeight(texSlime)));
+
+  DrawZone(playerZone, red);
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
