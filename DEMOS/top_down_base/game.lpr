@@ -69,6 +69,7 @@ begin
   texSlime := RequestImage('assets/images/basic_slime.png');
   texShadow := RequestImage('assets/images/shadow.png');
   texCoin := RequestImage('assets/images/coin.png');
+  texCrate := RequestImage('assets/images/crate.png');
 end;
 
 { Initialise game state here }
