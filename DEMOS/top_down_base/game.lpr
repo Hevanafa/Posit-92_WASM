@@ -10,7 +10,7 @@ library Game;
 {$J-}  { Switch off assignments to typed constants }
 
 uses
-  P92Core, P92WasmHost, P92Fonts, P92AssetRegistry,
+  P92Core, P92WasmHost, P92Fonts, P92AssetRegistry, P92AssetHandles,
   P92Keyboard, P92Mouse,
   P92Geometry, P92Tex, P92TexDraw, P92Timing, P92VGA,
   Assets;
@@ -19,11 +19,21 @@ const
   { pixels per second }
   Velocity = 100;
 
+type
+  TMapItem = record
+    active: boolean;
+    zone: TZone;
+    texHandle: TTextureHandle;
+    offsetY: double;
+  end;
+
 var
   { Game state variables }
   gameTime: double;
 
   playerZone: TZone;
+
+  mapItems: array[0..9] of TMapItem;
 
 { Load game assets here }
 procedure OnPreload;
@@ -48,6 +58,8 @@ begin
   playerZone.y := VGAHeight div 2;
   playerZone.width := 32;
   playerZone.width := 16;
+
+  FillChar(mapItems, SizeOf(TMapItem), 0);
 end;
 
 { Free resources here }
@@ -83,11 +95,11 @@ begin
   else
     Spr(texSpecimenP92[0], 148, 84);
 
+  spr(texShadow, trunc(playerZone.x), trunc(playerZone.y));
+
   spr(texSlime,
     trunc(playerZone.x),
-    trunc(playerZone.y + playerZone.height - GetTexHeight(texSlime)));
-
-  spr(texShadow, trunc(playerZone.x), trunc(playerZone.y));
+    trunc(playerZone.y + playerZone.height / 2 - GetTexHeight(texSlime)));
 
   PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
 end;
