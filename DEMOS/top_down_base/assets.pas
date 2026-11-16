@@ -10,6 +10,7 @@ uses
 
 var
   texSpecimenP92: array[0..1] of TTextureHandle;
+  texSlime, texShadow: TTextureHandle;
 
 
 implementation
