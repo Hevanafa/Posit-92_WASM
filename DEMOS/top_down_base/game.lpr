@@ -33,6 +33,7 @@ var
   { Game state variables }
   gameTime: double;
 
+  coins: smallint;
   playerZone: TZone;
 
   mapItems: array[0..9] of TMapItem;
@@ -86,6 +87,8 @@ begin
 
   gameTime := 0.0;
 
+  coins := 0;
+
   playerZone.x := VGAWidth div 2;
   playerZone.y := VGAHeight div 2;
   playerZone.width := 32;
@@ -123,8 +126,10 @@ begin
   for a:=0 to high(mapItems) do begin
     if not mapItems[a].active then continue;
 
-    if ZoneIntersects(playerZone, mapItems[a].zone) then
+    if ZoneIntersects(playerZone, mapItems[a].zone) then begin
       mapItems[a].active := false;
+      inc(coins)
+    end;
   end;
 
   gameTime := gameTime + DeltaTime
@@ -155,7 +160,7 @@ begin
       trunc(mapItems[a].zone.x),
       trunc(mapItems[a].zone.y + mapItems[a].offsetY));
 
-    DrawZone(mapItems[a].zone, red);
+    { DrawZone(mapItems[a].zone, red); }
   end;
 
   spr(texShadow, trunc(playerZone.x), trunc(playerZone.y));
@@ -164,9 +169,9 @@ begin
     trunc(playerZone.x),
     trunc(playerZone.y + playerZone.height / 2 - GetTexHeight(texSlime)));
 
-  DrawZone(playerZone, red);
+  { DrawZone(playerZone, red); }
 
-  PrintDefaultCentred('Hello world!', VgaWidth div 2, 120);
+  PrintDefaultCentred('Coins: ' + i32str(coins), VgaWidth div 2, 120);
 end;
 
 
