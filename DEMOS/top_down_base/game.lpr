@@ -34,7 +34,7 @@ var
   mapObjects: array[0..9] of TMapObject;
 
 
-procedure SpawnCoin(const x, y: smallint);
+procedure SpawnCoin(const x, y: double);
 var
   a, idx: smallint;
 begin
@@ -58,6 +58,23 @@ begin
   mapItems[idx].zone.y := y;
   mapItems[idx].zone.width := 16;
   mapItems[idx].zone.height := 8;
+end;
+
+procedure SpawnMapObject(const objectType: TMapObjectType; const x, y: double);
+var
+  a, idx: smallint;
+begin
+  idx := -1;
+
+  for a:=0 to high(mapObjects) do
+    if not mapObjects[a].active then begin
+      idx := a;
+      break
+    end;
+
+  if idx < 0 then PanicHalt('SpawnMapObject: Map object pool is full!');
+
+  { TODO: Spawn a map object with the crate texture }
 end;
 
 { Load game assets here }
