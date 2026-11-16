@@ -74,7 +74,15 @@ begin
 
   if idx < 0 then PanicHalt('SpawnMapObject: Map object pool is full!');
 
-  { TODO: Spawn a map object with the crate texture }
+  fillchar(mapObjects[idx], sizeof(TMapObject), 0);
+
+  mapObjects[idx].active := true;
+  mapObjects[idx].texHandle := texCrate;
+
+  mapObjects[idx].zone.x := x;
+  mapObjects[idx].zone.y := y;
+  mapObjects[idx].zone.width := 32;
+  mapObjects[idx].zone.height := 16;
 end;
 
 { Load game assets here }
@@ -111,6 +119,8 @@ begin
 
   for a:=1 to 10 do
     SpawnCoin(40 + random(240), 20 + random(160));
+
+  SpawnMapObject(MapObjectCrate, VGAWidth shr 1, 40);
 end;
 
 { Free resources here }

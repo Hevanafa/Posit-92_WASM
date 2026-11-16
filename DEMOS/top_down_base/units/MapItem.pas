@@ -1,5 +1,8 @@
 unit MapItem;
 
+{$Mode ObjFPC}
+{$H+}{$J-}
+
 interface
 
 uses
