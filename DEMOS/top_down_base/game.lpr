@@ -129,6 +129,8 @@ begin
 end;
 
 procedure Draw;
+var
+  a: smallint;
 begin
   Cls($FF6495ED);
 
@@ -136,6 +138,21 @@ begin
     Spr(texSpecimenP92[1], 148, 84)
   else
     Spr(texSpecimenP92[0], 148, 84);
+
+  for a:=0 to high(mapItems) do begin
+    if not mapItems[a].active then continue;
+
+    RectDarken(
+      trunc(mapItems[a].zone.x),
+      trunc(mapItems[a].zone.y),
+      trunc(mapItems[a].zone.x + mapItems[a].zone.width - 1),
+      trunc(mapItems[a].zone.y + mapItems[a].zone.height - 1));
+
+    spr(
+      mapItems[a].texHandle,
+      trunc(mapItems[a].zone.x),
+      trunc(mapItems[a].zone.y + mapItems[a].offsetY));
+  end;
 
   spr(texShadow, trunc(playerZone.x), trunc(playerZone.y));
 
