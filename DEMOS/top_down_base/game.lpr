@@ -11,7 +11,7 @@ library Game;
 
 uses
   P92Core, P92WasmHost, P92Fonts, P92AssetRegistry, P92AssetHandles,
-  P92Keyboard, P92Mouse,
+  P92Keyboard, P92Mouse, P92Panic,
   P92Geometry, P92Tex, P92TexDraw, P92Timing, P92VGA,
   Assets;
 
@@ -34,6 +34,33 @@ var
   playerZone: TZone;
 
   mapItems: array[0..9] of TMapItem;
+
+
+procedure SpawnCoin(const x, y: smallint);
+var
+  a, idx: smallint;
+begin
+  idx := -1;
+
+  for a:=0 to high(mapItems) do
+    if not mapItems[a].active then begin
+      idx := a;
+      break
+    end;
+
+  if idx < 0 then PanicHalt('SpawnCoin: Map item pool is full!');
+
+  FillChar(mapItems[idx], sizeof(TMapItem), 0);
+
+  mapItems[idx].active := true;
+  mapItems[idx].offsetY := -10;
+  mapItems[idx].texHandle := texCoin;
+
+  mapItems[idx].zone.x := x;
+  mapItems[idx].zone.y := y;
+  mapItems[idx].zone.width := 16;
+  mapItems[idx].zone.height := 8;
+end;
 
 { Load game assets here }
 procedure OnPreload;
@@ -62,6 +89,8 @@ begin
 
   FillChar(mapItems, SizeOf(TMapItem), 0);
 
+  for a:=1 to 10 do
+    SpawnCoin(40 + random(240), 20 + random(160));
 end;
 
 { Free resources here }
