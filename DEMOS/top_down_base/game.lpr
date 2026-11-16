@@ -14,20 +14,13 @@ uses
   P92AssetRegistry, P92AssetHandles,
   P92Keyboard, P92Mouse, P92Panic,
   P92Geometry, P92Graphics, P92Tex, P92TexDraw, P92Timing, P92VGA,
-  Assets, MapItem;
+  Assets, MapItem, MapObject;
 
 const
   { pixels per second }
   Velocity = 100;
 
   Red = $FFFF5555;
-
-type
-  TMapObject = record
-    active: boolean;
-    zone: TZone;
-    texHandle: TTextureHandle;
-  end;
 
 
 var
@@ -36,7 +29,9 @@ var
 
   coins: smallint;
   playerZone: TZone;
+
   mapItems: array[0..9] of TMapItem;
+  mapObjects: array[0..9] of TMapObject;
 
 
 procedure SpawnCoin(const x, y: smallint);
