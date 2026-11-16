@@ -28,7 +28,7 @@ var
   gameTime: double;
 
   coins: smallint;
-  playerZone: TZone;
+  playerBody: TPhysicsBody;
 
   mapItems: array[0..9] of TMapItem;
   mapObjects: array[0..9] of TMapObject;
@@ -110,10 +110,10 @@ begin
 
   coins := 0;
 
-  playerZone.x := VGAWidth div 2;
-  playerZone.y := VGAHeight div 2;
-  playerZone.width := 32;
-  playerZone.height := 16;
+  playerBody.x := VGAWidth div 2;
+  playerBody.y := VGAHeight div 2;
+  playerBody.width := 32;
+  playerBody.height := 16;
 
   FillChar(mapItems, SizeOf(TMapItem), 0);
 
@@ -137,23 +137,33 @@ begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
   if IsKeyDown(SC_W) then
-    playerZone.y := playerZone.y - Velocity * DeltaTime;
+    playerBody.y := playerBody.y - Velocity * DeltaTime;
   if IsKeyDown(SC_S) then
-    playerZone.y := playerZone.y + Velocity * DeltaTime;
+    playerBody.y := playerBody.y + Velocity * DeltaTime;
 
   if IsKeyDown(SC_A) then
-    playerZone.x := playerZone.x - Velocity * DeltaTime;
+    playerBody.x := playerBody.x - Velocity * DeltaTime;
   if IsKeyDown(SC_D) then
-    playerZone.x := playerZone.x + Velocity * DeltaTime;
+    playerBody.x := playerBody.x + Velocity * DeltaTime;
+
+
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
+
+    end;
+  end;
 
   for a:=0 to high(mapItems) do begin
     if not mapItems[a].active then continue;
 
-    if ZoneIntersects(playerZone, mapItems[a].zone) then begin
+    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapItems[a].zone) then begin
       mapItems[a].active := false;
       inc(coins)
     end;
   end;
+
 
   gameTime := gameTime + DeltaTime
 end;
@@ -186,13 +196,13 @@ begin
     { DrawZone(mapItems[a].zone, red); }
   end;
 
-  spr(texShadow, trunc(playerZone.x), trunc(playerZone.y));
+  spr(texShadow, trunc(playerBody.x), trunc(playerBody.y));
 
   spr(texSlime,
-    trunc(playerZone.x),
-    trunc(playerZone.y + playerZone.height / 2 - GetTexHeight(texSlime)));
+    trunc(playerBody.x),
+    trunc(playerBody.y + playerBody.height / 2 - GetTexHeight(texSlime)));
 
-  { DrawZone(playerZone, red); }
+  { DrawZone(playerBody, red); }
 
   PrintDefaultCentred(
     'Coins: ' + i32str(coins),
