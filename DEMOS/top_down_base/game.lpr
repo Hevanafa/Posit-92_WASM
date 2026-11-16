@@ -75,6 +75,8 @@ end;
 
 { Initialise game state here }
 procedure OnReady;
+var
+  a: smallint;
 begin
   HideCursor;
 
@@ -101,6 +103,8 @@ begin
 end;
 
 procedure Update;
+var
+  a: smallint;
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
@@ -113,6 +117,13 @@ begin
     playerZone.x := playerZone.x - Velocity * DeltaTime;
   if IsKeyDown(SC_D) then
     playerZone.x := playerZone.x + Velocity * DeltaTime;
+
+  for a:=0 to high(mapItems) do begin
+    if not mapItems[a].active then continue;
+
+    if ZoneIntersects(playerZone, mapItems[a].zone) then
+      mapItems[a].active := false;
+  end;
 
   gameTime := gameTime + DeltaTime
 end;
