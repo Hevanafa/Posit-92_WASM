@@ -103,6 +103,23 @@ begin
   end;
 end;
 
+procedure ResolveBodyXCollision(var body: TPhysicsBody);
+var
+  a: smallint;
+begin
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(PhysicsBodyToZone(body), mapObjects[a].zone) then
+      if abs(body.vx) <> 0.0 then begin
+        if body.vx > 0 then
+          body.x := trunc(mapObjects[a].zone.x - body.width);
+        if body.vx < 0 then
+          body.x := trunc(mapObjects[a].zone.x + mapObjects[a].zone.width + 1);
+      end;
+  end;
+end;
+
 { Load game assets here }
 procedure OnPreload;
 begin
@@ -178,17 +195,7 @@ begin
 
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
-  for a:=0 to high(mapObjects) do begin
-    if not mapObjects[a].active then continue;
-
-    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then
-      if abs(playerBody.vx) <> 0.0 then begin
-        if playerBody.vx > 0 then
-          playerBody.x := trunc(mapObjects[a].zone.x - playerBody.width);
-        if playerBody.vx < 0 then
-          playerBody.x := trunc(mapObjects[a].zone.x + mapObjects[a].zone.width + 1);
-      end;
-  end;
+  ResolveBodyXCollision(playerBody);
 
   for a:=0 to high(mapItems) do begin
     if not mapItems[a].active then continue;
