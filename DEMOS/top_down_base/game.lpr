@@ -136,22 +136,32 @@ var
 begin
   if IsKeyDown(SC_ESCAPE) then SignalDone;
 
-  if IsKeyDown(SC_W) then
-    playerBody.y := playerBody.y - Velocity * DeltaTime;
-  if IsKeyDown(SC_S) then
-    playerBody.y := playerBody.y + Velocity * DeltaTime;
+  if not IsKeyDown(SC_W) and not IsKeyDown(SC_S) then
+    playerBody.vy := 0
+  else begin
+    if IsKeyDown(SC_W) then
+      playerBody.vy := -Velocity;
+    if IsKeyDown(SC_S) then
+      playerBody.vy := Velocity;
+  end;
 
-  if IsKeyDown(SC_A) then
-    playerBody.x := playerBody.x - Velocity * DeltaTime;
-  if IsKeyDown(SC_D) then
-    playerBody.x := playerBody.x + Velocity * DeltaTime;
+  if not IsKeyDown(SC_A) and not IsKeyDown(SC_D) then
+    playerBody.vx := 0
+  else begin
+    if IsKeyDown(SC_A) then
+      playerBody.vx := -Velocity;
+    if IsKeyDown(SC_D) then
+      playerBody.vx := Velocity;
+  end;
 
+  playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
+  playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
   for a:=0 to high(mapObjects) do begin
     if not mapObjects[a].active then continue;
 
     if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
-
+      { TODO: Implement coordinate correction }
     end;
   end;
 
