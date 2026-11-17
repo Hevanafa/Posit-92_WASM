@@ -85,6 +85,24 @@ begin
   mapObjects[idx].zone.height := 16;
 end;
 
+procedure ResolveBodyYCollision(var body: TPhysicsBody);
+var
+  a: smallint;
+begin
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(PhysicsBodyToZone(body), mapObjects[a].zone) then
+      if abs(body.vy) <> 0.0 then begin
+        if body.vy > 0 then
+          body.y := trunc(mapObjects[a].zone.y - body.height);
+
+        if body.vy < 0 then
+          body.y := trunc(mapObjects[a].zone.y + mapObjects[a].zone.height + 1);
+      end;
+  end;
+end;
+
 { Load game assets here }
 procedure OnPreload;
 begin
@@ -156,17 +174,7 @@ begin
 
   playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
 
-  for a:=0 to high(mapObjects) do begin
-    if not mapObjects[a].active then continue;
-
-    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then
-      if abs(playerBody.vy) <> 0.0 then begin
-        if playerBody.vy > 0 then
-          playerBody.y := trunc(mapObjects[a].zone.y - playerBody.height);
-        if playerBody.vy < 0 then
-          playerBody.y := trunc(mapObjects[a].zone.y + mapObjects[a].zone.height + 1);
-      end;
-  end;
+  ResolveBodyYCollision(playerBody);
 
   playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
