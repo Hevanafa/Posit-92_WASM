@@ -155,7 +155,6 @@ begin
   end;
 
   playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
-  playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
   for a:=0 to high(mapObjects) do begin
     if not mapObjects[a].active then continue;
@@ -163,11 +162,13 @@ begin
     if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then
       if abs(playerBody.vy) <> 0.0 then begin
         if playerBody.vy > 0 then
-          playerBody.y := trunc(mapObjects[a].zone.y - playerBody.height - 1);
+          playerBody.y := trunc(mapObjects[a].zone.y - playerBody.height);
         if playerBody.vy < 0 then
           playerBody.y := trunc(mapObjects[a].zone.y + mapObjects[a].zone.height + 1);
       end;
   end;
+
+  playerBody.x := playerBody.x + playerBody.vx * DeltaTime;
 
   for a:=0 to high(mapObjects) do begin
     if not mapObjects[a].active then continue;
@@ -175,7 +176,7 @@ begin
     if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then
       if abs(playerBody.vx) <> 0.0 then begin
         if playerBody.vx > 0 then
-          playerBody.x := trunc(mapObjects[a].zone.x - playerBody.width - 1);
+          playerBody.x := trunc(mapObjects[a].zone.x - playerBody.width);
         if playerBody.vx < 0 then
           playerBody.x := trunc(mapObjects[a].zone.x + mapObjects[a].zone.width + 1);
       end;
