@@ -160,9 +160,25 @@ begin
   for a:=0 to high(mapObjects) do begin
     if not mapObjects[a].active then continue;
 
-    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then begin
-      { TODO: Implement coordinate correction }
-    end;
+    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then
+      if abs(playerBody.vy) <> 0.0 then begin
+        if playerBody.vy > 0 then
+          playerBody.y := trunc(mapObjects[a].zone.y - playerBody.height - 1);
+        if playerBody.vy < 0 then
+          playerBody.y := trunc(mapObjects[a].zone.y + mapObjects[a].zone.height + 1);
+      end;
+  end;
+
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    if ZoneIntersects(PhysicsBodyToZone(playerBody), mapObjects[a].zone) then
+      if abs(playerBody.vx) <> 0.0 then begin
+        if playerBody.vx > 0 then
+          playerBody.x := trunc(mapObjects[a].zone.x - playerBody.width - 1);
+        if playerBody.vx < 0 then
+          playerBody.x := trunc(mapObjects[a].zone.x + mapObjects[a].zone.width + 1);
+      end;
   end;
 
   for a:=0 to high(mapItems) do begin
@@ -188,6 +204,19 @@ begin
     Spr(texSpecimenP92[1], 148, 84)
   else
     Spr(texSpecimenP92[0], 148, 84);
+
+  for a:=0 to high(mapObjects) do begin
+    if not mapObjects[a].active then continue;
+
+    Spr(
+      mapObjects[a].texHandle,
+      trunc(mapObjects[a].zone.x),
+      trunc(
+        mapObjects[a].zone.y + mapObjects[a].zone.height
+        - GetTexHeight(mapObjects[a].texHandle)));
+
+    DrawZone(mapObjects[a].zone, red);
+  end;
 
   for a:=0 to high(mapItems) do begin
     if not mapItems[a].active then continue;
