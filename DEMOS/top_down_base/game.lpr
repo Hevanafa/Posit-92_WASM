@@ -51,6 +51,7 @@ begin
   FillChar(mapItems[idx], sizeof(TMapItem), 0);
 
   mapItems[idx].active := true;
+  mapItems[idx].itemType := ItemCoin;
   mapItems[idx].offsetY := -25;
   mapItems[idx].texHandle := texCoin;
 
@@ -205,7 +206,6 @@ begin
       inc(coins)
     end;
   end;
-
 
   gameTime := gameTime + DeltaTime
 end;

@@ -17,6 +17,7 @@ type
     active: boolean;
     objectType: TMapObjectType;
 
+    { uses world coords }
     zone: TZone;
     texHandle: TTextureHandle;
   end;
