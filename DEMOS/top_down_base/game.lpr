@@ -12,7 +12,7 @@ library Game;
 uses
   P92Core, P92WasmHost, P92Fonts, P92Conversions,
   P92AssetRegistry, P92AssetHandles,
-  P92Keyboard, P92Mouse, P92Panic,
+  P92Keyboard, P92Mouse, P92Panic, P92Iif,
   P92Geometry, P92Graphics, P92Tex, P92TexDraw, P92Timing, P92VGA,
   Assets, MapItem, MapObject;
 
@@ -29,6 +29,7 @@ var
 
   coins: smallint;
   playerBody: TPhysicsBody;
+  isFacingRight: boolean;
 
   mapItems: array[0..9] of TMapItem;
   mapObjects: array[0..9] of TMapObject;
@@ -151,6 +152,8 @@ begin
   playerBody.width := 32;
   playerBody.height := 16;
 
+  isFacingRight := true;
+
   FillChar(mapItems, SizeOf(TMapItem), 0);
 
   for a:=1 to 10 do
@@ -184,10 +187,15 @@ begin
   if not IsKeyDown(SC_A) and not IsKeyDown(SC_D) then
     playerBody.vx := 0
   else begin
-    if IsKeyDown(SC_A) then
+    if IsKeyDown(SC_A) then begin
       playerBody.vx := -Velocity;
-    if IsKeyDown(SC_D) then
+      isFacingRight := false;
+    end;
+
+    if IsKeyDown(SC_D) then begin
       playerBody.vx := Velocity;
+      isFacingRight := true;
+    end;
   end;
 
   playerBody.y := playerBody.y + playerBody.vy * DeltaTime;
@@ -243,7 +251,7 @@ begin
       trunc(mapItems[a].zone.x + mapItems[a].zone.width - 1),
       trunc(mapItems[a].zone.y + mapItems[a].zone.height - 1));
 
-    spr(
+    Spr(
       mapItems[a].texHandle,
       trunc(mapItems[a].zone.x),
       trunc(mapItems[a].zone.y + mapItems[a].offsetY));
@@ -251,11 +259,13 @@ begin
     { DrawZone(mapItems[a].zone, red); }
   end;
 
-  spr(texShadow, trunc(playerBody.x), trunc(playerBody.y));
+  Spr(texShadow, trunc(playerBody.x), trunc(playerBody.y));
 
-  spr(texSlime,
+  SprFlipped(
+    texSlime,
     trunc(playerBody.x),
-    trunc(playerBody.y + playerBody.height / 2 - GetTexHeight(texSlime)));
+    trunc(playerBody.y + playerBody.height / 2 - GetTexHeight(texSlime)),
+    [TSprFlip(I16Iif(isFacingRight, ord(SprFlipHorizontal), 0))]);
 
   { DrawZone(playerBody, red); }
 
