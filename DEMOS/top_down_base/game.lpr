@@ -261,11 +261,17 @@ begin
 
   Spr(texShadow, trunc(playerBody.x), trunc(playerBody.y));
 
-  SprFlipped(
-    texSlime,
-    trunc(playerBody.x),
-    trunc(playerBody.y + playerBody.height / 2 - GetTexHeight(texSlime)),
-    [TSprFlip(I16Iif(isFacingRight, ord(SprFlipHorizontal), 0))]);
+  if isFacingRight then
+    Spr(
+      texSlime,
+      trunc(playerBody.x),
+      trunc(playerBody.y + playerBody.height / 2 - GetTexHeight(texSlime)))
+  else
+    SprFlipped(
+      texSlime,
+      trunc(playerBody.x),
+      trunc(playerBody.y + playerBody.height / 2 - GetTexHeight(texSlime)),
+      [SprFlipHorizontal]);
 
   { DrawZone(playerBody, red); }
 
